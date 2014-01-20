@@ -29,7 +29,7 @@ project.hivc.clustering<- function(dir.name= DATA)
 	if(1)
 	{
 		project.hivc.clustering.compare.NoDR.to.NoRecombNoDR()
-		project.hivc.seq.dataset.mDR.mRC.mSH.pLANL()
+		project.seq.dataset.mDR.mRC.mSH.pLANL()
 	}
 	if(0)	#min brl to get a transmission cascade from brl matrix
 	{

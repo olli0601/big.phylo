@@ -67,14 +67,14 @@ if(verbose) cat(paste("\nwrite to",file))#
 		save(seq.PROT.RT, file=file)#
 		file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.out),".phylip",sep='')#
 		if(verbose) cat(paste("\nwrite to ",file))
-hivc.seq.write.dna.phylip<- function(seq.DNAbin.mat, file)#
+seq.write.dna.phylip<- function(seq.DNAbin.mat, file)#
 {		#
 	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )#
 	tmp<- paste(t(tmp),collapse='\n',sep='')	#
 	tmp<- paste( paste(c(nrow(seq.DNAbin.mat),ncol(seq.DNAbin.mat)),sep='',collapse=' '),'\n',tmp,'\n',collapse='',sep='' )#
 	cat(tmp, file=file)#
 }
-hivc.seq.write.dna.phylip(seq.PROT.RT, file=file)
+seq.write.dna.phylip(seq.PROT.RT, file=file)
 70-33
 2013+37
 37700+45000
@@ -101,7 +101,7 @@ file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':
 		save(seq.PROT.RT3, file=file)
 file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':',signat.out),".phylip",sep='')#
 		if(verbose) cat(paste("\nwrite to ",file))#
-		hivc.seq.write.dna.phylip(seq.PROT.RT3, file=file)
+		seq.write.dna.phylip(seq.PROT.RT3, file=file)
 seq.PROT.RT3[1,]
 library(roxygen2)#
 DIR_PKG<-"/Users/tonton/Documents/GitProjects/nABC/git_abc.n/pkg"#

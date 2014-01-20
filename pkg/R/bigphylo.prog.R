@@ -132,5 +132,105 @@ prog.examl.getbootstrapseq<- function()
 		cat("\nfound boostrap sequence alignment")
 }
 
-
-
+#' @export 
+#' @title Remove resistance mutations
+prog.remove.resistancemut<- function()
+{
+	library(big.phylo)	
+	
+	#load drug resistance mutations and select unique mutants by codon
+	dr		<- as.data.table( read.csv( paste( CODE.HOME,"/data/IAS_primarydrugresistance_201303.csv",sep='' ), stringsAsFactors=F ) )	
+	dr[,Alignment.nuc.pos:= (Gene.codon.number-1)*3+Gene.HXB2pos ]		
+	dr		<- dr[,	{	tmp<- unique(Mutant); list(Mutant=tmp, Gene.codon.number=Gene.codon.number[1], Wild.type=Wild.type[1], DR.name=DR.name[1])	}, by=Alignment.nuc.pos]
+	#select nucleotide codes that are consistent with drug resistance mutants
+	nt2aa	<- as.data.table( read.csv( paste( CODE.HOME,"/data/standard_nt_code.csv",sep='' ), stringsAsFactors=F ) )
+	setnames(nt2aa,c("AA","NTs"),c("Mutant","Mutant.NTs"))
+	nt2aa	<- subset(nt2aa, select=c(Mutant,Mutant.NTs))
+	dr		<- merge(dr, nt2aa, all.x=1, by="Mutant", allow.cartesian=TRUE)
+	setkey(dr, "Alignment.nuc.pos")
+	#print(dr, nrows=250)
+	dr		<- subset(dr, select=c(Alignment.nuc.pos, Mutant.NTs, DR.name))
+	set(dr, NULL, "Mutant.NTs", tolower(dr[,Mutant.NTs]))
+	
+	indir			<- paste(DATA,"tmp",sep='/')
+	infile			<- "ATHENA_2013_03_CurAll+LANL_Sequences"
+	insignat		<- "Sat_Jun_16_17/23/46_2013"
+	outdir			<- paste(DATA,"tmp",sep='/')
+	outfile			<- "ATHENA_2013_03_NoDRAll+LANL_Sequences"
+	outsignat		<- "Thu_Aug_01_17/05/23_2013"
+	alignment.start	<- 2253	
+	verbose			<- 1
+	if(exists("argv"))
+	{
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,6),
+									indir= return(substr(arg,8,nchar(arg))),NA)	}))
+		if(length(tmp)>0) indir<- tmp[1]
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,7),
+									infile= return(substr(arg,9,nchar(arg))),NA)	}))
+		if(length(tmp)>0) infile<- tmp[1]		
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,9),
+									insignat= return(substr(arg,11,nchar(arg))),NA)	}))
+		if(length(tmp)>0) insignat<- tmp[1]		
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,7),
+									outdir= return(substr(arg,9,nchar(arg))),NA)	}))
+		if(length(tmp)>0) outdir<- tmp[1]
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,8),
+									outfile= return(substr(arg,10,nchar(arg))),NA)	}))
+		if(length(tmp)>0) outfile<- tmp[1]		
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,10),
+									outsignat= return(substr(arg,12,nchar(arg))),NA)	}))
+		if(length(tmp)>0) outsignat<- tmp[1]	
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,16),
+									alignment.start= return(substr(arg,18,nchar(arg))),NA)	}))
+		if(length(tmp)>0) alignment.start<- tmp[1]	
+		tmp<- na.omit(sapply(argv,function(arg)
+						{	switch(substr(arg,2,2),
+									v= return(as.numeric(substr(arg,4,nchar(arg)))),NA)	}))
+		if(length(tmp)>0) verbose<- tmp[1]
+	}
+	if(verbose)
+	{
+		print(indir)
+		print(infile)
+		print(insignat)
+		print(outdir)
+		print(outfile)		
+		print(outsignat)
+		print(alignment.start)
+		print(verbose)
+	}	
+	#load alignment
+	file				<- paste(indir,'/',infile,'_',gsub('/',':',insignat),".R",sep='')
+	load(file)	
+	#modify dr table for particular alignment	
+	set(dr, NULL, "Alignment.nuc.pos", dr[,Alignment.nuc.pos]-alignment.start+1)
+	
+	#remove	likely.nonB.outliers
+	cat("\nchange infile: remove	likely.nonB.outliers")
+	likely.nonB.outliers	<- c("R03-07193","2006G206","PROT+P51_B.AU.1995.C92.AF538307","2008G084")
+	likely.nonB.outliers	<- which(rownames(seq.PROT.RT) %in% likely.nonB.outliers)
+	seq.PROT.RT				<- seq.PROT.RT[-likely.nonB.outliers,]
+	
+	#if alignment equals any of the drug resistance mutants, replace with NNN	
+	seq.PROT.RT			<- seq.rm.drugresistance(as.character(seq.PROT.RT), dr, verbose=verbose, rtn.DNAbin=1 )	
+	
+	#save No Drug resistance alignment to file
+	file								<- paste(outdir,'/',outfile,'_',gsub('/',':',outsignat),".R",sep='')
+	if(verbose)	cat(paste("\nwrite R file to",file))
+	save(seq.PROT.RT, file=file)	
+	file								<- paste(outdir,'/',outfile,'_',gsub('/',':',outsignat),".phylip",sep='')
+	if(verbose)	cat(paste("\nwrite phylip file to",file))
+	seq.write.dna.phylip(seq.PROT.RT, file=file)					
+	file								<- paste(outdir,'/',outfile,'_',gsub('/',':',outsignat),".fasta",sep='')			
+	if(verbose)	cat(paste("\nwrite fasta file to",file))
+	write.dna(seq.PROT.RT, file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
+	
+	seq.PROT.RT
+}
