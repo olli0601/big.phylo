@@ -1,8 +1,7 @@
-DEST:= $(R_LIBS_USER)/recombination.analyzer
+DEST:= $(R_LIBS_USER)/big.phylo
 DEST:= $(subst ~,$(HOME),$(DEST))
 EXTERNAL_CODE:= $(DEST)/ext
 CWD= $$(pwd)
-PVT_EXISTS:= $(shell [ -s ../inst/PVT_COMPACT_700.tgz ] && echo yes )
 
 all:	
 	echo "current directory is "$(CWD)
@@ -18,14 +17,6 @@ all:
 	@echo "*********************************************** "	
 	make rdata	
 	@echo "*********************************************** "
-	@echo "********* DOWNLOAD 3seq pvalues *************** "
-	@echo "*********************************************** "	
-	make get_PVT_COMPACT_700					
-	@echo "*********************************************** "
-	@echo "********* BUILDING 3seq *********************** "
-	@echo "*********************************************** "	
-	make 3seq		
-	@echo "*********************************************** "
 	@echo "********* BUILDING standard-RAxML ************* "
 	@echo "*********************************************** "	
 	make ExaML-raxml	
@@ -37,23 +28,6 @@ all:
 	@echo "********* BUILDING ExaML ********************** "
 	@echo "*********************************************** "	
 	make examl	
-	
-get_PVT_COMPACT_700:
-ifeq (yes, $(PVT_EXISTS))
-	$(info PVT_COMPACT_700.tgz found)
-else	
-	$(info PVT_COMPACT_700.tgz not found)
-	curl -O https://dl.dropboxusercontent.com/u/5271559/PVT_COMPACT_700
-	mv $(CWD)/PVT_COMPACT_700 ../inst/PVT_COMPACT_700.tgz
-endif
-	
-	
-3seq:
-	echo $(CWD)	
-	unzip ../inst/3seq_v1.10812_or.zip
-	make -C 3seq_v1.10812_or PTFLAGS=-DPVT='\"'$(DEST)'/\"'
-	mv $(CWD)/3seq_v1.10812_or/3seq $(EXTERNAL_CODE)/3seq
-	rm -rf 3seq_v1.10812_or
 	
 ExaML-raxml:
 	echo $(CWD)	
@@ -81,8 +55,8 @@ examl:
 	
 make roxygen:
 	echo $(CWD)
-	../misc/3seq.startme.R -exe=ROXYGENIZE -code.home=$(CWD)/..
+	../misc/startme.R -exe=ROXYGENIZE -code.home=$(CWD)/..
 	
 make rdata:
 	echo $(CWD)
-	../misc/3seq.startme.R -exe=MAKE.RDATA -code.home=$(CWD)/..	
+	../misc/startme.R -exe=MAKE.RDATA -code.home=$(CWD)/..	
