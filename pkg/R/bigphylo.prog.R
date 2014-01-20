@@ -4,7 +4,7 @@
 #' @description Input parameters are 'indir', 'infile', 'outdir', 'bootstrap', 'by', 'resume' and 'verbose', and specified via an 
 #' \code{argv} string, see the Examples. The 'bootstrap' option specifies the boostrap iteration number, e. g. '-bootstrap=0' for the
 #' first bootstrap iteration. The 'by' option specifies the way the boostrap alignment is created. Valid options are \code{codon} and \code{nucleotide}.
-#' @return NULL. A boostrap alignment is written to file \code{paste(outdir,"/",infile,".phylip.",sprintf("%03d",bs),sep='')} in phylip format.
+#' @return NULL. A boostrap alignment is written to file in phylip format.
 prog.examl.getbootstrapseq<- function()
 {		
 	indir				<- outdir		<- paste(DATA,"tmp",sep='/')

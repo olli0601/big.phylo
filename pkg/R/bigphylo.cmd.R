@@ -17,7 +17,8 @@ HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/2.15"
 
 
 #' @export
-#' @title Internal code to produce the ExaML shell command.
+#' @title Produce a single ExaML shell command.
+#' @description Internal code. 
 #' @inheritParams cmd.examl.bootstrap
 #' @return	Character string
 cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=1, verbose=1)
@@ -89,7 +90,8 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 }
 
 #' @export 
-#' Internal code to produce the shell command that creates the booststrap alignment.
+#' @title Produce the shell command that creates the bootstrap alignment.
+#' @description Internal code.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @param opt.bootstrap.by	Character string that specifies specifies the way the boostrap alignment is created. Valid options are \code{codon} and \code{nucleotide}.
 #' @return	Character string
@@ -107,7 +109,8 @@ cmd.examl.bsalignment<- function(indir, infile, bs.id, outdir=indir, prog.bscrea
 }
 
 #' @export
-#' Internal code to produce the ExaML boostrap shell command.
+#' @title Produce the ExaML boostrap shell command, all boostraps on a single processor.
+#' @description Internal code.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @return	Character string
 cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
@@ -190,7 +193,8 @@ cmd			<- paste(cmd,"\n#######################################################
 }
 
 #' @export
-#' Internal code to produce the ExaML boostrap shell command.
+#' @title Generate the ExaML boostrap shell command, one bootstrap per processor.
+#' @description Internal code.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @return	Character string
 cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
@@ -276,6 +280,9 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 }
 
 #' @export
+#' @title Produce a shell command to compute the final boostrap tree.
+#' @description Internal code.
+#' @return Character string.
 cmd.examl.bsstarttree<- function(indir, infile, signat.in, signat.out, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0),outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, resume=1, verbose=1)
 {
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
@@ -327,6 +334,9 @@ cmd.examl.bsstarttree<- function(indir, infile, signat.in, signat.out, bs.from=0
 }
 
 #' @export
+#' @title Procude a shell command to clean up after an ExaML run.
+#' @description Internal code.
+#' @return Character string
 cmd.examl.cleanup<- function(outdir, prog= PR.EXAML.EXAML)
 {
 	cmd<- "#######################################################
