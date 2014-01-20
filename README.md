@@ -7,5 +7,6 @@ To install this R package, the packages 'roxygen2', 'ape', 'data.table' must be 
 Type on the command line 'R CMD build pkg' and then 'R CMD INSTALL big.phylo_1.0-0.tar.gz'
 
 Help files and documentation are available once the package is loaded in R with 'require(big.phylo)'. 
+Documentation is available via 'library(help="big.phylo")'. 
 For a start, try ?pipeline.ExaML.bootstrap.per.proc
-Further documentation is available for 'library(help="big.phylo")'. 
+and ?prog.remove.resistancemut

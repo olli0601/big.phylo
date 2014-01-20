@@ -1,6 +1,7 @@
 PR.PACKAGE					<- "big.phylo"
 PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "startme.R") 
 PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exe=BOOTSTRAPSEQ",sep=' ')
+PR.EXAML.RM.RESISTANCE		<- paste(PR.STARTME,"-exe=RM.RESISTANCE",sep=' ')
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
@@ -103,6 +104,26 @@ cmd.examl.bsalignment<- function(indir, infile, bs.id, outdir=indir, prog.bscrea
 #######################################################",sep='')			
 	cmd
 }
+
+#' @export 
+#' @title Produce the shell command that masks resistance mutations.
+#' @description Internal code.
+#' @inheritParams pipeline.ExaML.bootstrap.per.proc
+#' @param alignment.start Number that specifies the position of the first nucleotide relative to the HXB2 reference sequence
+#' @return	Character string
+cmd.rm.resistance<- function(indir, infile, outfile, outdir=indir, prog= PR.EXAML.RM.RESISTANCE, alignment.start=2253, resume=0, verbose=1)
+{
+	cmd			<- paste("#######################################################
+# start: mask codons with resistance mutations with NNN
+#######################################################\n",sep='')
+	cmd			<- paste(cmd,prog," -resume=",resume," -alignment.start=",alignment.start,sep='')
+	cmd			<- paste(cmd," -indir=",indir," -infile=",infile," -outdir=",outdir," -outfile=",outfile,' ',sep='')	
+	cmd			<- paste(cmd,"\n#######################################################
+# end: mask codons with resistance mutations with NNN
+#######################################################",sep='')			
+	cmd
+}
+
 
 #' @export
 #' @title Produce the ExaML boostrap shell command, all boostraps on a single processor.

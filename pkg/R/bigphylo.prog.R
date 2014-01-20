@@ -138,6 +138,7 @@ prog.examl.getbootstrapseq<- function()
 #' \code{argv} string, see the Examples. The 'alignment.start' option specifies the position of the first nucleotide relative to the HXB2
 #' reference sequence.
 #' @return NULL. A sequence alignment with resistance codons set to 'NNN' is written to file.
+#' @example example/ex.remove.resistancemut.R
 #' 
 prog.remove.resistancemut<- function()
 {
@@ -162,10 +163,6 @@ prog.remove.resistancemut<- function()
 									infile= return(substr(arg,9,nchar(arg))),NA)	}))
 		if(length(tmp)>0) infile<- tmp[1]		
 		tmp<- na.omit(sapply(argv,function(arg)
-						{	switch(substr(arg,2,9),
-									insignat= return(substr(arg,11,nchar(arg))),NA)	}))
-		if(length(tmp)>0) insignat<- tmp[1]		
-		tmp<- na.omit(sapply(argv,function(arg)
 						{	switch(substr(arg,2,7),
 									outdir= return(substr(arg,9,nchar(arg))),NA)	}))
 		if(length(tmp)>0) outdir<- tmp[1]
@@ -173,10 +170,6 @@ prog.remove.resistancemut<- function()
 						{	switch(substr(arg,2,8),
 									outfile= return(substr(arg,10,nchar(arg))),NA)	}))
 		if(length(tmp)>0) outfile<- tmp[1]		
-		tmp<- na.omit(sapply(argv,function(arg)
-						{	switch(substr(arg,2,10),
-									outsignat= return(substr(arg,12,nchar(arg))),NA)	}))
-		if(length(tmp)>0) outsignat<- tmp[1]	
 		tmp<- na.omit(sapply(argv,function(arg)
 						{	switch(substr(arg,2,16),
 									alignment.start= return(substr(arg,18,nchar(arg))),NA)	}))

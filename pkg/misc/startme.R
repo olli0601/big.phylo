@@ -40,6 +40,7 @@ EPS			<<- 1e-12	#Machine precision
 
 #the default script to be called if -exe is not specified on the command line	
 #default.fun	<- "my.make.documentation"
+default.fun		<- 'prog.remove.resistancemut'
 default.fun 	<- "pipeline.ExaML.bootstrap.per.proc"
 ###############################################################################
 #	select script specified with -exe on the command line. If missing, start default script 'default.fun'.
@@ -59,6 +60,7 @@ if(length(args))
 					ROXYGENIZE				= "package.roxygenize",
 					MAKE.RDATA				= "package.generate.rdafiles",
 					BOOTSTRAPSEQ			= "prog.examl.getbootstrapseq",
+					RM.RESISTANCE			= "prog.remove.resistancemut",
 					EXAML.NPROC				= "pipeline.ExaML.bootstrap.per.proc",
 					)
 	}
