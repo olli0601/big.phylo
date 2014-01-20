@@ -1,0 +1,16 @@
+Package: big.phylo
+Version: 1.0-0
+Date: 2014/01/20
+Title: big.phylo
+Author: {Oliver Ratmann}
+Maintainer: Oliver Ratmann <oliver.ratmann@imperial.ac.uk>
+Depends:
+    R (>= 2.15),
+    ape,
+    data.table,
+    RColorBrewer
+Description: An R package to construct phylogenies for very large numbers of sequences.
+    This package currently implements an interface to high performance computing environments to run the ExaML program.
+License: GPL (>=2)
+LazyLoad: yes
+Collate:

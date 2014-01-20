@@ -1,0 +1,482 @@
+query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("-","c","c"))
+query.yes
+seq.PROT.RT[query.yes,3549:3560]
+query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("-","c","c","g","g"))
+query.yes
+seq.PROT.RT[query.yes,3549:3551]<- matrix( c("c","-","c"), nrow=length(query.yes), ncol=3, byrow=1 )
+write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
+file
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+file
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+seq.PROT.RT							<- seq.PROT.RT[,2253:ncol(seq.PROT.RT)]
+dim(seq.PROT.RT)
+3877-2253
+seq.PROT.RT[1:5,1620:1630]
+ncol(seq.PROT.RT)<- 1624
+dim(seq.PROT.RT)[2]<- 1624
+dim(seq.PROT.RT)
+seq.PROT.RT							<- seq.PROT.RT[,1:1624]
+file
+file<- "/Users/Oliver/duke/2013_HIV_NL/ATHENA_2013/data/tmp/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_Wed_May__1_17:08:15_2013.fasta.clustalo3"
+write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
+apply(matrix(c(1,2,3,4),2,2),1,sum)
+tmp<- apply(seq.PROT.RT,1,function(x)		which(rev(x)!="-" )[1]  )
+tmp
+?sort
+seq.PROT.RT							<- seq.PROT.RT[sort(seq.PROT.RT.sort.by, index.return=1)$ix,]
+seq.PROT.RT.sort.by<- mtp
+seq.PROT.RT.sort.by<- tmp
+seq.PROT.RT							<- seq.PROT.RT[sort(seq.PROT.RT.sort.by, index.return=1)$ix,]
+write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
+file
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+seq.PROT.TR[1,1294:1299]
+seq.PROT.RT[1,1294:1299]
+dim(seq.PROT.RT)
+file
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
+dim(seq.PROT.RT)
+seq.PROT.RT[1,1294:1299]
+seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=length(query.yes), ncol=6, byrow=1 )
+seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=ncol(seq.PROT.RT), ncol=6, byrow=1 )
+seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=nrow(seq.PROT.RT), ncol=6, byrow=1 )
+file<- "/Users/Oliver/duke/2013_HIV_NL/ATHENA_2013/data/tmp/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_Wed_May__1_17:08:15_2013.fasta.clustalo4"
+write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
+which( rownames(seq.PROT.RT)=="HXB2" )
+signat.in	<- "Wed_May__1_17/08/15_2013"#
+		signat.out	<- paste(strsplit(date(),split=' ')[[1]],collapse='_',sep='')#
+		file<- paste(outdir,"/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_",gsub('/',':',signat.in),".fasta.clustalo4",sep='')
+file
+seq.PROT.RT	<- read.dna(file, format="fasta")
+dim(seq.PROT.RT)
+seq.PROT.RT	<- seq.PROT.RT[ rownames(seq.PROT.RT)!="HXB2", ]
+signat.out	<- paste(strsplit(date(),split=' ')[[1]],collapse='_',sep='')
+signat.out
+file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.out),".R",sep='')
+verbose<- 1
+if(verbose) cat(paste("\nwrite to",file))#
+		save(seq.PROT.RT, file=file)#
+		file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.out),".phylip",sep='')#
+		if(verbose) cat(paste("\nwrite to ",file))
+hivc.seq.write.dna.phylip<- function(seq.DNAbin.mat, file)#
+{		#
+	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )#
+	tmp<- paste(t(tmp),collapse='\n',sep='')	#
+	tmp<- paste( paste(c(nrow(seq.DNAbin.mat),ncol(seq.DNAbin.mat)),sep='',collapse=' '),'\n',tmp,'\n',collapse='',sep='' )#
+	cat(tmp, file=file)#
+}
+hivc.seq.write.dna.phylip(seq.PROT.RT, file=file)
+70-33
+2013+37
+37700+45000
+outdir
+signat.in	<- "Sat_May_11_14:23:46_2013"#
+		signat.out	<- "Sat_May_11_14:23:46_2013"#
+#
+		file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.in),".R",sep='')#
+		if(verbose) cat(paste("\nload ",file))			#
+		load(file)
+seq.PROT.RT
+seq.PROT.RT[1,]
+x<- as.character(seq.PROT.RT[1,])
+x
+codon3.idx<- seq.int(3,ncol(seq.PROT.RT),3)
+seq.PROT.RT3<- seq.PROT.RT[, codon3.idx]
+seq.PROT.RT3
+x<- as.character(seq.PROT.RT3[1,])
+xa<- as.character(seq.PROT.RT[1,])
+all(xa[codon3.idx]==x)
+verbose<- 1
+file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':',signat.out),".R",sep='')#
+		if(verbose) cat(paste("\nwrite to ",file))#
+		save(seq.PROT.RT3, file=file)
+file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':',signat.out),".phylip",sep='')#
+		if(verbose) cat(paste("\nwrite to ",file))#
+		hivc.seq.write.dna.phylip(seq.PROT.RT3, file=file)
+seq.PROT.RT3[1,]
+library(roxygen2)#
+DIR_PKG<-"/Users/tonton/Documents/GitProjects/nABC/git_abc.n/pkg"#
+DIR_PKG<-"/Users/Oliver/git/abc.n/pkg"#
+roxygenize(package=paste(DIR_PKG))
+library(ape)
+boot.phylo
+sample(1:4,2,replace=1)
+sample(1:4,4,replace=1)
+bs.blocks.n<- 3
+bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
+bs.blocks.s
+bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
+bs.blocks.s
+bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
+bs.blocks.s
+bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
+bs.blocks.s
+as.numeric( sapply(bs.blocks.s,function(x)		3*x+c(1,2,3)		) )
+?break
+2.5*2 + 4.1*3 + 3.9*3.6 +4*3.7 + 4*3.9 + 2.8*3.5 +2.8*2.5
+2.5*2 + 4.1*3 + 3.9*3.6 +4*3.7 + 4*3.9 + 2.8*3.5 +2.8*2.5 + 3.8*2
+550 / 425
+575 / 500
+500 *1.3
+525 / 425
+500 * 1.235
+525 / 450
+500 * 1.17
+105/3
+choose(0,0)
+pop<- 55011
+perc.hiv<- 0.18
+perc.adult<- 0.5
+inc<- 0.0056
+pop.s<- pop * (1-perc.hiv)
+pop.s * 3 * inc
+perc.hivcov<- 0.28
+pop.s<- pop * (1-perc.hiv*perc.hivcov)
+perc.hivcov<- 0.28
+pop.s * 3 * inc
+1714 * 0.5
+pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.0056; perc.hivcov<- 0.28
+pop.s<- pop * perc.adult * (1-perc.hiv)
+pop.s * 3 * inc
+pop.s<- pop * (1-perc.hiv*perc.hivcov)
+pop.s * 3 * inc
+pop.s<- pop * perc.adult * (1-perc.hiv*perc.hivcov)
+pop.s * 3 * inc
+pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.0075; perc.hivcov<- 0.28
+pop.s<- pop * perc.adult * (1-perc.hiv)
+pop.s * 3 * inc
+pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.01; perc.hivcov<- 0.28
+pop.s<- pop * perc.adult * (1-perc.hiv)
+pop.s * 3 * inc
+1714*0.5 / (3*inc)
+pop.s<- pop * perc.adult * (1-perc.hiv*perc.hivcov)
+pop.s * 3 * inc
+1714 / 2
+pop.s * 3 * inc
+83.7*83.7
+83.7*83.7/100/100
+45/12
+require(roxygen2)
+CODE.HOME	<<- "/Users/Oliver/git/recombination-anaylyzer/pkg"
+roxygenize(CODE.HOME)
+CODE.HOME	<<- "/Users/Oliver/git/recombination-analyzer/pkg"
+roxygenize(CODE.HOME)
+CODE.HOME	<<- "/Users/Oliver/git/recombination.analyzer/pkg"
+roxygenize(CODE.HOME)
+require(recombination.analyzer)
+data.table()
+library(recombination.analyzer)
+data.table()
+require(recombination.analyzer)
+system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
+?read.dna
+file<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
+read.dna(file)
+read.dna(system.file(package='recombination.analyzer', "data", "neisseria.phylip"))
+system.file(package='recombination.analyzer', "data", "neisseria.phylip")
+read.dna("~/git/recombination.analyzer/pkg/data/neisseria.phylip")
+?read.dna
+read.dna("~/git/recombination.analyzer/pkg/data/neisseria.phylip", format="sequential")
+read.dna(system.file(package='recombination.analyzer', "data", "mtDNA.phylip"), format="sequential")
+?save
+seq		<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")#
+		seq		<- read.dna(seq, format='sequential')#
+		file	<- system.file(package='recombination.analyzer', "data", "mtDNA.rds")#
+		cat(paste('\nsave seq to file=',file))
+seq
+seq		<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
+seq
+seq		<- read.dna(seq, format='sequential')
+?system.file
+file		<- system.file(package='recombination.analyzer', "data")
+file
+file	<- paste(system.file(package='recombination.analyzer', "data"), "/mtDNA.rds",sep='')#
+		cat(paste('\nsave seq to file=',file))#
+		saveRDS(seq, file=file)
+?data
+data(package='recombination.analyzer')
+file	<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")#
+		seq		<- read.dna(file, format='sequential')#
+		file	<- paste(system.file(package='recombination.analyzer', "data"), "/mtDNA.rda",sep='')#
+		cat(paste('\nsave seq to file=',file))#
+		save(seq, file=file)
+data(package='recombination.analyzer')
+CODE.HOME	<<- "/Users/Oliver/git/recombination.analyzer/pkg"
+file	<- paste(CODE.HOME,'/data/mtDNA.phylip',sep='')#
+		seq		<- read.dna(file, format='sequential')#
+		file	<- paste(CODE.HOME,'/data/mtDNA.rda',sep='')#
+		cat(paste('\nsave seq to file=',file))#
+		save(seq, file=file)
+require(ape)#
+	files	<- c( 	paste(CODE.HOME,'/data/mtDNA.phylip',sep=''),	#
+					paste(CODE.HOME,'/data/den2.phylip',sep=''),#
+					paste(CODE.HOME,'/data/neisseria.phylip',sep=''),#
+					paste(CODE.HOME,'/data/nz_h1n1.phylip',sep=''),#
+					paste(CODE.HOME,'/data/nzh3n2.phylip',sep='')		)#
+	dummy	<- lapply(files, function(file)#
+			{#
+				seq		<- read.dna(file, format='sequential')#
+				file	<- paste(CODE.HOME,'/data/mtDNA.rda',sep='')#
+				cat(paste('\nsave seq to file=',file))#
+				save(seq, file=file)				#
+			})
+files	<- c( 	'mtDNA','den2','neisseria','nz_h1n1','nzh3n2'	)#
+	dummy	<- lapply(files, function(x)#
+			{#
+				cat(paste('\nprocess',x))#
+				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
+				seq		<- read.dna(file, format='sequential')#
+				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
+				cat(paste('\nsave seq to file=',file))#
+				save(seq, file=file)				#
+			})
+read.dna( "/Users/Oliver/git/recombination.analyzer/pkg/data/nz_h1n1.phylip" )
+files	<- c('nz_h1n1','nzh3n2')#
+	dummy	<- lapply(files, function(x)#
+			{#
+				cat(paste('\nprocess',x))#
+				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
+				seq		<- read.dna(file, format='interleaved')#
+				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
+				cat(paste('\nsave seq to file=',file))#
+				save(seq, file=file)				#
+			})
+files	<- c('nz_h1n1','nz_h3n2')#
+	dummy	<- lapply(files, function(x)#
+			{#
+				cat(paste('\nprocess',x))#
+				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
+				seq		<- read.dna(file, format='interleaved')#
+				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
+				cat(paste('\nsave seq to file=',file))#
+				save(seq, file=file)				#
+			})
+require(recombination.analyzer)
+data(package='recombination.analyzer')
+data(neisseria)
+seqn<- data(neisseria)
+seqn
+neisseria
+seq
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''
+setwd("/Users/Oliver/git/recombination-analyzer/pkg")
+setwd("/Users/Oliver/git/recombination.analyzer/pkg")
+source("misc/3seq.startme.R")
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''
+grepl(infile, '.R')
+grepl(infile, '.R', fixed=1)
+grepl('.R',infile)
+grep('.R',infile)
+?regexpr
+substr(infile, 1, nchar(infile)-2)
+verbose<- 1
+if(!grepl('.R',infile))	stop("expect R infile that ends in .R")		#
+	file			<- paste(indir,'/',infile,".R",sep='')#
+	tmp				<- load(file)#
+	if(verbose)	cat(paste('\nloaded file=', tmp))
+load sequences to determine number of parallel jobs #
+	if(!grepl('.R',infile))	stop("expect R infile that ends in .R")		#
+	file			<- paste(indir,'/',infile,sep='')#
+	tmp				<- load(file)#
+	if(verbose)	cat(paste('\nloaded file=', tmp))
+indir		<- paste(CODE.HOME,'demo', sep='/')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''
+load sequences to determine number of parallel jobs #
+	if(!grepl('.R',infile))	stop("expect R infile that ends in .R")		#
+	file			<- paste(indir,'/',infile,sep='')#
+	tmp				<- load(file)#
+	if(verbose)	cat(paste('\nloaded file=', tmp))
+save(seq, file=paste(indir, infile, sep='/'))
+load sequences to determine number of parallel jobs #
+	if(!grepl('.R',infile))	stop("expect R infile that ends in .R")		#
+	file			<- paste(indir,'/',infile,sep='')#
+	tmp				<- load(file)#
+	if(verbose)	cat(paste('\nloaded file=', tmp))
+seq
+seq2<- seq
+seq<- NULL
+seq2
+tmp<- 'seq2'
+eval(parse(text=paste("seq<- ",tmp,sep='')))
+seq
+class(seq)
+seq
+str(seq)
+is.matrix(seq)
+infile			<- substr(infile, 1, nchar(infile)-2)	#
+	file			<- paste(indir,'/',infile,".phylip",sep='')#
+	if(verbose)	cat(paste('\nwrite file=', tmp))#
+	seq.write.dna.phylip(seq, file)
+seq.write.dna.phylip<- function(seq.DNAbin.mat, file)#
+{		#
+	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )#
+	tmp<- paste(t(tmp),collapse='\n',sep='')	#
+	tmp<- paste( paste(c(nrow(seq.DNAbin.mat),ncol(seq.DNAbin.mat)),sep='',collapse=' '),'\n',tmp,'\n',collapse='',sep='' )#
+	cat(tmp, file=file)#
+}
+infile			<- substr(infile, 1, nchar(infile)-2)	#
+	file			<- paste(indir,'/',infile,".phylip",sep='')#
+	if(verbose)	cat(paste('\nwrite file=', tmp))#
+	seq.write.dna.phylip(seq, file)
+file			<- paste(indir,'/',infile,".phylip",sep='')#
+	if(verbose)	cat(paste('\nwrite file=', file))#
+	seq.write.dna.phylip(seq, file)
+batch.n
+batch.n<- 1
+batch.seq		<- round(seq.int(0,nrow(seq),len=batch.n),d=0)
+batch.seq
+rbind(batch.seq[-length(batch.seq)], batch.seq[-1]-1)
+nrow(seq)
+tail(batch.seq,1)
+batch.seq	<- c(batch.seq, nrow(seq))
+batch.seq
+batch.seq		<- rbind(batch.seq[-length(batch.seq)], batch.seq[-1]-1)
+batch.seq
+lapply(seq_len(ncol(batch.seq)),function(j)#
+			{					#
+				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
+				cmd			<- cmd.hpcwrapper(cmd, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
+				cat(cmd)#
+				outdir		<- indir#
+				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
+				#cmd.hpccaller(outdir, outfile, cmd)			#
+			})
+lapply(seq_len(ncol(batch.seq)),function(j)#
+			{					#
+				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
+				cmd			<- cmd.hpcwrapper(cmd, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
+				cat(cmd)#
+				outdir		<- indir#
+				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
+				cmd.hpccaller(outdir, outfile, cmd)			#
+			})
+infile
+infile<- 'neisseria'
+lapply(seq_len(ncol(batch.seq)),function(j)#
+			{					#
+				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
+				cmd			<- cmd.hpcwrapper(cmd, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
+				cat(cmd)#
+				outdir		<- indir#
+				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
+				cmd.hpccaller(outdir, outfile, cmd)			#
+			})
+pipeline.recom.run.3seq<- function(indir, infile, batch.n=100, hpc.walltime=35, hpc.q=NA, hpc.mem="3850mb", hpc.nproc=1, verbose=1)#
+{#
+	#load sequences into 'seq' object #
+	if(!grepl('.R',infile))							stop("expect R infile that ends in .R")		#
+	file			<- paste(indir,'/',infile,sep='')#
+	tmp				<- load(file)#
+	if(verbose)	cat(paste('\nloaded file=', tmp))#
+	if(tmp!='seq')#
+		eval(parse(text=paste("seq<- ",tmp,sep='')))#
+	if(!"DNAbin"%in%class(seq) || !is.matrix(seq))	stop("expect R infile that contains a DNAbin matrix")#
+	#write phylip file#
+	infile			<- substr(infile, 1, nchar(infile)-2)	#
+	file			<- paste(indir,'/',infile,".phylip",sep='')#
+	if(verbose)	cat(paste('\nwrite file=', file))#
+	seq.write.dna.phylip(seq, file)#
+	#generate parallel calls to 3seq#
+	batch.seq		<- round(seq.int(0,nrow(seq),len=batch.n),d=0)#
+	if(tail(batch.seq,1)!=nrow(seq))#
+		batch.seq	<- c(batch.seq, nrow(seq))#
+	batch.seq		<- rbind(batch.seq[-length(batch.seq)], batch.seq[-1]-1)#
+	#batch.seq		<- batch.seq[,1:10]	#test run#
+	lapply(seq_len(ncol(batch.seq)),function(j)#
+			{					#
+				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
+				cmd			<- cmd.hpcwrapper(cmd, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
+				if(verbose)	cat(cmd)#
+				outdir		<- indir#
+				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
+				cmd.hpccaller(outdir, outfile, cmd)			#
+			})	#
+}
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo', sep='/')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''#
+	save(seq, file=paste(indir, infile, sep='/'))#
+#
+	pipeline.recom.run.3seq(indir, infile, batch.n=1, hpc.walltime=35, hpc.q='pqeph', hpc.mem="3850mb", hpc.nproc=1)
+PR.PACKAGE					<- "recombination.analyzer"#
+PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "3seq.startme.R") #
+PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exeBOOTSTRAPSEQ",sep=' ')#
+PR.RECOMB.3SEQ				<- system.file(package="hivclust", "ext", "3seq") #
+PR.RECOMB.PROCESS3SEQOUTPUT	<- paste(PR.STARTME,"-exe=RECOMB.PROCESS3SEQOUT",sep=' ')#
+PR.RECOMB.CHECKCANDIDATES	<- paste(PR.STARTME,"-exe=RECOMB.CHECKCANDIDATES",sep=' ')#
+PR.RECOMB.PLOTINCONGRUENCE	<- paste(PR.STARTME,"-exe=RECOMB.PLOTINCONGRUENCE",sep=' ')#
+PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") #
+PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")#
+PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")#
+PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")#
+HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
+HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
+HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',intern=T) for the hpc cluster of choice#
+HPC.MEM						<- "1750mb"#
+HPC.LOAD					<- "module load intel-suite mpi R/2.15"
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo', sep='/')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''#
+	save(seq, file=paste(indir, infile, sep='/'))#
+#
+	pipeline.recom.run.3seq(indir, infile, batch.n=1, hpc.walltime=35, hpc.q='pqeph', hpc.mem="3850mb", hpc.nproc=1)
+PR.PACKAGE					<- "recombination.analyzer"#
+PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "3seq.startme.R") #
+PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exeBOOTSTRAPSEQ",sep=' ')#
+PR.RECOMB.3SEQ				<- system.file(package=PR.PACKAGE, "ext", "3seq") #
+PR.RECOMB.PROCESS3SEQOUTPUT	<- paste(PR.STARTME,"-exe=RECOMB.PROCESS3SEQOUT",sep=' ')#
+PR.RECOMB.CHECKCANDIDATES	<- paste(PR.STARTME,"-exe=RECOMB.CHECKCANDIDATES",sep=' ')#
+PR.RECOMB.PLOTINCONGRUENCE	<- paste(PR.STARTME,"-exe=RECOMB.PLOTINCONGRUENCE",sep=' ')#
+PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") #
+PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")#
+PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")#
+PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")#
+HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
+HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
+HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',intern=T) for the hpc cluster of choice#
+HPC.MEM						<- "1750mb"#
+HPC.LOAD					<- "module load intel-suite mpi R/2.15"
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo', sep='/')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''#
+	save(seq, file=paste(indir, infile, sep='/'))#
+#
+	pipeline.recom.run.3seq(indir, infile, batch.n=1, hpc.walltime=35, hpc.q='pqeph', hpc.mem="3850mb", hpc.nproc=1)
+require(recombination.analyzer)#
+	data(neisseria)#
+	print( seq )#
+	indir		<- paste(CODE.HOME,'demo', sep='/')#
+	infile		<- 'neisseria.R'#
+	insignat	<- ''#
+	save(seq, file=paste(indir, infile, sep='/'))#
+#
+	pipeline.recom.run.3seq(indir, infile, batch.n=1, hpc.walltime=35, hpc.q='pqeph', hpc.mem="3850mb", hpc.nproc=1)
