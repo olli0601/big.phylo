@@ -1,6 +1,7 @@
 DEST:= $(R_LIBS_USER)/big.phylo
 DEST:= $(subst ~,$(HOME),$(DEST))
 EXTERNAL_CODE:= $(DEST)/ext
+MISC_CODE:= $(DEST)/misc
 CWD= $$(pwd)
 
 all:	
@@ -16,6 +17,10 @@ all:
 	@echo "********* MAKE RDATA files ******************** "
 	@echo "*********************************************** "	
 	make rdata	
+	@echo "*********************************************** "
+	@echo "********* BUILDING misc *********************** "
+	@echo "*********************************************** "	
+	make misc	
 	@echo "*********************************************** "
 	@echo "********* BUILDING standard-RAxML ************* "
 	@echo "*********************************************** "	
@@ -52,6 +57,10 @@ examl:
 	mv $(CWD)/ExaML/examl/examl $(EXTERNAL_CODE)/ExaML-examl
 	rm -rf ExaML
 	mv $(EXTERNAL_CODE)/ExaML-examl $(EXTERNAL_CODE)/examl
+	
+make misc:	
+	mkdir $(MISC_CODE)
+	cp ../misc/*.R $(MISC_CODE)
 	
 make roxygen:
 	echo $(CWD)

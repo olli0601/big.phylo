@@ -1,10 +1,9 @@
-#' This file contains R functions that provide an interface to HPC scripting, and the 3SEQ and ExaML programs
 #' Shell scripts are generated that can be either run directly, or submitted to an HPC system.
 #' At present, cmd.hpccaller provides an interface to the CX1B high performance system that runs PBS (portable batch system)
 
 PR.PACKAGE					<- "big.phylo"
 PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "startme.R") 
-PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exeBOOTSTRAPSEQ",sep=' ')
+PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exe=BOOTSTRAPSEQ",sep=' ')
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
@@ -101,7 +100,7 @@ cmd.examl.bsalignment<- function(indir, infile, bs.id, outdir=indir, prog.bscrea
 # start: create and check bootstrap alignment
 #######################################################\n",sep='')
 	cmd			<- paste(cmd,prog.bscreate," -resume=",resume," -bootstrap=",bs.id," -by=",opt.bootstrap.by,sep='')
-	cmd			<- paste(cmd," -indir=",indir," -infile=",infile," -outdir=",outdir,sep='')	
+	cmd			<- paste(cmd," -indir=",indir," -infile=",infile," -outdir=",outdir,' ',sep='')	
 	cmd			<- paste(cmd,"\n#######################################################
 # end: create and check bootstrap alignment
 #######################################################",sep='')			

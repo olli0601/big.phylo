@@ -1,6 +1,7 @@
 # This file contains parallel processing scripts that generate and submit PBS scripts to a high performance system. 
 ######################################################################################
 
+#' @export 
 #' @title Compute phylogeny with bootstrap values 
 #' @description Compute a maximum likelihood phylogeny with the \code{ExaML} program. Bootstrap values
 #' 	capture the uncertainty in the tree phylogeny and are computed as follows. Columns of the multiple
@@ -21,6 +22,7 @@
 #' @param hpc.q			Queue specification for PBS header.
 #' @param verbose		Flag to run function in verbose mode.
 #' @return NULL. Creates shell files in \code{outdir}, and attempts to submit those to a queuing system.
+#' @example example/ex.h3n2.ExaML.bootstrap.per.proc.R
 pipeline.ExaML.bootstrap.per.proc<- function(indir, infile, outdir=indir, bs.from=0, bs.n= 500, bs.to= bs.n, hpc.walltime=1, hpc.q=NA, hpc.mem="500mb", hpc.nproc=1, verbose=1)
 {	
 	#	sense check
@@ -43,8 +45,7 @@ pipeline.ExaML.bootstrap.per.proc<- function(indir, infile, outdir=indir, bs.fro
 				#cat(x)
 				cmd.hpccaller(outdir, outfile, x)
 				Sys.sleep(1)
-			})
-	quit('no')		
+			})	
 }
 
 

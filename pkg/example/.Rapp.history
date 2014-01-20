@@ -1,422 +1,937 @@
-for(i in query.yes)#
-			seq.PROT.RT[i,3551:3600]		<-	c("-",seq.PROT.RT[i,3551:3599])
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3552, c("g","c"))
-query.yes
-for(i in query.yes)#
-			seq.PROT.RT[i,3552:3600]		<-	c("-",seq.PROT.RT[i,3552:3599])
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3501, c("-","t","t"))
-query.yes
-for(i in query.yes)#
-			seq.PROT.RT[i,3501:3600]		<-	c("-",seq.PROT.RT[i,3501:3599])
-seq.PROT.RT[17,3501:3510]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3498, c("c","g","t"))
-query.yes
-for(i in query.yes)#
-			seq.PROT.RT[i,3498:3520]		<-	c("-",seq.PROT.RT[i,3498:3519])
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3552, c("-","g","g"))
-query.yes
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("-","c","a"))
-query.yes
-seq.PROT.RT[query.yes,3549:3551]<- matrix( c("c","a","-"), nrow=length(query.yes), ncol=3, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a"))
-query.yes
-seq.PROT.RT[query.yes,3543:3545]<- matrix( c("c","a","-"), nrow=length(query.yes), ncol=3, byrow=1 )
-seq.PROT.RT[query.yes,3543:3545]<- matrix( c("-","c","a"), nrow=length(query.yes), ncol=3, byrow=1 )
-seq.PROT.RT[query.yes,3543:3555]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a","g","g","g","g","c","a"))
-query.yes
-seq.PROT.RT[query.yes,3543:3551]<- matrix( c("c","a","g","g","g","g","c","a","-"), nrow=length(query.yes), ncol=9, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a"))
-query.yes
-seq.PROT.RT[query.yes,3543:3555]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a","g","g","a","g","c","a"))#
-		if(length(query.yes))#
-			seq.PROT.RT[query.yes,3543:3551]<- matrix( c("c","a","g","g","a","g","c","a","-"), nrow=length(query.yes), ncol=9, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a","k","g","g","a","c","a"))#
-		if(length(query.yes))#
-			seq.PROT.RT[query.yes,3543:3551]<- matrix( c("c","a","k","g","g","a","c","a","-"), nrow=length(query.yes), ncol=9, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a"))
-query.yes
-seq.PROT.RT[query.yes,3543:3555]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a","g","g","g","g","g","a"))
-seq.PROT.RT[query.yes,3543:3551]<- matrix( c("c","a","g","g","g","g","g","a","-"), nrow=length(query.yes), ncol=9, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","t"))
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","a","g","g","g","g","g","a"))
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3543, c("-","c","t"))
-query.yes
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("a","a","-"))
-query.yes
-seq.PROT.RT[query.yes,3549:3551]<- matrix( c("-","-","-"), nrow=length(query.yes), ncol=3, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3551, c("g","a","c"))
-seq.PROT.RT[query.yes,3551:3560]
-for(i in query.yes)#
-			seq.PROT.RT[i,3551:3560]		<-	c("-",seq.PROT.RT[i,3551:3559])
-seq.PROT.RT[query.yes,3551:3560]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3551, c("g","a","y"))
-query.yes
-seq.PROT.RT[query.yes,3551:3560]
-if(length(query.yes))#
-			seq.PROT.RT[query.yes,3551:3554]<- matrix( c("-","g","a","y"), nrow=length(query.yes), ncol=4, byrow=1 )
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("-","c","c"))
-query.yes
-seq.PROT.RT[query.yes,3549:3560]
-query.yes							<- hivx.seq.find(seq.PROT.RT, 3549, c("-","c","c","g","g"))
-query.yes
-seq.PROT.RT[query.yes,3549:3551]<- matrix( c("c","-","c"), nrow=length(query.yes), ncol=3, byrow=1 )
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-file
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-file
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-seq.PROT.RT							<- seq.PROT.RT[,2253:ncol(seq.PROT.RT)]
-dim(seq.PROT.RT)
-3877-2253
-seq.PROT.RT[1:5,1620:1630]
-ncol(seq.PROT.RT)<- 1624
-dim(seq.PROT.RT)[2]<- 1624
-dim(seq.PROT.RT)
-seq.PROT.RT							<- seq.PROT.RT[,1:1624]
-file
-file<- "/Users/Oliver/duke/2013_HIV_NL/ATHENA_2013/data/tmp/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_Wed_May__1_17:08:15_2013.fasta.clustalo3"
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-apply(matrix(c(1,2,3,4),2,2),1,sum)
-tmp<- apply(seq.PROT.RT,1,function(x)		which(rev(x)!="-" )[1]  )
-tmp
-?sort
-seq.PROT.RT							<- seq.PROT.RT[sort(seq.PROT.RT.sort.by, index.return=1)$ix,]
-seq.PROT.RT.sort.by<- mtp
-seq.PROT.RT.sort.by<- tmp
-seq.PROT.RT							<- seq.PROT.RT[sort(seq.PROT.RT.sort.by, index.return=1)$ix,]
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-file
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-seq.PROT.TR[1,1294:1299]
-seq.PROT.RT[1,1294:1299]
-dim(seq.PROT.RT)
-file
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-seq.PROT.RT							<- read.dna(file, format="fasta", as.character=1)
-dim(seq.PROT.RT)
-seq.PROT.RT[1,1294:1299]
-seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=length(query.yes), ncol=6, byrow=1 )
-seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=ncol(seq.PROT.RT), ncol=6, byrow=1 )
-seq.PROT.RT[,1294:1299]				<- matrix( c("-","-","-","-","-","-"), nrow=nrow(seq.PROT.RT), ncol=6, byrow=1 )
-file<- "/Users/Oliver/duke/2013_HIV_NL/ATHENA_2013/data/tmp/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_Wed_May__1_17:08:15_2013.fasta.clustalo4"
-write.dna(as.DNAbin(seq.PROT.RT), file=file, format="fasta", colsep='', colw=ncol(seq.PROT.RT), blocksep=0)
-which( rownames(seq.PROT.RT)=="HXB2" )
-signat.in	<- "Wed_May__1_17/08/15_2013"#
-		signat.out	<- paste(strsplit(date(),split=' ')[[1]],collapse='_',sep='')#
-		file<- paste(outdir,"/ATHENA_2013_03_FirstAliSequences_HXB2PROTRT_",gsub('/',':',signat.in),".fasta.clustalo4",sep='')
-file
-seq.PROT.RT	<- read.dna(file, format="fasta")
-dim(seq.PROT.RT)
-seq.PROT.RT	<- seq.PROT.RT[ rownames(seq.PROT.RT)!="HXB2", ]
-signat.out	<- paste(strsplit(date(),split=' ')[[1]],collapse='_',sep='')
-signat.out
-file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.out),".R",sep='')
-verbose<- 1
-if(verbose) cat(paste("\nwrite to",file))#
-		save(seq.PROT.RT, file=file)#
-		file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.out),".phylip",sep='')#
-		if(verbose) cat(paste("\nwrite to ",file))
-hivc.seq.write.dna.phylip<- function(seq.DNAbin.mat, file)#
-{		#
-	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )#
-	tmp<- paste(t(tmp),collapse='\n',sep='')	#
-	tmp<- paste( paste(c(nrow(seq.DNAbin.mat),ncol(seq.DNAbin.mat)),sep='',collapse=' '),'\n',tmp,'\n',collapse='',sep='' )#
-	cat(tmp, file=file)#
-}
-hivc.seq.write.dna.phylip(seq.PROT.RT, file=file)
-70-33
-2013+37
-37700+45000
-outdir
-signat.in	<- "Sat_May_11_14:23:46_2013"#
-		signat.out	<- "Sat_May_11_14:23:46_2013"#
-#
-		file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRT_",gsub('/',':',signat.in),".R",sep='')#
-		if(verbose) cat(paste("\nload ",file))			#
-		load(file)
-seq.PROT.RT
-seq.PROT.RT[1,]
-x<- as.character(seq.PROT.RT[1,])
-x
-codon3.idx<- seq.int(3,ncol(seq.PROT.RT),3)
-seq.PROT.RT3<- seq.PROT.RT[, codon3.idx]
-seq.PROT.RT3
-x<- as.character(seq.PROT.RT3[1,])
-xa<- as.character(seq.PROT.RT[1,])
-all(xa[codon3.idx]==x)
-verbose<- 1
-file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':',signat.out),".R",sep='')#
-		if(verbose) cat(paste("\nwrite to ",file))#
-		save(seq.PROT.RT3, file=file)
-file		<- paste(outdir,"/ATHENA_2013_03_FirstCurSequences_PROTRTCD3_",gsub('/',':',signat.out),".phylip",sep='')#
-		if(verbose) cat(paste("\nwrite to ",file))#
-		hivc.seq.write.dna.phylip(seq.PROT.RT3, file=file)
-seq.PROT.RT3[1,]
-library(roxygen2)#
-DIR_PKG<-"/Users/tonton/Documents/GitProjects/nABC/git_abc.n/pkg"#
-DIR_PKG<-"/Users/Oliver/git/abc.n/pkg"#
-roxygenize(package=paste(DIR_PKG))
-library(ape)
-boot.phylo
-sample(1:4,2,replace=1)
-sample(1:4,4,replace=1)
-bs.blocks.n<- 3
-bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
-bs.blocks.s
-bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
-bs.blocks.s
-bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
-bs.blocks.s
-bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=1)-1
-bs.blocks.s
-as.numeric( sapply(bs.blocks.s,function(x)		3*x+c(1,2,3)		) )
-?break
-2.5*2 + 4.1*3 + 3.9*3.6 +4*3.7 + 4*3.9 + 2.8*3.5 +2.8*2.5
-2.5*2 + 4.1*3 + 3.9*3.6 +4*3.7 + 4*3.9 + 2.8*3.5 +2.8*2.5 + 3.8*2
-550 / 425
-575 / 500
-500 *1.3
-525 / 425
-500 * 1.235
-525 / 450
-500 * 1.17
-105/3
-choose(0,0)
-pop<- 55011
-perc.hiv<- 0.18
-perc.adult<- 0.5
-inc<- 0.0056
-pop.s<- pop * (1-perc.hiv)
-pop.s * 3 * inc
-perc.hivcov<- 0.28
-pop.s<- pop * (1-perc.hiv*perc.hivcov)
-perc.hivcov<- 0.28
-pop.s * 3 * inc
-1714 * 0.5
-pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.0056; perc.hivcov<- 0.28
-pop.s<- pop * perc.adult * (1-perc.hiv)
-pop.s * 3 * inc
-pop.s<- pop * (1-perc.hiv*perc.hivcov)
-pop.s * 3 * inc
-pop.s<- pop * perc.adult * (1-perc.hiv*perc.hivcov)
-pop.s * 3 * inc
-pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.0075; perc.hivcov<- 0.28
-pop.s<- pop * perc.adult * (1-perc.hiv)
-pop.s * 3 * inc
-pop<- 55011; perc.hiv<- 0.18; perc.adult<- 0.5; inc<- 0.01; perc.hivcov<- 0.28
-pop.s<- pop * perc.adult * (1-perc.hiv)
-pop.s * 3 * inc
-1714*0.5 / (3*inc)
-pop.s<- pop * perc.adult * (1-perc.hiv*perc.hivcov)
-pop.s * 3 * inc
-1714 / 2
-pop.s * 3 * inc
-83.7*83.7
-83.7*83.7/100/100
-45/12
-require(roxygen2)
-CODE.HOME	<<- "/Users/Oliver/git/recombination-anaylyzer/pkg"
-roxygenize(CODE.HOME)
-CODE.HOME	<<- "/Users/Oliver/git/recombination-analyzer/pkg"
-roxygenize(CODE.HOME)
-CODE.HOME	<<- "/Users/Oliver/git/recombination.analyzer/pkg"
-roxygenize(CODE.HOME)
-require(recombination.analyzer)
-data.table()
-library(recombination.analyzer)
-data.table()
-require(recombination.analyzer)
-system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
-?read.dna
-file<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
-read.dna(file)
-read.dna(system.file(package='recombination.analyzer', "data", "neisseria.phylip"))
-system.file(package='recombination.analyzer', "data", "neisseria.phylip")
-read.dna("~/git/recombination.analyzer/pkg/data/neisseria.phylip")
-?read.dna
-read.dna("~/git/recombination.analyzer/pkg/data/neisseria.phylip", format="sequential")
-read.dna(system.file(package='recombination.analyzer', "data", "mtDNA.phylip"), format="sequential")
-?save
-seq		<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")#
-		seq		<- read.dna(seq, format='sequential')#
-		file	<- system.file(package='recombination.analyzer', "data", "mtDNA.rds")#
-		cat(paste('\nsave seq to file=',file))
-seq
-seq		<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")
-seq
-seq		<- read.dna(seq, format='sequential')
-?system.file
-file		<- system.file(package='recombination.analyzer', "data")
-file
-file	<- paste(system.file(package='recombination.analyzer', "data"), "/mtDNA.rds",sep='')#
-		cat(paste('\nsave seq to file=',file))#
-		saveRDS(seq, file=file)
-?data
-data(package='recombination.analyzer')
-file	<- system.file(package='recombination.analyzer', "data", "mtDNA.phylip")#
-		seq		<- read.dna(file, format='sequential')#
-		file	<- paste(system.file(package='recombination.analyzer', "data"), "/mtDNA.rda",sep='')#
-		cat(paste('\nsave seq to file=',file))#
-		save(seq, file=file)
-data(package='recombination.analyzer')
-CODE.HOME	<<- "/Users/Oliver/git/recombination.analyzer/pkg"
-file	<- paste(CODE.HOME,'/data/mtDNA.phylip',sep='')#
-		seq		<- read.dna(file, format='sequential')#
-		file	<- paste(CODE.HOME,'/data/mtDNA.rda',sep='')#
-		cat(paste('\nsave seq to file=',file))#
-		save(seq, file=file)
-require(ape)#
-	files	<- c( 	paste(CODE.HOME,'/data/mtDNA.phylip',sep=''),	#
-					paste(CODE.HOME,'/data/den2.phylip',sep=''),#
-					paste(CODE.HOME,'/data/neisseria.phylip',sep=''),#
-					paste(CODE.HOME,'/data/nz_h1n1.phylip',sep=''),#
-					paste(CODE.HOME,'/data/nzh3n2.phylip',sep='')		)#
-	dummy	<- lapply(files, function(file)#
+tips	<- identify.tips(bdt, 3)
+tips
+bdt$sampleStates[tips,]
+bdt$sampleStates[2:3,]
+colSums( bdt$sampleStates[2:3,] )
+calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,] )									#
+	}
+calculate.sizes(bdt, extant)
+bdt$sampleStates[tips,]
+bdt$sampleStates[tips,,drop=0]
+calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}
+bdt$sampleStates[tips,,drop=0]
+calculate.sizes(bdt, extant)
+sizes_h	<- calculate.sizes(bdt, extant)#
+		rownames(sizes_h)	<- 1:m
+sizes_h
+rbind(sizes_h, h)
+h
+rbind(sizes_h, h=h)
+rbind(sizes_h, height=h)
+h 					<- heights[ih]#
+		extant 				<- .extant.at.height(h, bdt) #
+		sizes_h				<- calculate.sizes(bdt, extant)#
+		rownames(sizes_h)	<- paste('state',1:m,sep='.')#
+		as.data.table( t( rbind(sizes_h, height=h) ) )
+distr	<- lapply( heights, function(h)#
 			{#
-				seq		<- read.dna(file, format='sequential')#
-				file	<- paste(CODE.HOME,'/data/mtDNA.rda',sep='')#
-				cat(paste('\nsave seq to file=',file))#
-				save(seq, file=file)				#
-			})
-files	<- c( 	'mtDNA','den2','neisseria','nz_h1n1','nzh3n2'	)#
-	dummy	<- lapply(files, function(x)#
-			{#
-				cat(paste('\nprocess',x))#
-				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
-				seq		<- read.dna(file, format='sequential')#
-				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
-				cat(paste('\nsave seq to file=',file))#
-				save(seq, file=file)				#
-			})
-read.dna( "/Users/Oliver/git/recombination.analyzer/pkg/data/nz_h1n1.phylip" )
-files	<- c('nz_h1n1','nzh3n2')#
-	dummy	<- lapply(files, function(x)#
-			{#
-				cat(paste('\nprocess',x))#
-				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
-				seq		<- read.dna(file, format='interleaved')#
-				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
-				cat(paste('\nsave seq to file=',file))#
-				save(seq, file=file)				#
-			})
-files	<- c('nz_h1n1','nz_h3n2')#
-	dummy	<- lapply(files, function(x)#
-			{#
-				cat(paste('\nprocess',x))#
-				file	<- paste(CODE.HOME,'/data/',x,'.phylip',sep='')				#
-				seq		<- read.dna(file, format='interleaved')#
-				file	<- paste(CODE.HOME,'/data/',x,'.rda',sep='')#
-				cat(paste('\nsave seq to file=',file))#
-				save(seq, file=file)				#
-			})
-require(recombination.analyzer)
-?prog.recom.process.3SEQ.output
-pipeline.recom.run.3seq<- function(indir, infile, batch.n=100, hpc.sys= cmd.hpcsys(), hpc.walltime=35, hpc.q=NA, hpc.mem="3850mb", hpc.nproc=1, verbose=1)#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h) ) )#
+			})#
+	distr	<- do.call("rbind",distr)
+distr
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
 {#
-	#load sequences into 'seq' object #
-	if(!grepl('.R',infile))							stop("expect R infile that ends in .R")		#
-	file			<- paste(indir,'/',infile,sep='')#
-	tmp				<- load(file)#
-	if(verbose)	cat(paste('\nloaded file=', tmp))#
-	if(tmp!='seq')#
-		eval(parse(text=paste("seq<- ",tmp,sep='')))#
-	if(!"DNAbin"%in%class(seq) || !is.matrix(seq))	stop("expect R infile that contains a DNAbin matrix")#
-	#write phylip file#
-	infile			<- substr(infile, 1, nchar(infile)-2)	#
-	file			<- paste(indir,'/',infile,".phylip",sep='')#
-	if(verbose)	cat(paste('\nwrite file=', file))#
-	seq.write.dna.phylip(seq, file)#
-	#generate parallel calls to 3seq#
-	#	batch.n	for 1e4 sequences, does about 100 in 25hrs, so request 100 batches for walltime 25 expected + 10hrs grace#
-	batch.seq		<- round(seq.int(0,nrow(seq),len=batch.n),d=0)#
-	if(tail(batch.seq,1)!=nrow(seq))#
-		batch.seq	<- c(batch.seq, nrow(seq))#
-	batch.seq		<- rbind(batch.seq[-length(batch.seq)], batch.seq[-1]-1)#
-	#batch.seq		<- batch.seq[,1:10]	#test run#
-	lapply(seq_len(ncol(batch.seq)),function(j)#
-			{					#
-				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
-				cmd			<- cmd.hpcwrapper(cmd, hpc.sys=hpc.sys, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
-				if(verbose)	cat(cmd)#
-				outdir		<- indir#
-				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
-				cmd.hpccaller(outdir, outfile, cmd)			#
-			})	#
-	NULL#
-}
-require(recombination.analyzer)
-pipeline.recom.run.3seq<- function(indir, infile, batch.n=100, hpc.sys= cmd.hpcsys(), hpc.walltime=35, hpc.q=NA, hpc.mem="3850mb", hpc.nproc=1, verbose=1)#
-{#
-	#load sequences into 'seq' object #
-	if(!grepl('.R',infile))							stop("expect R infile that ends in .R")		#
-	file			<- paste(indir,'/',infile,sep='')#
-	tmp				<- load(file)#
-	if(verbose)	cat(paste('\nloaded file=', tmp))#
-	if(tmp!='seq')#
-		eval(parse(text=paste("seq<- ",tmp,sep='')))#
-	if(!"DNAbin"%in%class(seq) || !is.matrix(seq))	stop("expect R infile that contains a DNAbin matrix")#
-	#write phylip file#
-	infile			<- substr(infile, 1, nchar(infile)-2)	#
-	file			<- paste(indir,'/',infile,".phylip",sep='')#
-	if(verbose)	cat(paste('\nwrite file=', file))#
-	seq.write.dna.phylip(seq, file)#
-	#generate parallel calls to 3seq#
-	#	batch.n	for 1e4 sequences, does about 100 in 25hrs, so request 100 batches for walltime 25 expected + 10hrs grace#
-	batch.seq		<- round(seq.int(0,nrow(seq),len=batch.n),d=0)#
-	if(tail(batch.seq,1)!=nrow(seq))#
-		batch.seq	<- c(batch.seq, nrow(seq))#
-	batch.seq		<- rbind(batch.seq[-length(batch.seq)], batch.seq[-1]-1)#
-	#batch.seq		<- batch.seq[,1:10]	#test run#
-	lapply(seq_len(ncol(batch.seq)),function(j)#
-			{					#
-				cmd			<- cmd.recombination.run.3seq(infile=file, outfile=paste(indir,'/',infile,'_',batch.seq[1,j],'-',batch.seq[2,j],".3seq",sep=''), recomb.3seq.siglevel=0.1, nproc=1, recomb.3seq.testvsall.beginatseq=batch.seq[1,j], recomb.3seq.testvsall.endatseq=batch.seq[2,j], verbose=1)				#
-				cmd			<- cmd.hpcwrapper(cmd, hpc.sys=hpc.sys, hpc.walltime=hpc.walltime, hpc.q=hpc.q, hpc.mem=hpc.mem,  hpc.nproc=hpc.nproc)#
-				if(verbose)	cat(cmd)#
-				outdir		<- indir#
-				outfile		<- paste("r3seq",paste(strsplit(date(),split=' ')[[1]],collapse='_',sep=''),sep='.')									#
-				cmd.hpccaller(outdir, outfile, cmd)			#
-			})	#
-	NULL#
-}
-cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=HPC.NPROC[hpc.sys], hpc.q=NA)#
-{#
-	wrap<- "#!/bin/sh"#
-	#hpc.sys<- HPC.CX1.IMPERIAL#
-	if(hpc.sys==HPC.CX1.IMPERIAL)#
-	{				#
-		tmp	<- paste("#PBS -l walltime=",hpc.walltime,":59:59,pcput=",hpc.walltime,":45:00",sep='')#
-		wrap<- paste(wrap, tmp, sep='\n')		#
-		tmp	<- paste("#PBS -l select=1:ncpus=",hpc.nproc,":mem=",hpc.mem,sep='')#
-		wrap<- paste(wrap, tmp, sep='\n')#
-		wrap<- paste(wrap, "#PBS -j oe", sep='\n')#
-		if(!is.na(hpc.q))#
-			wrap<- paste(wrap, paste("#PBS -q",hpc.q), sep='\n\n')#
-		wrap<- paste(wrap, HPC.LOAD, sep='\n')#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
 	}#
-	else if(hpc.sys=='debug')#
-		cat(paste("\ndetected no HPC system and no hpcwrapper generated, domain name is",hpc.sys))#
-	else#
-		stop(paste("unknown hpc system with domain name",hpc.sys))#
-	cmd<- lapply(seq_along(cmd),function(i){	paste(wrap,cmd[[i]],sep='\n')	})#
-	if(length(cmd)==1)#
-		cmd<- unlist(cmd)#
-	cmd	#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h) ) )#
+			})#
+	distr	<- do.call("rbind",distr)#
+	distr	#
 }
-cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA)#
+heights		<- seq(10, 50, length.out=50)#
+	distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)
+distr
+subset(distr, height==10)
+subset(distr, height==20)
+distr[, list(len=length(height)), by='height']
+distr[, list(len=sum(height)), by='height']
+distr[, list(len=length(height)), by='height']
+distr[, list(len=length(state.1)), by='height']
+distr[, list(len=length(state.1), sum=state.1+state.2+state.3), by='height']
+distr[, list(len=length(state.1), sum=as.numeric(state.1)+as.numeric(state.2)+as.numeric(state.3)), by='height']
+distr[, list(len=length(state.1), sum=sum(state.1)+sum(state.2)+sum(state.3)), by='height']
+subset(distr, height=10)
+subset(distr, height==10)
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
 {#
-	wrap<- "#!/bin/sh"#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=colSums(sizes_h)) ) )#
+			})#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)
+distr
+distr[, list(len=length(state.1), ntip=ntip), by='height']
+distr[, list(len=length(state.1), ntip=ntip[1]), by='height']
+distr[, list(len=length(state.1), ntip=median(ntip)), by='height']
+distr
+subset(distr,ntip>5)
+?cov
+dist[,1:3]
+distr[,1:3]
+distr[,1:3,with=0]
+cov( distr[,1:3,with=0] )
+pseudo.data			<- pseudo.datasets[[1]]	#
+	heights				<- seq(10, 50, length.out=50)#
+	pseudo.data$distr	<- calculate.cluster.size.distr.from.tree(pseudo.data$bdt, heights)
+subset( pseudo.data$distr, height==heights[25])
+pseudo_h	<- subset( pseudo.data$distr, height==heights[25])
+bdt<- pseudo.data$bdt
+pseudo_h[, 1:m, with=0]
+as.matrix( pseudo_h[, 1:m, with=0] )
+pseudo_h	<- as.matrix( pseudo_h[, 1:m, with=0] )
+pseudo_h
+j<- 1#
+	hist( pseudo_h[,j] )
+?par
+par(mfrow=c(2,1))
+par(mfrow=c(m,1))#
+	sapply( seq_len(m), function(j) hist( pseudo_h[,j] ) )
+par(mfcol=c(3,1))#
+	sapply( seq_len(m), function(j) hist( pseudo_h[,j] ) )
+par(mfcol=c(1,3))#
+	sapply( seq_len(m), function(j) hist( pseudo_h[,j] ) )
+sapply( seq_len(m), function(j) hist( pseudo_h[,j], main=paste('state',j) ) )
+?hist
+sapply( seq_len(m), function(j) hist( pseudo_h[,j], main=paste('state',j), xlab='counts', col='gray50', bty='n' ) )
+sapply( seq_len(m), function(j) hist( pseudo_h[,j], main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA ) )
+heights
+distr	<- lapply(pseudo.datasets, function(pseudo.data) 	calculate.cluster.size.distr.from.tree(pseudo.data$bdt, heights)	)
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				distr		<- calculate.cluster.size.distr.from.tree(pseudo.data$bdt, heights)#
+				distr#
+			})
+k<- 2#
+				bdt			<- pseudo.data$bdt
+distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=colSums(sizes_h)) ) )#
+			})
+sapply(distr, function(x) ncol(x) )
+do.call("rbind",distr)
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
+{#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=colSums(sizes_h)) ) )#
+			})#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				bdt			<- pseudo.data$bdt#
+				distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)#
+				distr#
+			})
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
+{#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=colSums(sizes_h)) ) )#
+			})#
+	print(sapply(distr, function(x) ncol(x) ))#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				bdt			<- pseudo.data$bdt#
+				distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)#
+				distr#
+			})
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
+{#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=colSums(sizes_h)) ) )#
+			})#
+	print(sapply(distr, function(x) ncol(x) ))#
+	print(tail(distr,1))#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				bdt			<- pseudo.data$bdt#
+				distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)#
+				distr#
+			})
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
+{#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=ifelse(ncol(sizes_h),colSums(sizes_h),0)) ) )#
+			})#
+	print(sapply(distr, function(x) ncol(x) ))#
+	print(tail(distr,1))#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				bdt			<- pseudo.data$bdt#
+				distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)#
+				distr#
+			})
+warnings()
+calculate.cluster.size.distr.from.tree<- function(bdt, heights)#
+{#
+	m 		<- ncol( bdt$sampleStates )	#
+	is.tip 	<- function(bdt, u) #
+	{ #
+		ifelse(is.na(bdt$daughters[u,1]), TRUE, FALSE)#
+	}#
+	identify.tips <- function(bdt, u) #
+	{#
+		if (is.tip(bdt, u)) return(u)#
+		uv	<- bdt$daughters[u,]#
+		c(identify.tips(bdt, uv[1]), identify.tips(bdt, uv[2]) ) #
+	}#
+	calculate.sizes.u <- function(bdt, u) #
+	{#
+		tips	<- identify.tips(bdt, u)#
+		colSums( bdt$sampleStates[tips,,drop=FALSE] )									#
+	}#
+	calculate.sizes <- function(bdt, extant)#
+	{#
+		if(length(extant)==0)	return( matrix(NA,ncol( bdt$sampleStates ),0) )#
+		sapply( extant, function(u) calculate.sizes.u(bdt, u) ) #
+	}		#
+	distr	<- lapply( heights, function(h)#
+			{#
+				extant 				<- .extant.at.height(h, bdt) #
+				sizes_h				<- calculate.sizes(bdt, extant)#
+				rownames(sizes_h)	<- paste('state',1:m,sep='.')				#
+				as.data.table( t( rbind(sizes_h, height=h, ntip=ifelse(ncol(sizes_h),colSums(sizes_h),numeric(0))) ) )#
+			})#
+	#print(sapply(distr, function(x) ncol(x) ))#
+	#print(tail(distr,1))#
+	distr	<- do.call("rbind",distr)#
+	distr	#
+}
+distr	<- lapply(seq_along(pseudo.datasets), function(k)#
+			{#
+				pseudo.data	<- pseudo.datasets[[k]]#
+				print(k)#
+				bdt			<- pseudo.data$bdt#
+				distr		<- calculate.cluster.size.distr.from.tree(bdt, heights)#
+				cbind( distr, replicate=k )#
+			})
+warnings()
+distr	<- do.call("rbind",distr)
+distr
+subset( distr, replicate==1)
+subset( distr, height==10)
+pseudo_h	<- subset( pseudo.data$distr, height==heights[25] )
+pseudo_h
+pseudo_h	<- subset( distr, height==heights[25] )
+pseudo_h
+pseudo_h[,1,with=0]
+unclass( pseudo_h[,1,with=0] )[[1]]
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )	#
+			})
+ih<- 25
+eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][ih]	)
+eMi
+k<- 1
+pseudo.datasets[[k]][['eMi']]
+eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)
+eMi
+diag( pseudo.datasets[[k]][['eMij']][,,1])
+diag( pseudo.datasets[[k]][['eMij']][,,25])
+pseudo.datasets[[k]][['eMij']][,,25]
+eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMii']][,,ih])	)
+eMii
+ih
+diag(pseudo.datasets[[1]][['eMii']][,,ih])
+pseudo.datasets[[1]][['eMii']][,,ih]
+eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)
+eMii
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )#
+				tmp	<- sapply(seq_len(ncol(eMi)),function(j2)		abline(v=eMi[j,j2])		)#
+			})
+colMean( eMi )
+colMeans( eMi )
+rowMeans( eMi )
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+eMi.avg		<- rowMeans( eMi )
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+par(mfcol=c(1,3))#
+	sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+Data #
+pos <- c(27/44, 11/32, 8/40, 4/42, 3/40, 4/40, 2/40) #
+tmin <- c(15.8, 12.6, 10.5, 2.4, 5.2, 8.5, 7.9) #
+d <- data.frame(pos, tmin) #
+#
+# Non-linear model #
+fit <- nls(pos ~ a*tmin^b, #
+                 data = d, #
+                 start = list(a = .1, b = .1), #
+                 trace = TRUE) #
+summary(fit) #
+#
+# Plot #
+res <- data.frame(tmin, pred = predict(fit)) #
+plot(tmin, pos, ylim = c(0,.7)) #
+points(res[order(tmin),], type='l', col=2)
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+par(mfcol=c(1,3))#
+	sapply( seq_len(m), function(j)#
+			{#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+				hist( tmp, main=paste('state',j), xlab='counts', col='gray50', bty='n', border=NA )				#
+				abline(v=eMi.avg[j])	#
+			})
+file								<- paste("pseudodistr.gi=",parms.vary[i,'gi'],"_bf=",parms.vary[i,'bf'],".pdf",sep='')#
+	file								<- paste(dir.name,file,sep='/')
+file
+pdf(file=file, 30, 6)#
+	par(mfcol=c(length(heights),m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )#
+				pseudo_h	<- as.matrix( pseudo_h[, 1:m, with=0] )#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+ih<- 1
+cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )#
+				pseudo_h	<- as.matrix( pseudo_h[, 1:m, with=0] )#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )
+pseudo_h
+eMi
+sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})
+pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})
+pdf(file=file, 30, 6)#
+	par(mfcol=c(length(heights),m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+pdf(file=file, 30, 6)#
+	par(mfcol=c(10,m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+pdf(file=file, 30, 6)#
+	par(mfcol=c(5,m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+pdf(file=file, 6*5, 6)#
+	par(mfcol=c(5,m))#
+	lapply( seq_along(heights)[1:5], function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+par(mfcol=c(1,m))
+pdf(file=file, 6*5, 6)#
+	par(mfcol=c(1,m))#
+	lapply( seq_along(heights)[1:5], function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state',j,'h',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+pdf(file=file, w=15, h=5)#
+	par(mfcol=c(1,m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+pdf(file=file, w=15, h=5)#
+	par(mfcol=c(1,m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', col='gray50', bty='n', border=NA )				#
+							abline(v=eMi.avg[j])	#
+						})				#
+			})#
+	dev.off()
+distr
+grepl('state',colnames(distr))
+which( grepl('state',colnames(distr)) )
+length( which( grepl('state',colnames(distr)) ) )
+ih<- 25#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				j<- 2#
+				tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]
+str(tmp)
+summary(tmp)
+library(MASS)
+mle	<-fitdistr(tmp, densfun="poisson")
+mle
+?hist
+hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', freq=FALSE, col='gray50', bty='n', border=NA )
+mle[1]
+str(mle)
+mle$estimate
+mle$estimate[1]
+pois.x	<- seq(0,max(tmp),len=1023)#
+				lines(pois.x, dpois(pois.x, mle$estimate), col="blue")
+warnings()
+pois.x	<- seq.int(0,max(tmp))#
+				lines(pois.x, dpois(pois.x, mle$estimate), col="blue")
+mle		<- fitdistr(tmp, densfun="Geometric")
+mle
+fit.x	<- seq.int(0,max(tmp))#
+				lines(fit.x, dpois(fit.x, mle$estimate), col="red")
+mle		<- fitdistr(tmp, densfun="negative binomial")
+mle
+?dnbinom
+fit.x	<- seq.int(0,max(tmp))#
+				lines(fit.x, dnbinom(fit.x, mle$estimate$size, mle$estimate$mu), col="green")
+mle$estimate
+lines(fit.x, dnbinom(fit.x, mle$estimate['size'], mle$estimate['mu']), col="green")
+fit.x
+dnbinom(fit.x, mle$estimate['size'], mle$estimate['mu'])
+lines(fit.x, dnbinom(fit.x, size=mle$estimate['size'], mu=mle$estimate['mu']), col="green")
+par(mfcol=c(1,m))
+dummy		<- sapply( seq_len(m), function(j)#
+						{#
+							tmp		<- unclass( pseudo_h[,j,with=0] )[[1]]				#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', freq=FALSE, col='gray50', bty='n', border=NA )							#
+							mle		<- fitdistr(tmp, densfun="Poisson")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="blue")#
+							mle		<- fitdistr(tmp, densfun="Geometric")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="red")#
+							mle		<- fitdistr(tmp, densfun="negative binomial")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dnbinom(fit.x, size=mle$estimate['size'], mu=mle$estimate['mu']), col="green")#
+						})
+warnings()
+?fitdistr
+j<- 2#
+							tmp		<- unclass( pseudo_h[,j,with=0] )[[1]]				#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', freq=FALSE, col='gray50', bty='n', border=NA )							#
+							mle		<- fitdistr(tmp, densfun="Poisson")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="blue")#
+							mle		<- fitdistr(tmp, densfun="Geometric")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="red")#
+							mle		<- fitdistr(tmp, densfun="negative binomial")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dnbinom(fit.x, size=mle$estimate['size'], mu=mle$estimate['mu']), col="orange")#
+							mle		<- fitdistr(tmp, densfun="gamma")
+eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )
+eMi.avg
+eMii.avg	<- rowMeans( eMii )
+eMii.avg
+?dnbinom
+j<- 2#
+							tmp		<- unclass( pseudo_h[,j,with=0] )[[1]]				#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', freq=FALSE, col='gray50', bty='n', border=NA )#
+							#	try different pseudo lkls#
+							mle		<- fitdistr(tmp, densfun="Poisson")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="blue")#
+							mle		<- fitdistr(tmp, densfun="Geometric")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="red")#
+							mle		<- fitdistr(tmp, densfun="negative binomial")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dnbinom(fit.x, size=mle$estimate['size'], mu=mle$estimate['mu']), col="orange")#
+							#	fit Neg Bin based on first two moments#
+							nbinom.p	<- 1 - eMi.avg[j]/eMii.avg[j]#
+							nbinom.r	<- eMi.avg[j] * (1 - nbinom.p) / nbinom.p  	#
+							lines(fit.x, dnbinom(fit.x, size=nbinom.r, prob=nbinom.p), col="orange", lty=2)
+mle
+eMi.avg
+nbinom.r
+eMii
+apply(eMii, 2, sd)
+apply(eMii, 1, sd)
+apply(eMi, 1, sd)
+legend('topright', bty='n', border=NA, lty=c(1,1,1,2), fill= c('blue','red','orange','orange'), legend=c('Poisson mle','Geometric mle', 'NegBin mle', 'NegBin mom'))
+abline(v=eMi.avg[j])
+?dnbinom
+cg.sde.pseudolkl.plotpotentiallkl<- function(pseudo.datasets, distr, heights, file)#
+{#
+	library(MASS)#
+	m		<- length( which( grepl('state',colnames(distr)) ) )#
+	pdf(file=file, w=15, h=5)#
+	par(mfcol=c(1,m))#
+	lapply( seq_along(heights), function(ih)#
+			{#
+				cat(paste("\nplot distr",ih))#
+				pseudo_h	<- subset( distr, height==heights[ih] )				#
+				eMi			<- sapply(seq_along(pseudo.datasets), function(k)	pseudo.datasets[[k]][['eMi']][,ih]	)#
+				eMii		<- sapply(seq_along(pseudo.datasets), function(k)	diag(pseudo.datasets[[k]][['eMij']][,,ih])	)#
+				eMi.avg		<- rowMeans( eMi )#
+				sapply( seq_len(m), function(j)#
+						{#
+							tmp	<- unclass( pseudo_h[,j,with=0] )[[1]]#
+							tmp		<- unclass( pseudo_h[,j,with=0] )[[1]]				#
+							hist( tmp, main=paste('state=',j,'height=',round(heights[ih],d=1)), breaks=max(tmp)+1, xlab='counts', freq=FALSE, col='gray50', bty='n', border=NA )#
+							#	try different pseudo lkls#
+							mle		<- fitdistr(tmp, densfun="Poisson")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="blue")#
+							mle		<- fitdistr(tmp, densfun="Geometric")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dpois(fit.x, mle$estimate), col="red")#
+							mle		<- fitdistr(tmp, densfun="negative binomial")#
+							fit.x	<- seq.int(0,max(tmp))#
+							lines(fit.x, dnbinom(fit.x, size=mle$estimate['size'], mu=mle$estimate['mu']), col="orange")#
+							#	fit Neg Bin based on first two moments#
+							nbinom.p	<- 1 - eMi.avg[j]/eMii.avg[j]#
+							nbinom.r	<- eMi.avg[j] * (1 - nbinom.p) / nbinom.p  	#
+							lines(fit.x, dnbinom(fit.x, size=nbinom.r, prob=1-nbinom.p), col="orange", lty=2)#
+							#	plot mean#
+							if(j==2)#
+								legend('topright', bty='n', border=NA, lty=c(1,1,1,2), fill= c('blue','red','orange','orange'), legend=c('Poisson mle','Geometric mle', 'NegBin mle', 'NegBin mom'))															#
+						})				#
+			})#
+	dev.off()#
+}
+file								<- paste("pseudodistr.potential.lkl.gi=",parms.vary[i,'gi'],"_bf=",parms.vary[i,'bf'],".pdf",sep='')#
+	file								<- paste(dir.name,file,sep='/')
+file
+cg.sde.pseudolkl.plotpotentiallkl(pseudo.datasets, distr, heights, file)
+warnings()
+my.mkdir(HOME, 'MOMSDE' )#
+	dir.name		<- paste(HOME, 'MOMSDE',sep='/')#
+	#~ parms_truth <<- list(gamma0 = 1, gamma1 = 1/7, gamma2 = 1/2, mu = 1/30, b=.036, beta0 = 0.775, beta1=0.08, beta2=0.08, S0=2500, alpha = .05) #
+	parms_truth 	<<- list(	m=3, gamma0 = 1, gamma1 = 1/7, gamma2 = 1/2, mu = 1/30, b=.036, beta0 = 1+1/30, beta1=(1+1/30)/10, beta2=(1+1/30)/10, #
+								S_0=5000, I0_0=1, I1_0=1, I2_0=1, alpha = 4,#
+								times=seq(0, 50, by=.1), sampleTime=50, phi=0.5) #
+	FGYPARMS 		<<- parms_truth#
+	INFECTEDNAMES 	<<- c('I0', 'I1', 'I2')#
+	nsims			<- 20#
+	tmp					<- cg.sde.define()#
+	F.skeleton			<<- tmp$F.skeleton#
+	G.					<<- tmp$G#
+	step.x				<<- tmp$step.x#
+	solve.model.set.fgy	<- tmp$solve.model.set.fgy#
+	#################################################
+	##
+	#	start script
+solve.model.set.fgy(parms_truth)
+Y.sampleTime 	<- Y.(parms_truth$sampleTime)#
+	m				<- 3#
+	stateIndices 	<- rep( 1:m, round( parms_truth$phi * Y.sampleTime ) ) # sample each of three states in proportion to size
+length(stateIndices)
+length(Y.sampleTime)
+Y.sampleTime
+sum(Y.sampleTime)
+1e6/5000
+500*200/2
+1e5/5000
+500*20/2
+parms_truth 	<<- list(	m=3, gamma0 = 1, gamma1 = 1/7, gamma2 = 1/2, mu = 1/30, b=.036, beta0 = 1+1/30, beta1=(1+1/30)/10, beta2=(1+1/30)/10, #
+								S_0=1e5, I0_0=1, I1_0=1, I2_0=1, alpha = 4,#
+								times=seq(0, 50, by=.1), sampleTime=50, phi=0.25) #
+	FGYPARMS 		<<- parms_truth#
+	INFECTEDNAMES 	<<- c('I0', 'I1', 'I2')#
+	nsims			<- 20#
+	tmp					<- cg.sde.define()#
+	F.skeleton			<<- tmp$F.skeleton#
+	G.					<<- tmp$G#
+	step.x				<<- tmp$step.x#
+	solve.model.set.fgy	<- tmp$solve.model.set.fgy#
+	#################################################
+	##
+	#	start script#
+	##
+	#################################################
+	# simulate coalescent tree with true parameters#
+	file			<- paste('nsim.mM.epidemic.S=',parms_truth$S_0,'.pdf',sep='')#
+	file			<- paste(dir.name,file,sep='/')
+file
+dummy			<- solve.model.set.fgy(parms_truth, file)
+Y.sampleTime 	<- Y.(parms_truth$sampleTime)#
+	m				<- 3#
+	stateIndices 	<- rep( 1:m, round( parms_truth$phi * Y.sampleTime ) ) # sample each of three states in proportion to size#
+	n 				<- length(stateIndices)
+n
+sum(Y.sampleTime)
+Y.sampleTime
+parms_truth 	<<- list(	m=3, gamma0 = 1, gamma1 = 1/7, gamma2 = 1/2, mu = 1/30, b=.036, beta0 = 1+1/30, beta1=(1+1/30)/10, beta2=(1+1/30)/10, #
+								S_0=2e5, I0_0=1, I1_0=1, I2_0=1, alpha = 4,#
+								times=seq(0, 50, by=.1), sampleTime=50, phi=0.25) #
+	FGYPARMS 		<<- parms_truth#
+	INFECTEDNAMES 	<<- c('I0', 'I1', 'I2')#
+	nsims			<- 20#
+	tmp					<- cg.sde.define()#
+	F.skeleton			<<- tmp$F.skeleton#
+	G.					<<- tmp$G#
+	step.x				<<- tmp$step.x#
+	solve.model.set.fgy	<- tmp$solve.model.set.fgy#
+	#################################################
+	##
+	#	start script#
+	##
+	#################################################
+	# simulate coalescent tree with true parameters#
+	file			<- paste('nsim.mM.epidemic.S=',parms_truth$S_0,'.pdf',sep='')#
+	file			<- paste(dir.name,file,sep='/')#
+	dummy			<- solve.model.set.fgy(parms_truth, file) #
+	Y.sampleTime 	<- Y.(parms_truth$sampleTime)#
+	m				<- 3#
+	stateIndices 	<- rep( 1:m, round( parms_truth$phi * Y.sampleTime ) ) # sample each of three states in proportion to size#
+	n 				<- length(stateIndices)
+n
+sampleTimes 	<- rep(parms_truth$sampleTime, n)#
+	sampleStates 	<- diag(m)[stateIndices,]#
+	cat(paste("\nsimulate structured coalescent tree, including tip states (0/1)"))#
+	coalescentTree_time <- system.time({#
+				bdt <- simulatedBinaryDatedTree(parms_truth$sampleTime, sampleStates, discretizeRates=TRUE) #
+			})#
+	# calculate empirical stats#
+	heights 		<- seq(0, 50, length.out=50)#
+	cat(paste("\ncalculate moments of observed tree by averaging over lineages; tip states 0/1"))#
+	eM 				<- calculate.cluster.size.moments.from.tree(bdt, heights)#
+	eM				<- eM$Mij#
+	cat(paste("\ncalculate moments under model"))#
+	mM				<- cg.sde.modelMoments(parms_truth, parms_truth$sampleTime, sampleStates, solve.model.set.fgy, nsims)#
+	mM				<- mM$mMij
+str(eM)
+nsims			<- 1
+cg.sde.modelMoments<- function(parms, sampleTime, sampleStates, solve.model.set.fgy, nsims)#
+{#
+	mM <- list()#
+	#for (isim in 1:nsims)#
+	#{#
+	#	mM.time <- system.time({  #
+	#				modelMoments = mM_i <- calculate.cluster.size.moments.from.model(sampleTime, sampleStates , timeResolution = 50, discretizeRates=TRUE, fgyResolution = 100 , integrationMethod = 'rk4')#
+	#			})#
+	#}#
+	mM <- lapply(1:nsims, function(isim) #
+			{#
+				solve.model.set.fgy(parms)#
+				#timeResolution = 50; discretizeRates=TRUE; fgyResolution = 100; integrationMethod = 'rk4'#
+				calculate.cluster.size.moments.from.model(sampleTime, sampleStates , timeResolution = 50, discretizeRates=TRUE, fgyResolution = 100 , integrationMethod = 'rk4');#
+			})#
+	list(mM=mM)	#
+}
+mM				<- cg.sde.modelMoments(parms_truth, parms_truth$sampleTime, sampleStates, solve.model.set.fgy, nsims)
+5*1e2
+5*1e2 / 60
+1*1e2 / 60
+coalescentTree_time
+coalescentTree_time <- system.time({#
+				bdt <- simulatedBinaryDatedTree(parms_truth$sampleTime, sampleStates, discretizeRates=TRUE) #
+			})#
+	print(coalescentTree_time)
+0.5*1e2 / 60
+cmd		<- paste(HOME,'/startme.R', sep='')
+cmd
+i		<- 1#
+	cmd		<- paste(HOME,'/startme.R', sep='')#
+	cmd		<- paste(cmd, ' -exe=MOM.SDE.PSEUDODATA -i=1')
+cmd
+cg.cmd.hpcwrapper<- function(cmd, hpc.walltime=24, hpc.mem='600mb', hpc.nproc=1, hpc.q='pqeph')#
+{#
+	wrap<- "#!/bin/sh"	#
 	tmp	<- paste("#PBS -l walltime=",hpc.walltime,":59:59,pcput=",hpc.walltime,":45:00",sep='')#
 	wrap<- paste(wrap, tmp, sep='\n')		#
 	tmp	<- paste("#PBS -l select=1:ncpus=",hpc.nproc,":mem=",hpc.mem,sep='')#
@@ -424,54 +939,50 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.npr
 	wrap<- paste(wrap, "#PBS -j oe", sep='\n')#
 	if(!is.na(hpc.q))#
 		wrap<- paste(wrap, paste("#PBS -q",hpc.q), sep='\n\n')#
-	wrap<- paste(wrap, HPC.CX1.IMPERIAL.LOAD, sep='\n')#
-	wrap#
-}#
-#
-#add additional high performance computing information #
-#' @export#
-cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA)#
-{	#
-	#hpc.sys<- HPC.CX1.IMPERIAL#
-	if(hpc.sys==HPC.CX1.IMPERIAL)#
-		wrap<- cmd.hpcwrapper.cx1.ic.ac.uk(hpc.walltime=hpc.walltime, hpc.mem=hpc.mem, hpc.nproc=hpc.nproc, hpc.q=hpc.q)#
-	else#
-	{#
-		wrap<- "#!/bin/sh"#
-		cat(paste("\ndetected no HPC system and no hpcwrapper generated, domain name is",hpc.sys))#
-	}#
-	cmd<- lapply(seq_along(cmd),function(i){	paste(wrap,cmd[[i]],sep='\n')	})#
-	if(length(cmd)==1)#
-		cmd<- unlist(cmd)#
+	wrap<- paste(wrap, HPC.LOAD, sep='\n')#
+	cmd	<- paste(wrap,cmd,sep='\n')#
 	cmd	#
 }
-setwd("/Users/Oliver/git/recombination.analyzer/pkg/example")
-require(recombination.analyzer)#
-data(mtDNA)#
-#	mtDNA data is stored in 'seq' DNAbin matrix object#
-print( seq )							#
-#	write sequences to directory for processing#
+i		<- 1#
+	cmd		<- paste(HOME,'/startme.R', sep='')#
+	cmd		<- paste(cmd, ' -exe=MOM.SDE.PSEUDODATA -i=1')	#
+	cmd		<- cg.cmd.hpcwrapper(cmd, hpc.walltime=24, hpc.mem='600mb', hpc.nproc=1, hpc.q='pqeph')
+cmd
+cat(cmd)
+cg.cmd.hpcwrapper<- function(cmd, hpc.walltime=24, hpc.mem='600mb', hpc.nproc=1, hpc.q='pqeph', hpc.load='module load R/2.15')#
+{#
+	wrap<- "#!/bin/sh"	#
+	tmp	<- paste("#PBS -l walltime=",hpc.walltime,":59:59,pcput=",hpc.walltime,":45:00",sep='')#
+	wrap<- paste(wrap, tmp, sep='\n')		#
+	tmp	<- paste("#PBS -l select=1:ncpus=",hpc.nproc,":mem=",hpc.mem,sep='')#
+	wrap<- paste(wrap, tmp, sep='\n')#
+	wrap<- paste(wrap, "#PBS -j oe", sep='\n')#
+	if(!is.na(hpc.q))#
+		wrap<- paste(wrap, paste("#PBS -q",hpc.q), sep='\n\n')#
+	wrap<- paste(wrap, hpc.load, sep='\n')#
+	cmd	<- paste(wrap,cmd,sep='\n')#
+	cmd	#
+}
+cat(cmd)
+i		<- 1#
+	cmd		<- paste(HOME,'/startme.R', sep='')#
+	cmd		<- paste(cmd, ' -exe=MOM.SDE.PSEUDODATA -i=1')	#
+	cmd		<- cg.cmd.hpcwrapper(cmd, hpc.walltime=24, hpc.mem='600mb', hpc.nproc=1, hpc.q='pqeph')
+cat(cmd)
+gi			<- c(0.5, 1, 3) 			#avg duration of I0#
+	bf			<- c(2,4,8,16) 				#dampening of beta0#
+	parms.vary	<- expand.grid(gi=gi, bf= bf)	#
+	parms.vary	<- cbind(parms.vary, gamma0= 1/parms.vary[,'gi'], beta1= parms.template[['beta0']]/parms.vary[,'bf'])
+parms.vary
+350/6
+240/4
+setwd("/Users/Oliver/git/big.phylo/pkg/example")
+require(big.phylo)#
+data(nz_h3n2)#
+#	H3N2 data is stored in 'seq' DNAbin matrix object#
+print( seq )
 indir		<- getwd()#
-infile		<- 'mtDNA.R'#
+infile		<- 'nz_h3n2.R'#
 insignat	<- ''#
 save(seq, file=paste(indir, infile, sep='/'))
-hpc.sys		<- "cx1.hpc.ic.ac.uk"#
-pipeline.recom.run.3seq(indir, infile, batch.n=4, hpc.sys=hpc.sys, hpc.walltime=35, hpc.q=NA, hpc.mem="3850mb", hpc.nproc=1, verbose=1)
-PR.PACKAGE					<- "recombination.analyzer"#
-PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "3seq.startme.R") #
-PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exeBOOTSTRAPSEQ",sep=' ')#
-PR.RECOMB.3SEQ				<- system.file(package=PR.PACKAGE, "ext", "3seq") #
-PR.RECOMB.PROCESS3SEQOUTPUT	<- paste(PR.STARTME,"-exe=RECOMB.PROCESS3SEQOUT",sep=' ')#
-PR.RECOMB.CHECKCANDIDATES	<- paste(PR.STARTME,"-exe=RECOMB.CHECKCANDIDATES",sep=' ')#
-PR.RECOMB.PLOTINCONGRUENCE	<- paste(PR.STARTME,"-exe=RECOMB.PLOTINCONGRUENCE",sep=' ')#
-PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") #
-PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")#
-PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")#
-PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")#
-HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
-HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}#
-HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',intern=T) for the hpc cluster of choice#
-HPC.MEM						<- "1750mb"#
-HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/2.15"
-hpc.sys		<- "cx1.hpc.ic.ac.uk"#
-pipeline.recom.run.3seq(indir, infile, batch.n=4, hpc.sys=hpc.sys, hpc.walltime=35, hpc.q=NA, hpc.mem="3850mb", hpc.nproc=1, verbose=1)
+pipeline.ExaML.bootstrap.per.proc(indir, infile, bs.from=0, bs.to=0, hpc.walltime=1, hpc.q=NA, hpc.mem="500mb", hpc.nproc=1)

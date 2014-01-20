@@ -7,5 +7,10 @@ indir		<- getwd()
 infile		<- 'nz_h3n2.R'
 insignat	<- ''
 save(seq, file=paste(indir, infile, sep='/'))	
-#	Create the first ExaML boostrap tree
-pipeline.ExaML.bootstrap.per.proc(indir, infile, bs.from=0, bs.to=0, hpc.walltime=1, hpc.q=NA, hpc.mem="500mb", hpc.nproc=1)
+#	create the command string
+bs.id		<- 1
+infile		<- substr(infile, 1, nchar(infile)-2)
+argv		<<- cmd.examl.bsalignment(indir, infile, bs.id) 
+argv		<<- unlist(strsplit(argv,' '))
+#	create the bootstrap alignment
+prog.examl.getbootstrapseq()

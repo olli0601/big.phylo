@@ -58,6 +58,7 @@ if(length(args))
 		else default.fun<- switch(tmp[1],
 					ROXYGENIZE				= "package.roxygenize",
 					MAKE.RDATA				= "package.generate.rdafiles",
+					BOOTSTRAPSEQ			= "prog.examl.getbootstrapseq",
 					EXAML.NPROC				= "pipeline.ExaML.bootstrap.per.proc",
 					)
 	}

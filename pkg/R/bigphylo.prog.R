@@ -1,14 +1,18 @@
 
 #' @export
+#' @import ape
 #' @title Program to generate a booststrap alignment
 #' @description Input parameters are 'indir', 'infile', 'outdir', 'bootstrap', 'by', 'resume' and 'verbose', and specified via an 
 #' \code{argv} string, see the Examples. The 'bootstrap' option specifies the boostrap iteration number, e. g. '-bootstrap=0' for the
 #' first bootstrap iteration. The 'by' option specifies the way the boostrap alignment is created. Valid options are \code{codon} and \code{nucleotide}.
 #' @return NULL. A boostrap alignment is written to file in phylip format.
+#' @example example/ex.h3n2.ExaML.getbootstrapseq.R
+#' @seealso \code{\link{pipeline.ExaML.bootstrap.per.proc}}
+#' 
 prog.examl.getbootstrapseq<- function()
 {		
-	indir				<- outdir		<- paste(DATA,"tmp",sep='/')
-	infile				<- "ATHENA_2013_03_FirstCurSequences_PROTRT"	
+	require(big.phylo)		#need this for command line execution
+	indir				<- outdir		<- infile	<- ''	
 	verbose				<- resume		<- 1
 	opt.bootstrap.by	<- "codon"
 	bs					<- 0
