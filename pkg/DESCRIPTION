@@ -11,6 +11,9 @@ Depends:
     RColorBrewer
 Description: An R package to construct phylogenies for very large numbers of sequences.
     This package currently implements an interface to high performance computing environments to run the ExaML program.
+    Shell scripts are generated that can be either run directly, or submitted to an HPC system.
+	At present, cmd.hpccaller provides an interface to the Imperial College CX1B high performance system that runs PBS (portable batch system)
+    
 License: GPL (>=2)
 LazyLoad: yes
 Collate:

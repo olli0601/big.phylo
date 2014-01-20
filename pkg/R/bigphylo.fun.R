@@ -1,9 +1,6 @@
-#' this file contains all R functions of the R package
-#' @import ape
-#' @import RColorBrewer
-#' @import data.table	
 
 #' @export
+#' @title Write a phylip file
 seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 {		
 	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )
@@ -12,6 +9,8 @@ seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 	cat(tmp, file=file)
 }
 
+#' @export
+#' @title Find the row numbers in a sequence matrix with a particular sequence pattern
 hivc.seq.find<- function(char.matrix, pos0= NA, from= c(), verbose=1)
 {
 	if(is.na(pos0)) 	stop("start position of token to be replaced is missing")
@@ -21,13 +20,15 @@ hivc.seq.find<- function(char.matrix, pos0= NA, from= c(), verbose=1)
 	query.yes	
 }
 
-#' @export
+#' @export 
+#' @title Compute a subset of unique sequences
 hivc.seq.unique<- function(seq.DNAbin.matrix)
 {
 	x<- as.character(seq.DNAbin.matrix)
 	x<- apply(x, 1, function(z) paste(z,collapse=''))
 	seq.DNAbin.matrix[!duplicated(x),]			
 }
+
 ######################################################################################
 hivc.clu.polyphyletic.clusters<- function(cluphy.df, cluphy.subtrees=NULL, ph=NULL, clustering=NULL, verbose=1, plot.file=NA, pdf.scaley=25, pdf.xlim=NULL, cex.nodelabel=0.2, cex.tiplabel=0.2, adj.tiplabel= c(-0.15,0.5))
 {

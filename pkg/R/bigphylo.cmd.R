@@ -1,6 +1,3 @@
-#' Shell scripts are generated that can be either run directly, or submitted to an HPC system.
-#' At present, cmd.hpccaller provides an interface to the CX1B high performance system that runs PBS (portable batch system)
-
 PR.PACKAGE					<- "big.phylo"
 PR.STARTME					<- system.file(package=PR.PACKAGE, "misc", "startme.R") 
 PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exe=BOOTSTRAPSEQ",sep=' ')
@@ -377,6 +374,13 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.npr
 
 #add additional high performance computing information 
 #' @export
+#' @title Add HPC header to shell commands
+#' @description To submit shell commands to an HPC system, further directives need to be added to the shell file.
+#' 	These are specified in a header. This function detects a particular HPC server and generates the appropriate
+#' 	header file. Currently, only the HPC.CX1.IMPERIAL server is supported. Type 'cmd.hpcwrapper' in R to inspect this
+#'  function. It is quite straightforward to add support for a different HPC server.
+#' @inheritParams pipeline.ExaML.bootstrap.per.proc
+#' @return Character string
 cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA)
 {	
 	#hpc.sys<- HPC.CX1.IMPERIAL
