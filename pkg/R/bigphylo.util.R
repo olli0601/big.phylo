@@ -58,13 +58,14 @@ package.generate.rdafiles<- function()
 				save(seq, file=file)				
 			})
 	
-	file	<- paste( CODE.HOME,"/data/IAS_primarydrugresistance_201303.csv",sep='' )
-	print(file)
-	dr		<- as.data.table( read.csv( file, stringsAsFactors=F ) )	
+	file	<- paste( CODE.HOME,"/data/IAS_primarydrugresistance_201303.mycsv",sep='' )
+	cat(paste('\nread file=',file))
+	dr		<- as.data.table( read.csv( file, stringsAsFactors=F ) )
 	dr[,Alignment.nuc.pos:= (Gene.codon.number-1)*3+Gene.HXB2pos ]		
 	dr		<- dr[,	{	tmp<- unique(Mutant); list(Mutant=tmp, Gene.codon.number=Gene.codon.number[1], Wild.type=Wild.type[1], DR.name=DR.name[1])	}, by=Alignment.nuc.pos]		
 	#select nucleotide codes that are consistent with drug resistance mutants
-	file	<- paste( CODE.HOME,"/data/standard_nt_code.csv",sep='' )
+	file	<- paste( CODE.HOME,"/data/standard_nt_code.mycsv",sep='' )
+	cat(paste('\nread file=',file))
 	nt2aa	<- as.data.table( read.csv( file, stringsAsFactors=F ) )
 	setnames(nt2aa,c("AA","NTs"),c("Mutant","Mutant.NTs"))
 	nt2aa	<- subset(nt2aa, select=c(Mutant,Mutant.NTs))
@@ -72,10 +73,10 @@ package.generate.rdafiles<- function()
 	setkey(dr, "Alignment.nuc.pos")
 	#print(dr, nrows=250)
 	dr		<- subset(dr, select=c(Alignment.nuc.pos, Mutant.NTs, DR.name))
-	set(dr, NULL, "Mutant.NTs", tolower(dr[,Mutant.NTs]))	
-	save(dr, file=paste( CODE.HOME,"/data/IAS.primarydrugresistance.201303.rda",sep='' ))
-	
-	
+	set(dr, NULL, "Mutant.NTs", tolower(dr[,Mutant.NTs]))
+	file	<- paste( CODE.HOME,"/data/IAS.primarydrugresistance.201303.rda",sep='' )
+	cat(paste('\nsave file=',file))
+	save(dr, file=file)
 }
 
 my.fade.col<-function(col,alpha=0.5)
