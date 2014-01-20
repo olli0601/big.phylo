@@ -138,7 +138,6 @@ prog.examl.getbootstrapseq<- function()
 #' \code{argv} string, see the Examples. The 'alignment.start' option specifies the position of the first nucleotide relative to the HXB2
 #' reference sequence.
 #' @return NULL. A sequence alignment with resistance codons set to 'NNN' is written to file.
-#' @example example/ex.kzn.remove.resistancemut.R
 #' 
 prog.remove.resistancemut<- function()
 {
