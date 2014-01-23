@@ -1,0 +1,31 @@
+\name{cmd.rm.resistance}
+\alias{cmd.rm.resistance}
+\title{Produce the shell command that masks resistance mutations.}
+\usage{
+  cmd.rm.resistance(indir, infile, outfile, outdir = indir,
+    prog = PR.EXAML.RM.RESISTANCE, alignment.start = 2253,
+    resume = 0, verbose = 1)
+}
+\arguments{
+  \item{alignment.start}{Number that specifies the position
+  of the first nucleotide relative to the HXB2 reference
+  sequence}
+
+  \item{indir}{Directory of the sequences in file
+  \code{infile}}
+
+  \item{infile}{File name to an DNAbin matrix. The file
+  name must end in \code{.R}}
+
+  \item{outdir}{Output directory for the bootstrap
+  calculations}
+
+  \item{verbose}{Flag to run function in verbose mode.}
+}
+\value{
+  Character string
+}
+\description{
+  Internal code.
+}
+

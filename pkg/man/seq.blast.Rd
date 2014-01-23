@@ -1,0 +1,12 @@
+\name{seq.blast}
+\alias{seq.blast}
+\title{Perform online BLAST search}
+\usage{
+  seq.blast(x, database = "nr", hitListSize = "10",
+    filter = "L", expect = "10", program = "blastn",
+    organism = "HIV-1")
+}
+\description{
+  see also package 'RFLPtools'
+}
+

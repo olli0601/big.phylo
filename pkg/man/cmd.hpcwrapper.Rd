@@ -1,0 +1,35 @@
+\name{cmd.hpcwrapper}
+\alias{cmd.hpcwrapper}
+\title{Add HPC header to shell commands}
+\usage{
+  cmd.hpcwrapper(cmd, hpc.sys = cmd.hpcsys(),
+    hpc.walltime = 24, hpc.mem = HPC.MEM, hpc.nproc = 1,
+    hpc.q = NA)
+}
+\arguments{
+  \item{hpc.sys}{Server specification for PBS header.}
+
+  \item{hpc.walltime}{Walltime specification for PBS
+  header.}
+
+  \item{hpc.mem}{RAM specification for PBS header.}
+
+  \item{hpc.nproc}{Number of processors specification for
+  PBS header.}
+
+  \item{hpc.q}{Queue specification for PBS header.}
+}
+\value{
+  Character string
+}
+\description{
+  To submit shell commands to an HPC system, further
+  directives need to be added to the shell file.  These are
+  specified in a header. This function detects a particular
+  HPC server and generates the appropriate header file.
+  Currently, only the HPC.CX1.IMPERIAL server is supported.
+  Type 'cmd.hpcwrapper' in R to inspect this function. It
+  is quite straightforward to add support for a different
+  HPC server.
+}
+
