@@ -78,28 +78,27 @@ seq.blast.read<- function (file, sep = "\t")
 
 #' @export
 #' @title Remove drug resistance mutations
-seq.rm.drugresistance<- function(char.matrix, dr, verbose=1, rtn.DNAbin=1)
+seq.rm.drugresistance.internal<- function(char.matrix, dr, verbose=1, rtn.DNAbin=1)
 {
-	if(verbose)	cat(paste("\nchecking for drug resistance mutations, n=",nrow(dr)))
-	tmp	<- rep(0, nrow(dr))
-	for(i in seq_len(nrow(dr)))
-	{		
-		query.yes	<- seq.find(char.matrix, dr[i,Alignment.nuc.pos], unlist(strsplit(unlist(dr[i,Mutant.NTs]),'')))
-		if(length(query.yes))
-		{
-			if(verbose)	
-				cat(paste("\nfound DR mutation",dr[i,DR.name],"NT code",dr[i,Mutant.NTs],"at pos",dr[i,Alignment.nuc.pos],"n=",length(query.yes), ". Replacing NT seq with nnn."))			
-			char.matrix[query.yes,	seq.int(dr[i,Alignment.nuc.pos], length.out=3) ]<- matrix("n", nrow=length(query.yes), ncol=3)			
-			#print( char.matrix[query.yes, seq.int(dr[i,Alignment.nuc.pos]-3, length.out=9)] ); stop()
-		}	
-		tmp[i]		<- length(query.yes)
-	}
-	if(verbose)
-		cat(paste("\nremoved DR mutations, n=",sum(tmp), "n per patient=",sum(tmp)/nrow(char.matrix)))
+	if(verbose)	cat(paste("\nchecking for potential drug resistance mutations, n=",nrow(dr)))
+	ans	<- dr[, {
+				query.yes	<- seq.find(char.matrix, Alignment.nuc.pos, unlist(strsplit(unlist(Mutant.NTs),'')))
+				if(length(query.yes))
+				{
+					if(verbose)	
+						cat(paste("\nfound DR mutation", DR.name,"NT code", Mutant.NTs,"at pos", Alignment.nuc.pos,"n=",length(query.yes), ". Replacing NT seq with nnn."))			
+					char.matrix[query.yes,	seq.int(Alignment.nuc.pos, length.out=3) ]<- matrix("n", nrow=length(query.yes), ncol=3)
+					ans		<- rownames(char.matrix)[query.yes]
+					#print( char.matrix[query.yes, seq.int(dr[i,Alignment.nuc.pos]-3, length.out=9)] ); stop()
+				}	
+				if(!length(query.yes))
+					ans		<- NA_character_				
+				list(TAXA=ans)
+			}, by=c('HXB2_POS','DR.name','Gene.codon.number','Wild.type','Mutant.NTs','Alignment.nuc.pos')]
+	ans	<- subset(ans, !is.na(TAXA))
 	if(rtn.DNAbin)
-		return( as.DNAbin(char.matrix) )
-	else
-		return( char.matrix )
+		char.matrix	<- as.DNAbin(char.matrix)	
+	list(nodr.seq=char.matrix, nodr.info=ans)	
 }	
 
 #' @export
