@@ -48,7 +48,7 @@ examl:
 	echo $(CWD)	
 	git clone https://github.com/stamatak/ExaML.git
 	make -C ExaML/parser -f Makefile.SSE3.gcc
-	mv $(CWD)/ExaML/parser/parser $(EXTERNAL_CODE)/ExaML-parser
+	mv $(CWD)/ExaML/parser/parse-examl $(EXTERNAL_CODE)/ExaML-parser
 	make -C ExaML/examl -f Makefile.SSE3.gcc
 	mv $(CWD)/ExaML/examl/examl $(EXTERNAL_CODE)/ExaML-examl
 	rm -rf ExaML
