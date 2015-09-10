@@ -78,6 +78,43 @@ seq.blast.read<- function (file, sep = "\t")
 
 #' @export
 #' @title Remove drug resistance mutations
+seq.rm.drugresistance<- function(seq, outfile=NA)
+{
+	stopifnot(!any(rownames(seq))=='HXB2')		#	expect HXB2 as reference in alignment
+	load(system.file(package="big.phylo", 'AC_drugresistance_201508.rda'))	
+	load(system.file(package="big.phylo", 'refseq_hiv1_hxb2.rda'))
+	hxb2			<- paste(hxb2[, HXB2.K03455], collapse='')
+	seq.hxb2		<- paste(as.character(seq['HXB2',]),collapse='')
+	#	check that HXB2 in alignment is HXB2
+	seq.hxb2.ng		<- gsub('-+','',seq.hxb2)
+	stopifnot(nchar(seq.hxb2.ng)<=nchar(hxb2))					#	expect HXB2 in alignment is part of true HXB2
+	seq.hxb2.st		<- as.integer(regexpr(substr(seq.hxb2.ng,1,20),hxb2))
+	stopifnot(seq.hxb2.st>0)									#	expect HXB2 in alignment is part of true HXB2
+	stopifnot(nchar(seq.hxb2.ng)+seq.hxb2.st-1L<=nchar(hxb2))	#	expect HXB2 in alignment is part of true HXB2	
+	stopifnot( seq.hxb2.ng==substr(hxb2, seq.hxb2.st, nchar(seq.hxb2.ng)+seq.hxb2.st-1L) )
+	#	find coordinates of real HXB2 in alignment
+	tmp				<- gregexpr('-+',seq.hxb2)[[1]]
+	seq.hxb2.pos 	<- data.table(GP_ST= as.integer(tmp), GP_LEN= attr(tmp,'match.length'))
+	seq.hxb2.pos 	<- seq.hxb2.pos[, list(GP_POS= seq.int(GP_ST, length=GP_LEN)), by='GP_ST'][, GP_POS]
+	seq.hxb2.pos 	<- data.table(HXB2INSEQ_POS= setdiff(seq_len(nchar(seq.hxb2)), seq.hxb2.pos))
+	seq.hxb2.pos[, HXB2_POS:= seq_len(nrow(seq.hxb2.pos))]
+	set(seq.hxb2.pos, NULL, 'HXB2_POS', seq.hxb2.pos[, HXB2_POS+seq.hxb2.st-1L])
+	stopifnot( seq.hxb2.pos[, tail(HXB2_POS,1)]<=nchar(hxb2) )
+	#	merge with dr
+	setnames(dr, 'HXB2.pos', 'HXB2_POS')
+	dr				<- merge(dr, seq.hxb2.pos, by='HXB2_POS')
+	setnames(dr, 'HXB2INSEQ_POS', 'Alignment.nuc.pos')
+	tmp			<- seq.rm.drugresistance.internal(as.character(seq), dr, verbose=1, rtn.DNAbin=1 )
+	dr.info		<- tmp$nodr.info
+	nodr.seq	<- tmp$nodr.seq
+	#
+	#	save
+	#	
+	if(!is.na(outfile))
+		save(seq, nodr.seq, dr.info, file=outfile)
+	list(nodr.info=dr.info, nodr.seq=nodr.seq)	
+}
+
 seq.rm.drugresistance.internal<- function(char.matrix, dr, verbose=1, rtn.DNAbin=1)
 {
 	if(verbose)	cat(paste("\nchecking for potential drug resistance mutations, n=",nrow(dr)))

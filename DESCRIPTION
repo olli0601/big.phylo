@@ -17,9 +17,3 @@ Description: An R package to construct phylogenies for very large numbers of
     College CX1B high performance system that runs PBS (portable batch system)
 License: GPL (>=2)
 LazyLoad: yes
-Collate:
-    'bigphylo.cmd.R'
-    'bigphylo.fun.R'
-    'bigphylo.pipeline.R'
-    'bigphylo.prog.R'
-    'bigphylo.util.R'

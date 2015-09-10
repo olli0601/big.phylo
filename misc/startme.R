@@ -25,8 +25,8 @@ if(any(args=='--args'))
 	args<- args[-(1:match("--args", args)) ]
 
 #the package directory (local working copy of the code, not the installed package directory within the R directory 
-CODE.HOME	<<- "/Users/Oliver/git/big.phylo/pkg"
-#CODE.HOME	<<- "/work/or105/libs/big.phylo/pkg"
+CODE.HOME	<<- "/Users/Oliver/git/big.phylo"
+#CODE.HOME	<<- "/work/or105/libs/big.phylo"
 
 #the home directory of all projects
 HOME		<<- "/Users/Oliver/git/big.phylo/prjct"
