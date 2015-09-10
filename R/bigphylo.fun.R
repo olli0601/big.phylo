@@ -80,7 +80,7 @@ seq.blast.read<- function (file, sep = "\t")
 #' @title Remove drug resistance mutations
 seq.rm.drugresistance<- function(seq, outfile=NA)
 {
-	stopifnot(!any(rownames(seq))=='HXB2')		#	expect HXB2 as reference in alignment
+	stopifnot( any(rownames(seq)=='HXB2') )		#	expect HXB2 as reference in alignment
 	load(system.file(package="big.phylo", 'AC_drugresistance_201508.rda'))	
 	load(system.file(package="big.phylo", 'refseq_hiv1_hxb2.rda'))
 	hxb2			<- paste(hxb2[, HXB2.K03455], collapse='')
