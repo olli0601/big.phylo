@@ -1,0 +1,48 @@
+
+
+This is ExaML version 1.0.9 released by Alexandros Stamatakis in December 6 2013.
+
+
+Alignment has 213 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 2.79%
+
+ExaML rapid hill-climbing mode
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+All free model parameters will be estimated by ExaML
+GAMMA model of rate heteorgeneity, ML estimate of alpha-parameter
+
+Partition: 0
+Alignment Patterns: 213
+Name: No Name Provided
+DataType: DNA
+Substitution Matrix: GTR
+
+
+
+
+ExaML was called as follows:
+
+/Users/Oliver/Library/R/2.15/library/big.phylo/ext/examl -m GAMMA -D -s nz_h3n2.phylip.examl.002.binary -t RAxML_parsimonyTree.nz_h3n2.starttree.002.0 -n nz_h3n2.finaltree.002 
+
+
+Memory Saving Option: DISABLED
+
+Best rearrangement radius: 25
+
+Likelihood of best tree: -5551.437030
+
+
+Overall Time for 1 Inference 44.927515
+
+Overall accumulated Time (in case of restarts): 44.927515
+
+Likelihood   : -5551.437030
+
+
+Final tree written to:                 /Users/Oliver/git/big.phylo/pkg/example/ExaML_result.nz_h3n2.finaltree.002
+Execution Log File written to:         /Users/Oliver/git/big.phylo/pkg/example/ExaML_log.nz_h3n2.finaltree.002
+Execution information file written to: /Users/Oliver/git/big.phylo/pkg/example/ExaML_info.nz_h3n2.finaltree.002
