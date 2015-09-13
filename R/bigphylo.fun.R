@@ -118,21 +118,25 @@ seq.rm.drugresistance<- function(seq, outfile=NA)
 seq.rm.drugresistance.internal<- function(char.matrix, dr, verbose=1, rtn.DNAbin=1)
 {
 	if(verbose)	cat(paste("\nchecking for potential drug resistance mutations, n=",nrow(dr)))
-	ans	<- dr[, {
-				query.yes	<- seq.find(char.matrix, Alignment.nuc.pos, unlist(strsplit(unlist(Mutant.NTs),'')))
-				if(length(query.yes))
-				{
-					if(verbose)	
-						cat(paste("\nfound DR mutation", DR.name,"NT code", Mutant.NTs,"at pos", Alignment.nuc.pos,"n=",length(query.yes), ". Replacing NT seq with nnn."))			
-					char.matrix[query.yes,	seq.int(Alignment.nuc.pos, length.out=3) ]<- matrix("n", nrow=length(query.yes), ncol=3)
-					ans		<- rownames(char.matrix)[query.yes]
-					#print( char.matrix[query.yes, seq.int(dr[i,Alignment.nuc.pos]-3, length.out=9)] ); stop()
-				}	
-				if(!length(query.yes))
-					ans		<- NA_character_				
-				list(TAXA=ans)
-			}, by=c('HXB2_POS','DR.name','Gene.codon.number','Wild.type','Mutant.NTs','Alignment.nuc.pos')]
-	ans	<- subset(ans, !is.na(TAXA))
+	nodr.info	<- dr[, {
+							query.yes	<- seq.find(char.matrix, Alignment.nuc.pos, unlist(strsplit(unlist(Mutant.NTs),'')))
+							if(length(query.yes))
+							{
+								ans		<- rownames(char.matrix)[query.yes]
+								#print( char.matrix[query.yes, seq.int(dr[i,Alignment.nuc.pos]-3, length.out=9)] ); stop()
+							}	
+							if(!length(query.yes))
+								ans		<- NA_character_				
+							list(TAXA=ans)
+						}, by=c('HXB2_POS','DR.name','Gene.codon.number','Wild.type','Mutant.NTs','Alignment.nuc.pos')]
+	nodr.info	<- subset(nodr.info, !is.na(TAXA))			
+	for(i in nodr.info[, sort(unique(Alignment.nuc.pos))])
+	{
+		tmp		<- subset(nodr.info, Alignment.nuc.pos==i)[, TAXA]
+		stopifnot(length(tmp)>0)
+		cat(paste('\nsetting at pos',i,'to nnn for taxa, n=', length(tmp)))
+		char.matrix[tmp,	seq.int(i, length.out=3) ]<- matrix("n", nrow=length(tmp), ncol=3)	
+	}
 	if(rtn.DNAbin)
 		char.matrix	<- as.DNAbin(char.matrix)	
 	list(nodr.seq=char.matrix, nodr.info=ans)	
