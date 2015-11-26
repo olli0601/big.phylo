@@ -6,8 +6,7 @@ save(seq, file=paste(indir, infile, sep='/'))
 #	create the command string
 infile			<- substr(infile, 1, nchar(infile)-2)
 outfile			<- paste(infile,'out',sep='_')
-alignment.start	<- 2253
-argv			<<- cmd.rm.resistance(indir, infile, outfile, alignment.start=alignment.start) 
+argv			<<- cmd.rm.resistance(indir, infile, outfile) 
 argv			<<- unlist(strsplit(argv,' '))
 #	create the bootstrap alignment
 #prog.remove.resistancemut()

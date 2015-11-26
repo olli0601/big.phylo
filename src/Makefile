@@ -64,4 +64,4 @@ make roxygen:
 	
 make rdata:
 	echo $(CWD)
-	../misc/startme.R -exe=MAKE.RDATA -code.home=$(CWD)/..	
+	Rscript ../misc/startme.R -exe=MAKE.RDATA -code.home=$(CWD)/..	

@@ -1,9 +1,3 @@
-#! /Library/Frameworks/R.framework/Versions/2.15/Resources/bin/Rscript
-##
-##	first line in shell script starts with #! and points to absolute path to Rscript
-##	CHANGE  as needed
-##
-##! /apps/R/2.15/lib64/R/bin/Rscript
 ###############################################################################
 #
 #	project scripts that can be run from command line, without re-building the package all the time,
@@ -14,7 +8,7 @@
 #> source("misc/startme.R")
 # usage from bash:
 #> cd /Users/Oliver/git/big.phylo/pkg
-#> misc/startme.R 
+#> Rscript misc/startme.R 
 #
 #
 ###############################################################################
