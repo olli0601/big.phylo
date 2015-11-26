@@ -80,6 +80,7 @@ seq.blast.read<- function (file, sep = "\t")
 #' @title Remove drug resistance mutations
 seq.rm.drugresistance<- function(seq, outfile=NA)
 {
+	require(data.table)
 	stopifnot( any(rownames(seq)=='HXB2') )		#	expect HXB2 as reference in alignment
 	load(system.file(package="big.phylo", 'AC_drugresistance_201508.rda'))	
 	load(system.file(package="big.phylo", 'refseq_hiv1_hxb2.rda'))
@@ -139,7 +140,7 @@ seq.rm.drugresistance.internal<- function(char.matrix, dr, verbose=1, rtn.DNAbin
 	}
 	if(rtn.DNAbin)
 		char.matrix	<- as.DNAbin(char.matrix)	
-	list(nodr.seq=char.matrix, nodr.info=ans)	
+	list(nodr.seq=char.matrix, nodr.info=nodr.info)	
 }	
 
 #' @export

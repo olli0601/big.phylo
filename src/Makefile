@@ -60,7 +60,7 @@ make misc:
 	
 make roxygen:
 	echo $(CWD)
-	../misc/startme.R -exe=ROXYGENIZE -code.home=$(CWD)/..
+	Rscript ../misc/startme.R -exe=ROXYGENIZE -code.home=$(CWD)/..
 	
 make rdata:
 	echo $(CWD)
