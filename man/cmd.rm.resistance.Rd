@@ -4,8 +4,7 @@
 \title{Produce the shell command that masks resistance mutations.}
 \usage{
 cmd.rm.resistance(indir, infile, outfile, outdir = indir,
-  prog = PR.EXAML.RM.RESISTANCE, alignment.start = 2253, resume = 0,
-  verbose = 1)
+  prog = PR.RM.RESISTANCE, verbose = 1)
 }
 \arguments{
 \item{indir}{Directory of the sequences in file \code{infile}}
@@ -14,9 +13,9 @@ cmd.rm.resistance(indir, infile, outfile, outdir = indir,
 
 \item{outdir}{Output directory for the bootstrap calculations}
 
-\item{alignment.start}{Number that specifies the position of the first nucleotide relative to the HXB2 reference sequence}
-
 \item{verbose}{Flag to run function in verbose mode.}
+
+\item{alignment.start}{Number that specifies the position of the first nucleotide relative to the HXB2 reference sequence}
 }
 \value{
 Character string
