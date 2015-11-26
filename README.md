@@ -5,6 +5,10 @@ An R package to construct phylogenies for very large numbers of sequences
 
 # Installation
 
+This software package requires third party code, please only proceed once installed: 
+
+ * Open MPI: http://www.open-mpi.org/
+
 The easiest way to install `big.phylo` is via the `devtools` package:
 
 ```r
