@@ -94,9 +94,13 @@ seq.rm.drugresistance<- function(seq, outfile=NA)
 	stopifnot(nchar(seq.hxb2.ng)+seq.hxb2.st-1L<=nchar(hxb2))	#	expect HXB2 in alignment is part of true HXB2	
 	stopifnot( seq.hxb2.ng==substr(hxb2, seq.hxb2.st, nchar(seq.hxb2.ng)+seq.hxb2.st-1L) )
 	#	find coordinates of real HXB2 in alignment
+	seq.hxb2.pos	<- c()
 	tmp				<- gregexpr('-+',seq.hxb2)[[1]]
-	seq.hxb2.pos 	<- data.table(GP_ST= as.integer(tmp), GP_LEN= attr(tmp,'match.length'))
-	seq.hxb2.pos 	<- seq.hxb2.pos[, list(GP_POS= seq.int(GP_ST, length=GP_LEN)), by='GP_ST'][, GP_POS]
+	if(tmp[1]>-1)
+	{
+		seq.hxb2.pos 	<- data.table(GP_ST= as.integer(tmp), GP_LEN= attr(tmp,'match.length'))
+		seq.hxb2.pos 	<- seq.hxb2.pos[, list(GP_POS= seq.int(GP_ST, length=GP_LEN)), by='GP_ST'][, GP_POS]		
+	}
 	seq.hxb2.pos 	<- data.table(HXB2INSEQ_POS= setdiff(seq_len(nchar(seq.hxb2)), seq.hxb2.pos))
 	seq.hxb2.pos[, HXB2_POS:= seq_len(nrow(seq.hxb2.pos))]
 	set(seq.hxb2.pos, NULL, 'HXB2_POS', seq.hxb2.pos[, HXB2_POS+seq.hxb2.st-1L])
