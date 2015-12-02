@@ -18,7 +18,7 @@ HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/2.15"
 #' @description Internal code. 
 #' @inheritParams cmd.examl.bootstrap
 #' @return	Character string
-cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=1, verbose=1)
+cmd.examl<- function(indir, infile, signat.in, signat.out, outdir=indir, prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=1, verbose=1)
 {
 	if(is.na(args.starttree.bsid))
 		args.starttree.bsid	<- "000"
@@ -31,25 +31,25 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 	#if output files are found and resume, don t do anything
 	if(resume)
 	{
-		cmd		<- paste(cmd,"[ -s ",outdir,'/ExaML_result.',infile,".finaltree.",args.starttree.bsid," ] && ", sep='')	#if file non-zero
-		cmd		<- paste(cmd,"[ -s ",outdir,'/ExaML_info.',infile,".finaltree.",args.starttree.bsid," ] ", sep='')		#and if file non-zero
+		cmd		<- paste(cmd,"[ -s ",outdir,'/ExaML_result.',infile,'_',signat.in,".finaltree.",args.starttree.bsid," ] && ", sep='')	#if file non-zero
+		cmd		<- paste(cmd,"[ -s ",outdir,'/ExaML_info.',infile,'_',signat.in,".finaltree.",args.starttree.bsid," ] ", sep='')		#and if file non-zero
 		cmd		<- paste(cmd,"&& exit 1\n",sep='')		#then exit
 	}
 	#default commands for parser					
 	cmd			<- paste(cmd,"CWDEXAML=$(pwd)\n",sep='')
 	cmd			<- paste(cmd,"cd ",outdir,'\n',sep='')
-	tmp			<- paste(indir,paste(infile,".phylip.",args.starttree.bsid,sep=''),sep='/')
-	cmd			<- paste(cmd,prog.parser," -m DNA -s ",tmp,sep='')
-	tmp			<- paste(infile,".phylip.examl.",args.starttree.bsid,sep='')
+	tmp			<- paste(indir,paste(infile,'_',signat.in,".phylip.",args.starttree.bsid,sep=''),sep='/')
+	cmd			<- paste(cmd,prog.parser,' ',args.parser,' -s ',tmp,sep='')
+	tmp			<- paste(infile,'_',signat.out,".phylip.examl.",args.starttree.bsid,sep='')
 	cmd			<- paste(cmd," -n ",tmp,sep='')
 	#verbose stuff for parser	
 	cmd			<- paste(cmd,paste("\necho \'end ",prog.parser,"\'",sep=''))
-		
+	
 	cmd			<- paste(cmd,paste("\necho \'run ",prog.starttree,"\'\n",sep=''))
 	#default commands for start tree
-	tmp			<- paste(indir,paste(infile,".phylip.",args.starttree.bsid,sep=''),sep='/')	
+	tmp			<- paste(indir,paste(infile,'_',signat.in,".phylip.",args.starttree.bsid,sep=''),sep='/')	
 	cmd			<- paste(cmd,prog.starttree," -p",args.starttree.seed," -s ",tmp,sep='')	
-	tmp			<- paste(infile,".starttree.",args.starttree.bsid,sep='')
+	tmp			<- paste(infile,'_',signat.out,".starttree.",args.starttree.bsid,sep='')
 	cmd			<- paste(cmd," -n ",tmp,sep='')
 	#verbose stuff
 	cmd			<- paste(cmd,paste("\necho \'end ",prog.starttree,"\'",sep=''))
@@ -63,11 +63,11 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 		cmd		<- paste(cmd,HPC.MPIRUN[tmp],' ',prog.examl,' ',args.examl,sep='')
 	else	
 		stop("unknown hpc sys")
-	tmp			<- paste(infile,".phylip.examl.",args.starttree.bsid,".binary",sep='')
+	tmp			<- paste(infile,'_',signat.out,".phylip.examl.",args.starttree.bsid,".binary",sep='')
 	cmd			<- paste(cmd," -s ",tmp,sep='')
-	tmp			<- paste("RAxML_parsimonyTree.",infile,".starttree.",args.starttree.bsid,".0",sep='')
+	tmp			<- paste("RAxML_parsimonyTree.",infile,'_',signat.out,".starttree.",args.starttree.bsid,".0",sep='')
 	cmd			<- paste(cmd," -t ",tmp,sep='')
-	tmp			<- paste(infile,".finaltree.",args.starttree.bsid,sep='')
+	tmp			<- paste(infile,'_',signat.out,".finaltree.",args.starttree.bsid,sep='')
 	cmd			<- paste(cmd," -n ",tmp,sep='')		
 	cmd			<- paste(cmd,paste("\necho \'end ",prog.examl,"\'",sep=''))
 	
