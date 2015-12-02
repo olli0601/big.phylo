@@ -16,27 +16,27 @@ outfile			<- NA
 
 if(length(args))
 {
-	tmp<- na.omit(sapply(argv,function(arg)
+	tmp<- na.omit(sapply(args,function(arg)
 						{	switch(substr(arg,2,6),
 								indir= return(substr(arg,8,nchar(arg))),NA)	}))
 	if(length(tmp)>0) indir<- tmp[1]
-	tmp<- na.omit(sapply(argv,function(arg)
+	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,7),
 								infile= return(substr(arg,9,nchar(arg))),NA)	}))
 	if(length(tmp)>0) infile<- tmp[1]		
-	tmp<- na.omit(sapply(argv,function(arg)
+	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,7),
 								outdir= return(substr(arg,9,nchar(arg))),NA)	}))
 	if(length(tmp)>0) outdir<- tmp[1]
-	tmp<- na.omit(sapply(argv,function(arg)
+	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,8),
 								outfile= return(substr(arg,10,nchar(arg))),NA)	}))
 	if(length(tmp)>0) outfile<- tmp[1]			
-	#tmp<- na.omit(sapply(argv,function(arg)
+	#tmp<- na.omit(sapply(args,function(arg)
 	#				{	switch(substr(arg,2,16),
 	#							alignment.start= return(substr(arg,18,nchar(arg))),NA)	}))
 	#if(length(tmp)>0) alignment.start<- tmp[1]	
-	tmp<- na.omit(sapply(argv,function(arg)
+	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,2),
 								v= return(as.numeric(substr(arg,4,nchar(arg)))),NA)	}))
 	if(length(tmp)>0) verbose<- tmp[1]

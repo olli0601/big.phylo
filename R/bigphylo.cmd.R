@@ -1,6 +1,5 @@
-PR.PACKAGE					<- "big.phylo"
-PR.STARTME					<- paste('Rscript', system.file(package=PR.PACKAGE, "misc", "startme.R")) 
-PR.EXAML.BSCREATE			<- paste(PR.STARTME,"-exe=BOOTSTRAPSEQ",sep=' ')
+PR.PACKAGE					<- "big.phylo" 
+PR.EXAML.BSCREATE			<- paste('Rscript', system.file(package=PR.PACKAGE, "create.bootstrapalignment.Rscript"))
 PR.RM.RESISTANCE			<- paste('Rscript', system.file(package=PR.PACKAGE, "rm.drm.Rscript"))
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
