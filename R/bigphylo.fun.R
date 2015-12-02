@@ -98,8 +98,8 @@ seq.rm.drugresistance<- function(seq, outfile=NA)
 	tmp				<- gregexpr('-+',seq.hxb2)[[1]]
 	if(tmp[1]>-1)
 	{
-		seq.hxb2.pos 	<- data.table(GP_ST= as.integer(tmp), GP_LEN= attr(tmp,'match.length'))
-		seq.hxb2.pos 	<- seq.hxb2.pos[, list(GP_POS= seq.int(GP_ST, length=GP_LEN)), by='GP_ST'][, GP_POS]		
+		seq.hxb2.pos<- data.table(GP_ST= as.integer(tmp), GP_LEN= attr(tmp,'match.length'))
+		seq.hxb2.pos<- seq.hxb2.pos[, list(GP_POS= seq.int(GP_ST, length=GP_LEN)), by='GP_ST'][, GP_POS]		
 	}
 	seq.hxb2.pos 	<- data.table(HXB2INSEQ_POS= setdiff(seq_len(nchar(seq.hxb2)), seq.hxb2.pos))
 	seq.hxb2.pos[, HXB2_POS:= seq_len(nrow(seq.hxb2.pos))]
