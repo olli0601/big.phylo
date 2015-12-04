@@ -55,7 +55,7 @@ examl:
 	mv $(EXTERNAL_CODE)/ExaML-examl $(EXTERNAL_CODE)/examl
 	
 make misc:	
-	mkdir $(MISC_CODE)
+	mkdir -p $(MISC_CODE)
 	cp ../misc/*.R $(MISC_CODE)
 	
 make roxygen:
