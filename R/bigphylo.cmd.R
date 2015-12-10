@@ -288,7 +288,7 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 				cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".supporttree ",infile,"_examlbs",bs.n,".newick",sep=''),sep='')				
 				cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".supporttree",sep=''),sep='')
 				cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".bstree",sep=''),sep='')								
-				cmd			<- paste(cmd,paste("\n\tzip ",infile,'_examlout_',".zip  ExaML_result.",infile,'_',".* ExaML_info.",infile,".*",sep=''),sep='')
+				cmd			<- paste(cmd,paste("\n\tzip ",infile,'_examlout_',".zip  ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
 				cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
 				cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))
 				cmd			<- paste(cmd,"\nfi",sep='')
