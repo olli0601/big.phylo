@@ -131,7 +131,7 @@ cmd.rm.resistance<- function(indir, infile, outfile, outdir=indir, prog= PR.RM.R
 cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
 {
 	hpcsys			<- cmd.hpcsys()
-	hpcsys			<- "cx1.hpc.ic.ac.uk"
+	#hpcsys			<- "cx1.hpc.ic.ac.uk"
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
 	bs.id			<- seq.int(bs.from,bs.to)
 	bs.seeds		<- floor( runif(length(bs.id), 1e4, 1e5-1) )
@@ -151,7 +151,7 @@ cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99
 						cmd	<- paste(cmd,"\nCWD=$(pwd)",sep='')
 						cmd	<- paste(cmd,"\necho $CWD",sep='')
 						cmd	<- paste(cmd,"\nmkdir -p ",tmpdir,sep='')
-						tmp	<- paste(indir,'/',infile,".R",sep='')
+						tmp	<- paste(indir,'/',infile,".*",sep='')
 						cmd	<- paste(cmd,"\ncp ",tmp," ",tmpdir,sep='')
 					}
 					cmd		<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, bs.id[i], opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')

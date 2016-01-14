@@ -64,12 +64,21 @@ prog.examl.getbootstrapseq<- function()
 	file		<- list.files(path=outdir, pattern=pattern, full.names=1)
 	if(!resume || !length(file))	
 	{					
-		file		<- paste(outdir,"/",infile,".R",sep='')
-		if(verbose) cat(paste("\nread",file))
-		tmp			<- load(file)
-		if(length(tmp)!=1)		
-			stop("Unexpected lenght of loaded objects")
-		eval(parse(text=paste("seq.PROT.RT<- ",tmp,sep='')))
+		if(!any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
+		{
+			file		<- paste(outdir,"/",infile,".fasta",sep='')
+			if(verbose) cat(paste("\nread",file))
+			seq.PROT.RT	<- read.dna( file, format='fasta' )
+		}
+		if(any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
+		{
+			file		<- paste(outdir,"/",infile,".R",sep='')
+			if(verbose) cat(paste("\nread",file))
+			tmp			<- load(file)
+			if(length(tmp)!=1)		
+				stop("Unexpected lenght of loaded objects")
+			eval(parse(text=paste("seq.PROT.RT<- ",tmp,sep='')))			
+		}
 		if(!"DNAbin"%in%class(seq.PROT.RT) || !is.matrix(seq.PROT.RT))	
 			stop("expect R infile that contains a DNAbin matrix")
 		print(seq.PROT.RT)
