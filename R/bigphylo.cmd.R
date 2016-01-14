@@ -188,7 +188,7 @@ cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99
 	cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".bstree",sep=''),sep='')									
 	cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))
 	#copy bstree to outdir
-	cmd			<- paste(cmd,paste("\n\tcp -f ",infile,"_examlbs",bs.n,".newick",' ',outdir,sep=''),sep='')
+	cmd			<- paste(cmd,paste("\n\tcp -f ",infile,"_examlbs",bs.n,".newick",' "',outdir,'"',sep=''),sep='')
 	cmd			<- paste(cmd,"\nfi",sep='')
 	cmd			<- paste(cmd,"\n#######################################################
 # end: check if all ExaML boostrap trees have been computed and if yes create ExaML bootstrap tree
