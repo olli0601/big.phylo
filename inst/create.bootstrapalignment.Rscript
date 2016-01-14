@@ -72,14 +72,26 @@ pattern 	<- paste(infile,".phylip.",sprintf("%03d",bs),sep='')
 file		<- list.files(path=outdir, pattern=pattern, full.names=1)
 if(!resume || !length(file))	
 {					
-	file		<- paste(outdir,"/",infile,".R",sep='')
-	if(verbose) cat(paste("\nread",file))
-	tmp			<- load(file)
-	if(length(tmp)!=1)		
-		stop("Unexpected lenght of loaded objects")
-	eval(parse(text=paste("seq.PROT.RT<- ",tmp,sep='')))
+	if(!any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
+	{
+		file		<- paste(outdir,"/",infile,".fasta",sep='')
+		file2		<- paste(outdir,"/",infile,".fasta2",sep='')
+		system(paste("sed 's/<unknown description>//' ",file," > ",file2,sep=''))		
+		if(verbose) cat(paste("\nread",file2))
+		seq.PROT.RT	<- read.dna( file2, format='fasta' )
+	}
+	if(any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
+	{
+		file		<- paste(outdir,"/",infile,".R",sep='')
+		if(verbose) cat(paste("\nread",file))
+		tmp			<- load(file)
+		if(length(tmp)!=1)		
+			stop("Unexpected lenght of loaded objects")
+		eval(parse(text=paste("seq.PROT.RT<- ",tmp,sep='')))			
+	}
 	if(!"DNAbin"%in%class(seq.PROT.RT) || !is.matrix(seq.PROT.RT))	
 		stop("expect R infile that contains a DNAbin matrix")
+	rownames(seq.PROT.RT)	<- gsub(" <unknown description>","",rownames(seq.PROT.RT),fixed=1)
 	print(seq.PROT.RT)
 	#print(bs)
 	if(bs)		#keep bs0 intact
@@ -96,7 +108,7 @@ if(!resume || !length(file))
 				bs.blocks.s	<- sample(seq_len(bs.blocks.n),bs.blocks.n,replace=T)-1
 				bs.seq.s	<- as.numeric( sapply(bs.blocks.s,function(x)		3*x+c(1,2,3)		) )
 			}
-			else if(opt.bootstrap.by=="nucleotide")
+			if(opt.bootstrap.by=="nucleotide")
 			{
 				bs.seq.s	<- sample(seq_len(ncol(seq.PROT.RT )),ncol(seq.PROT.RT ),replace=T)
 			}
@@ -123,11 +135,11 @@ if(!resume || !length(file))
 				}
 				if(verbose) cat(paste("\nchecked for identity proposed boostrap seq alignment no",j,"is any identical",any.eq))
 			}
-			else
+			if(!check.any.bs.identical)
 				any.eq	<- 0
 		}					
 	}
-	else
+	if(!bs)
 	{
 		cat(paste("\nkeep boostrap seq alignment no",bs,"as original"))
 		seq.BS	<- seq.PROT.RT
@@ -135,9 +147,5 @@ if(!resume || !length(file))
 	file		<- paste(outdir,"/",infile,".phylip.",sprintf("%03d",bs),sep='')
 	cat(paste("\nsave boostrap seq alignment to",file))
 	seq.write.dna.phylip(seq.BS, file=file)
-}
-else
-{
-	cat("\nfound boostrap sequence alignment")
 }
 	
