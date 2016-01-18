@@ -4,8 +4,7 @@
 # 	because the R files are re-loaded below
 #
 # usage from R:
-#> setwd("/Users/Oliver/git/big.phylo")
-#> source("misc/startme.R")
+#> setwd("/Users/Oliver/git/big.phylo"); source("misc/startme.R")
 # usage from bash:
 #> cd /Users/Oliver/git/big.phylo/pkg
 #> Rscript misc/startme.R 
@@ -83,7 +82,7 @@ function.list<-c(list.files(path= paste(CODE.HOME,"R",sep='/'), pattern = ".R$",
 sapply(function.list,function(x){ source(x,echo=FALSE,print.eval=FALSE, verbose=FALSE) })
 ###############################################################################
 #	run script
-#stop()
+stop()
 if(DEBUG)	options(error= my.dumpframes)	
 cat(paste("\nbig.phylo: ",ifelse(DEBUG,"debug",""),"call",default.fun,"\n"))
 do.call(default.fun,list()) 	

@@ -10,6 +10,31 @@ seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 }
 
 #' @export
+#' @title Strip gaps
+seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.chars='-')
+{
+	stopifnot(	!is.na(strip.max.len)&is.na(strip.pc) | is.na(strip.max.len)&!is.na(strip.pc), is.na(strip.pc)|strip.pc<1, is.na(strip.pc)|strip.pc>0, is.na(strip.max.len)|strip.max.len>0)	
+	seq.DNAbin.mat	<- as.character(seq.DNAbin.mat)
+	if(length(gap.chars)==1)
+		tmp			<- apply(seq.DNAbin.mat,2,function(x) length(which(x==gap.chars)))
+	if(length(gap.chars)>1)
+		tmp			<- apply(seq.DNAbin.mat,2,function(x) length(which(x%in%gap.chars)))
+	tmp				<- tmp/nrow(seq.DNAbin.mat)
+	if(!is.na(strip.pc))
+		return(as.DNAbin(seq.DNAbin.mat[,tmp<strip.pc]))
+	if(!is.na(strip.max.len))
+		for(strip.pc in rev(seq(0.01,0.99,0.01)))
+		{
+			z		<- which(tmp<strip.pc)
+			if(length(z)<strip.max.len)
+			{
+				cat('\nStripping gaps at pc=',strip.pc)
+				return(as.DNAbin(seq.DNAbin.mat[,z]))
+			}
+		}
+}
+
+#' @export
 #' @title Find the row numbers in a sequence matrix with a particular sequence pattern
 seq.find<- function(char.matrix, pos0= NA, from= c(), verbose=1)
 {

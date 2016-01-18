@@ -1,6 +1,7 @@
 PR.PACKAGE					<- "big.phylo" 
 PR.EXAML.BSCREATE			<- paste('Rscript', system.file(package=PR.PACKAGE, "create.bootstrapalignment.Rscript"))
 PR.RM.RESISTANCE			<- paste('Rscript', system.file(package=PR.PACKAGE, "rm.drm.Rscript"))
+PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps.Rscript"))
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
@@ -10,6 +11,7 @@ HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.
 HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',intern=T) for the hpc cluster of choice
 HPC.MEM						<- "1750mb"
 HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/3.2.0"
+
 
 
 #' @export
@@ -364,6 +366,26 @@ cmd.examl.bsstarttree<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-
 }
 
 #' @export
+#' @title Procude a shell command to strip gaps from alignment.
+#' @description Internal code.
+#' @return Character string
+cmd.strip.gaps	<- function(infile, outfile=infile, strip.max.len=NA, strip.pc=NA, prog=PR.STRIP.GAPS)
+{
+	cmd		<- "#######################################################
+# start: strip.gaps
+#######################################################\n"
+	cmd		<- paste(cmd, prog, ' -infile=',infile,' ', ' -outfile=',outfile,' ',sep='')
+	if(!is.na(strip.max.len))
+		cmd	<- paste(cmd, ' -strip.max.len=',strip.max.len, sep='')
+	if(!is.na(strip.pc))
+		cmd	<- paste(cmd, ' -strip.pc=',strip.pc, sep='')
+	cmd		<- paste(cmd,"\n#######################################################
+# end: strip.gaps
+#######################################################\n",sep='')
+	cmd
+}
+
+#' @export
 #' @title Procude a shell command to clean up after an ExaML run.
 #' @description Internal code.
 #' @return Character string
@@ -371,7 +393,7 @@ cmd.examl.cleanup<- function(outdir, prog= PR.EXAML.EXAML)
 {
 	cmd<- "#######################################################
 # clean up after ExaML tree
-			#######################################################"
+#######################################################"
 	cmd<- paste(cmd,paste("\necho \'clean after ",prog,"\'\n",sep=''))	
 	
 	tmp<- list.files(outdir, full.names=1)
