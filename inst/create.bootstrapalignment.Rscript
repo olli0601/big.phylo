@@ -75,10 +75,10 @@ if(!resume || !length(file))
 	if(!any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
 	{
 		file		<- paste(outdir,"/",infile,".fasta",sep='')
-		file2		<- paste(outdir,"/",infile,".fasta2",sep='')
-		system(paste("sed 's/<unknown description>//' ",file," > ",file2,sep=''))		
-		if(verbose) cat(paste("\nread",file2))
-		seq.PROT.RT	<- read.dna( file2, format='fasta' )
+		#file2		<- paste(outdir,"/",infile,".fasta2",sep='')
+		#system(paste("sed 's/<unknown description>//' ",file," > ",file2,sep=''))		
+		if(verbose) cat(paste("\nread",file))
+		seq.PROT.RT	<- read.dna( file, format='fasta' )
 	}
 	if(any(paste(infile,'.R',sep='')==list.files(outdir, pattern='.R$')))
 	{

@@ -23,10 +23,10 @@ seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.char
 	if(!is.na(strip.pc))
 		return(as.DNAbin(seq.DNAbin.mat[,tmp<strip.pc]))
 	if(!is.na(strip.max.len))
-		for(strip.pc in rev(seq(0.01,0.99,0.01)))
+		for(strip.pc in rev(seq(0.01,1.00,0.01)))
 		{
 			z		<- which(tmp<strip.pc)
-			if(length(z)<strip.max.len)
+			if(length(z)<=strip.max.len)
 			{
 				cat('\nStripping gaps at pc=',strip.pc)
 				return(as.DNAbin(seq.DNAbin.mat[,z]))

@@ -25,15 +25,15 @@ if(exists("args"))
 								outfile= return(substr(arg,10,nchar(arg))),NA)	}))
 	if(length(tmp)>0) outfile<- tmp[1]				
 	tmp<- na.omit(sapply(args,function(arg)
-					{	switch(substr(arg,2,7),
-								strip.max.len= return(as.numeric(substr(arg,15,nchar(arg)))),NA)	}))
+					{	switch(substr(arg,2,14),
+								strip.max.len= return(as.numeric(substr(arg,16,nchar(arg)))),NA)	}))
 	if(length(tmp)>0) strip.max.len<- tmp[1]
 	tmp<- na.omit(sapply(args,function(arg)
-					{	switch(substr(arg,2,2),
-								strip.pc= return(as.numeric(substr(arg,10,nchar(arg)))),NA)	}))
+					{	switch(substr(arg,2,9),
+								strip.pc= return(as.numeric(substr(arg,11,nchar(arg)))),NA)	}))
 	if(length(tmp)>0) strip.pc<- tmp[1]	
 }
-if( is.na(infile) || is.na(strip.max.len)&is.na(strip.pc) )
+if( is.na(infile) || (is.na(strip.max.len)&is.na(strip.pc)) )
 {
 	stop('\nUsage:
 Rscript strip.gaps.Rscript -infile=INFILE [-outfile=OUTFILE] -strip.max.len=STRIPMAXLEN -strip.pc=STRIPPC 
@@ -45,6 +45,7 @@ if( is.na(outfile))
 #	run script
 library(ape)
 library(big.phylo)
+
 seq			<- read.dna(infile, format='fasta' )
-seq			<- seq.strip.gap(seq, strip.max.len=strip.max.len, strip.pc=strip.pc, gap.chars=gap.chars)
+seq			<- big.phylo:::seq.strip.gap(seq, strip.max.len=strip.max.len, strip.pc=strip.pc, gap.chars=gap.chars)
 write.dna(seq, file=outfile, format='fasta', append=0, colsep='', colw=80, blocksep=0)
