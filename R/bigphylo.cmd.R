@@ -179,16 +179,23 @@ cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99
 	#create final tree with bootstrap support values
 	tmp			<- c(	paste(infile,".phylip.examl.binary",sep=''),	paste("ExaML_result.",infile,".$BSBEST",sep=''),	paste("ExaML_result.",infile,".bstree",sep=''), paste(infile,".supporttree",sep=''))
 	cmd			<- paste(cmd,"\n\t",prog.supportadder," -f b -m GTRCAT -s ",tmp[1]," -t ",tmp[2]," -z ",tmp[3]," -n ",tmp[4],sep='' )
+	#create data tree with bootstrap support values
+	tmp			<- c(	paste(infile,".phylip.examl.binary",sep=''),	paste("ExaML_result.",infile,".000",sep=''),	paste("ExaML_result.",infile,".bstree",sep=''), paste(infile,".datatree",sep=''))	
+	cmd			<- paste(cmd,"\n\t",prog.supportadder," -f b -m GTRCAT -s ",tmp[1]," -t ",tmp[2]," -z ",tmp[3]," -n ",tmp[4],sep='' )
 	cmd			<- paste(cmd,paste("\n\techo \'all bootstrap samples computed -- found best tree and added bootstrap support values\'",sep=''))										
 	#delete ExaML output that is not further needed
 	cmd			<- paste(cmd,paste("\n\techo \'start cleanup\'",sep=''))
 	cmd			<- paste(cmd,"\n\trm RAxML_info*",sep=' ')								
-	cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".supporttree ",infile,"_examlbs",bs.n,".newick",sep=''),sep='')				
-	cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".supporttree",sep=''),sep='')
+	cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".supporttree ",infile,"_examl_mxbs",bs.n,".newick",sep=''),sep='')
+	cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".datatree ",infile,"_examl_dtbs",bs.n,".newick",sep=''),sep='')
+	cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".supporttree",sep=''),sep='')						
+	cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".datatree",sep=''),sep='')
 	cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".bstree",sep=''),sep='')									
 	cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))
-	#copy bstree to outdir
-	cmd			<- paste(cmd,paste("\n\tcp -f ",infile,"_examlbs",bs.n,".newick",' "',outdir,'"',sep=''),sep='')
+	#copy ML bstree to outdir
+	cmd			<- paste(cmd,paste("\n\tcp -f ",infile,"_examl_mxbs",bs.n,".newick",' "',outdir,'"',sep=''),sep='')
+	#copy data bstree to outdir
+	cmd			<- paste(cmd,paste("\n\tcp -f ",infile,"_examl_dtbs",bs.n,".newick",' "',outdir,'"',sep=''),sep='')
 	cmd			<- paste(cmd,"\nfi",sep='')
 	cmd			<- paste(cmd,"\n#######################################################
 # end: check if all ExaML boostrap trees have been computed and if yes create ExaML bootstrap tree
@@ -281,16 +288,19 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 				#create final tree with bootstrap support values
 				tmp			<- c(	paste(infile,".phylip.examl.binary",sep=''),	paste("ExaML_result.",infile,".$BSBEST",sep=''),	paste("ExaML_result.",infile,".bstree",sep=''), paste(infile,".supporttree",sep=''))
 				cmd			<- paste(cmd,"\n\t",prog.supportadder," -f b -m GTRCAT -s ",tmp[1]," -t ",tmp[2]," -z ",tmp[3]," -n ",tmp[4],sep='' )
+				#create data tree with bootstrap support values
+				tmp			<- c(	paste(infile,".phylip.examl.binary",sep=''),	paste("ExaML_result.",infile,".000",sep=''),	paste("ExaML_result.",infile,".bstree",sep=''), paste(infile,".datatree",sep=''))	
+				cmd			<- paste(cmd,"\n\t",prog.supportadder," -f b -m GTRCAT -s ",tmp[1]," -t ",tmp[2]," -z ",tmp[3]," -n ",tmp[4],sep='' )				
 				cmd			<- paste(cmd,paste("\n\techo \'all bootstrap samples computed -- found best tree and added bootstrap support values\'",sep=''))										
 				#delete ExaML output that is not further needed
 				cmd			<- paste(cmd,paste("\n\techo \'start cleanup\'",sep=''))
 				cmd			<- paste(cmd,"\n\trm RAxML_info*",sep=' ')								
-				cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".supporttree ",infile,"_examlbs",bs.n,".newick",sep=''),sep='')				
-				cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".supporttree",sep=''),sep='')
-				cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".bstree",sep=''),sep='')								
-				cmd			<- paste(cmd,paste("\n\tzip ",infile,'_examlout_',".zip  ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
-				cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
-				cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))
+				cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".supporttree ",infile,"_examl_mxbs",bs.n,".newick",sep=''),sep='')
+				cmd			<- paste(cmd,paste("\n\tmv RAxML_bipartitions.",infile,".datatree ",infile,"_examl_dtbs",bs.n,".newick",sep=''),sep='')
+				cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".supporttree",sep=''),sep='')						
+				cmd			<- paste(cmd,paste("\n\trm RAxML_bipartitionsBranchLabels.",infile,".datatree",sep=''),sep='')
+				cmd			<- paste(cmd,paste("\n\trm ExaML_result.",infile,".bstree",sep=''),sep='')									
+				cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))				
 				cmd			<- paste(cmd,"\nfi",sep='')
 				cmd			<- paste(cmd,"\ncd $CWD",sep='')
 				cmd			<- paste(cmd,"\n#######################################################
