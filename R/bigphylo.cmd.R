@@ -433,7 +433,7 @@ cmd.hpcsys<- function()
 }
 
 #' @export
-cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA)
+cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
 {
 	wrap<- "#!/bin/sh"
 	tmp	<- paste("#PBS -l walltime=",hpc.walltime,":59:59,pcput=",hpc.walltime,":45:00",sep='')
@@ -443,7 +443,7 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.npr
 	wrap<- paste(wrap, "#PBS -j oe", sep='\n')
 	if(!is.na(hpc.q))
 		wrap<- paste(wrap, paste("#PBS -q",hpc.q), sep='\n\n')
-	wrap<- paste(wrap, HPC.CX1.IMPERIAL.LOAD, sep='\n')
+	wrap<- paste(wrap, hpc.load, sep='\n')
 	wrap
 }
 
@@ -456,11 +456,11 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.npr
 #'  function. It is quite straightforward to add support for a different HPC server.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @return Character string
-cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA)
+cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
 {	
 	#hpc.sys<- HPC.CX1.IMPERIAL
 	if(hpc.sys==HPC.CX1.IMPERIAL)
-		wrap<- cmd.hpcwrapper.cx1.ic.ac.uk(hpc.walltime=hpc.walltime, hpc.mem=hpc.mem, hpc.nproc=hpc.nproc, hpc.q=hpc.q)
+		wrap<- cmd.hpcwrapper.cx1.ic.ac.uk(hpc.walltime=hpc.walltime, hpc.mem=hpc.mem, hpc.nproc=hpc.nproc, hpc.q=hpc.q, hpc.load=hpc.load)
 	else
 	{
 		wrap<- "#!/bin/sh"
