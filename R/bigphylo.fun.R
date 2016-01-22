@@ -21,7 +21,7 @@ seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.char
 		tmp			<- apply(seq.DNAbin.mat,2,function(x) length(which(x%in%gap.chars)))
 	tmp				<- tmp/nrow(seq.DNAbin.mat)
 	if(!is.na(strip.pc))
-		return(as.DNAbin(seq.DNAbin.mat[,tmp<strip.pc]))
+		return(as.DNAbin(seq.DNAbin.mat[,tmp<strip.pc,drop=FALSE]))
 	if(!is.na(strip.max.len))
 		for(strip.pc in rev(seq(0.01,1.00,0.01)))
 		{
@@ -29,7 +29,7 @@ seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.char
 			if(length(z)<=strip.max.len)
 			{
 				cat('\nStripping gaps at pc=',strip.pc)
-				return(as.DNAbin(seq.DNAbin.mat[,z]))
+				return(as.DNAbin(seq.DNAbin.mat[,z,drop=FALSE]))
 			}
 		}
 }
