@@ -188,7 +188,7 @@ cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99
 	cmd			<- paste(cmd,"cd ",tmpdir,sep='') 
 	cmd			<- paste(cmd,paste("\necho \'check if all bootstrap samples have been computed\'",sep=''))
 	#compute bs tree even when some errors	
-	tmp			<- paste("\nif [ $(find . -name 'ExaML_result.",infile,".finaltree*' | wc -l) -gt ",round(bs.n*0.95)," ]; then",sep='')
+	tmp			<- paste("\nif [ $(find . -name 'ExaML_result.",infile,".finaltree*' | wc -l) -ge ",round(bs.n*0.95)," ]; then",sep='')
 	cmd			<- paste(cmd,tmp,sep='')
 	cmd			<- paste(cmd,paste("\n\techo \'all bootstrap samples computed -- find best tree and add bootstrap support values\'",sep=''))				
 	tmp			<- c(	paste("ExaML_result.",infile,".finaltree",sep=''), 	paste("ExaML_result.",infile,".bstree",sep=''))
