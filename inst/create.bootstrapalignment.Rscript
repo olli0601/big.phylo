@@ -91,8 +91,16 @@ if(!resume || !length(file))
 	}
 	if(!"DNAbin"%in%class(seq.PROT.RT) || !is.matrix(seq.PROT.RT))	
 		stop("expect R infile that contains a DNAbin matrix")
-	rownames(seq.PROT.RT)	<- gsub(" <unknown description>","",rownames(seq.PROT.RT),fixed=1)
 	print(seq.PROT.RT)
+	#	check for undetermined sequences - if present, delete
+	seq.PROT.RT			<- as.character(seq.PROT.RT)
+	tmp					<- which(apply(seq.PROT.RT, 1, function(x) all(x%in%c('?','-','n'))))
+	if(length(tmp))
+	{
+		cat('\nFound entirely undetermined sequences, delete. n=', length(tmp))
+		seq.PROT.RT		<- seq.PROT.RT[-tmp,]
+	}	
+	seq.PROT.RT			<- as.DNAbin( seq.PROT.RT )
 	#print(bs)
 	if(bs)		#keep bs0 intact
 	{
