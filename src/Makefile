@@ -37,8 +37,8 @@ all:
 lsd:
 	echo $(CWD)	
 	git clone https://github.com/tothuhien/lsd-0.3beta.git
-	make -C lsd-0.3beta
-	mv $(CWD)/lsd-0.3beta/lsd $(EXTERNAL_CODE)/lsd
+	make -C lsd-0.3beta/src
+	mv $(CWD)/lsd-0.3beta/src/lsd $(EXTERNAL_CODE)/lsd
 	rm -rf lsd-0.3beta	
 	
 ExaML-raxml:
