@@ -5,7 +5,7 @@ PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
-PR.LSD						<- 'lsd'#system.file(package=PR.PACKAGE, "ext", "lsd")
+PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
 HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
 HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
