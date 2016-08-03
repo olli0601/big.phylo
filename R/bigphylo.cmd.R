@@ -5,6 +5,7 @@ PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
+PR.LSD						<- 'lsd'#system.file(package=PR.PACKAGE, "ext", "lsd")
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
 HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
 HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
@@ -89,6 +90,33 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 #######################################################\n",sep='')
 	cmd
 }
+
+#' @export
+#' @title Produce a single LSD shell command. 
+#' @return	Character string
+cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, PR.LSD='lsd', pr.args='-v 2 -c -b 10 -r as')
+{		
+	cmd				<- paste("#######################################################
+# start: LSD
+#######################################################\n",sep='')												
+	cmd				<- paste(cmd,"CWD=$(pwd)\n",sep='')
+	cmd				<- paste(cmd,"echo $CWD\n",sep='')	
+	tmpdir.prefix	<- paste('lsd_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')
+	tmpdir			<- paste("$CWD/",tmpdir.prefix,sep='')
+	tmp.tree		<- file.path(tmpdir, basename(infile.tree))
+	tmp.dates		<- file.path(tmpdir, basename(infile.dates))
+	tmp.out			<- file.path(tmpdir, basename(outfile))	
+	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+	cmd				<- paste(cmd,'cp ',infile.tree,' ',tmpdir,'\n', sep='')
+	cmd				<- paste(cmd,'cp ',infile.dates,' ',tmpdir,'\n', sep='')
+	cmd				<- paste(cmd, PR.LSD,' -i ', tmp.tree,' -d ', tmp.dates,' -s ',ali.nrow, ' -o ', tmp.out, ' ', pr.args,'\n', sep='')
+	cmd				<- paste(cmd, "mv ", tmp.out,"* ",dirname(outfile),'\n',sep='')
+	cmd				<- paste(cmd, "#######################################################
+# end: LSD
+#######################################################\n",sep='')
+	cmd
+}
+
 
 #' @export
 #' @title Produce a single ExaML shell command.

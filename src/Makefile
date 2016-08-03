@@ -18,6 +18,10 @@ all:
 	@echo "*********************************************** "	
 	make misc	
 	@echo "*********************************************** "
+	@echo "********* BUILDING LSD ********************** "
+	@echo "*********************************************** "	
+	make lsd	
+	@echo "*********************************************** "
 	@echo "********* BUILDING standard-RAxML ************* "
 	@echo "*********************************************** "	
 	make ExaML-raxml	
@@ -28,7 +32,14 @@ all:
 	@echo "*********************************************** "
 	@echo "********* BUILDING ExaML ********************** "
 	@echo "*********************************************** "	
-	make examl	
+	make examl		
+
+lsd:
+	echo $(CWD)	
+	git clone https://github.com/tothuhien/lsd-0.3beta.git
+	make -C lsd-0.3beta
+	mv $(CWD)/lsd-0.3beta/lsd $(EXTERNAL_CODE)/lsd
+	rm -rf lsd-0.3beta	
 	
 ExaML-raxml:
 	echo $(CWD)	
