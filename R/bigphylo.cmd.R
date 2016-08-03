@@ -94,7 +94,7 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 #' @export
 #' @title Produce a single LSD shell command. 
 #' @return	Character string
-cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, PR.LSD='lsd', pr.args='-v 2 -c -b 10 -r as')
+cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=PR.LSD, pr.args='-v 2 -c -b 10 -r as')
 {		
 	cmd				<- paste("#######################################################
 # start: LSD
@@ -109,7 +109,7 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, PR.
 	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
 	cmd				<- paste(cmd,'cp ',infile.tree,' ',tmpdir,'\n', sep='')
 	cmd				<- paste(cmd,'cp ',infile.dates,' ',tmpdir,'\n', sep='')
-	cmd				<- paste(cmd, PR.LSD,' -i ', tmp.tree,' -d ', tmp.dates,' -s ',ali.nrow, ' -o ', tmp.out, ' ', pr.args,'\n', sep='')
+	cmd				<- paste(cmd, pr,' -i ', tmp.tree,' -d ', tmp.dates,' -s ',ali.nrow, ' -o ', tmp.out, ' ', pr.args,'\n', sep='')
 	cmd				<- paste(cmd, "mv ", tmp.out,"* ",dirname(outfile),'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: LSD
