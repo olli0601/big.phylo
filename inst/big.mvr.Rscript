@@ -79,4 +79,4 @@ seq.write.dna.phylip.triangular(as.matrix(v), file=file.v)
 #	call PhyD*
 #
 tmp	<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method='MVR', fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
-system(cat(tmp))
+system(tmp)
