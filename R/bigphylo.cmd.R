@@ -6,6 +6,7 @@ PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser")
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
 PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
+PR.MVR						<- paste('Rscript',system.file(package=PR.PACKAGE, "big.mvr.Rscript"),sep=' ')
 PR.PHYD						<- paste('java -jar ', system.file(package=PR.PACKAGE, "ext", "PhyDstar.jar"), sep='')
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
 HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
@@ -116,6 +117,23 @@ cmd.phydstar<- function(infile.d, infile.v=NA, outfile=NA, pr=PR.PHYD, method='B
 	cmd	<- paste(cmd, "#######################################################
 # end: PhyD*
 #######################################################\n",sep='')	
+	cmd
+}
+
+#' @export
+#' @title Produce a single shell command to run MVR. 
+#' @return	Character string
+cmd.mvr<- function(infile, outfile, prog=PR.MVR)
+{
+	cmd<- "#######################################################
+# start: run big.mvr.Rscript 
+#######################################################"
+	cmd		<- paste(cmd, paste("\necho \'run ",prog,"\'\n",sep=''))
+	cmd		<- paste(cmd, paste(prog,' -infile=', infile,' -outfile=',outfile,' \n', sep=''))
+	cmd		<- paste(cmd,paste("echo \'end ",prog,"\'\n",sep=''))
+	cmd		<- paste(cmd,"#######################################################
+# end: run big.mvr.Rscript
+#######################################################\n",sep='')
 	cmd
 }
 
