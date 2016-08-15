@@ -40,7 +40,7 @@ all:
 
 phyd:
 	echo $(CWD)	
-	tar -xzf PhyDstar.tar.gz
+	tar -xzf ../inst/PhyDstar.tar.gz
 	mv $(CWD)/PhyDstar/PhyDstar.jar $(EXTERNAL_CODE)
 	rm -rf PhyDstar	
 
