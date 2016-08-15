@@ -4,6 +4,6 @@
 \alias{seq.dist}
 \title{Compute pairwise distance matrix}
 \usage{
-\method{seq}{dist}(seq.DNAbin.matrix, verbose = 1)
+seq.dist(seq.DNAbin.matrix, verbose = 1)
 }
 

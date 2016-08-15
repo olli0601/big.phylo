@@ -4,6 +4,6 @@
 \alias{seq.proportion.ambiguous}
 \title{Compute the proportion of ambiguous nucleotides}
 \usage{
-\method{seq}{proportion.ambiguous}(seq.DNAbin.mat, exclude = c("-", "?"))
+seq.proportion.ambiguous(seq.DNAbin.mat, exclude = c("-", "?"))
 }
 

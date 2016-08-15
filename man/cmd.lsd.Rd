@@ -5,7 +5,7 @@
 \title{Produce a single LSD shell command.}
 \usage{
 cmd.lsd(infile.tree, infile.dates, ali.nrow, outfile = infile.tree,
-  PR.LSD = "lsd", pr.args = "-v 2 -c -b 10 -r as")
+  pr = PR.LSD, pr.args = "-v 2 -c -b 10 -r as")
 }
 \value{
 Character string

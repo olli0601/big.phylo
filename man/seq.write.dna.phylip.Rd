@@ -2,8 +2,8 @@
 % Please edit documentation in R/bigphylo.fun.R
 \name{seq.write.dna.phylip}
 \alias{seq.write.dna.phylip}
-\title{Write a phylip file}
+\title{Write a square phylip file}
 \usage{
-\method{seq}{write.dna.phylip}(seq.DNAbin.mat, file)
+seq.write.dna.phylip(seq.DNAbin.mat, file)
 }
 
