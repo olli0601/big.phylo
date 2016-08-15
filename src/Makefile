@@ -22,6 +22,10 @@ all:
 	@echo "*********************************************** "	
 	make lsd	
 	@echo "*********************************************** "
+	@echo "********* BUILDING PhyD* ********************** "
+	@echo "*********************************************** "	
+	make phyd		
+	@echo "*********************************************** "
 	@echo "********* BUILDING standard-RAxML ************* "
 	@echo "*********************************************** "	
 	make ExaML-raxml	
@@ -33,6 +37,12 @@ all:
 	@echo "********* BUILDING ExaML ********************** "
 	@echo "*********************************************** "	
 	make examl		
+
+phyd:
+	echo $(CWD)	
+	tar -xzf PhyDstar.tar.gz
+	mv $(CWD)/PhyDstar/PhyDstar.jar $(EXTERNAL_CODE)
+	rm -rf PhyDstar	
 
 lsd:
 	echo $(CWD)	

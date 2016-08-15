@@ -6,6 +6,7 @@ PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser")
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
 PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
+PR.PHYD						<- paste('java -jar ', system.file(package=PR.PACKAGE, "ext", "PhyDstar.jar"), sep='')
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
 HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
 HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
@@ -88,6 +89,33 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 	cmd			<- paste(cmd,"\n#######################################################
 # end: compute ExaML tree
 #######################################################\n",sep='')
+	cmd
+}
+
+#' @export
+#' @title Produce a single PhyD* shell command. 
+#' @return	Character string
+cmd.phydstar<- function(infile.d, infile.v=NA, outfile=NA, pr=PR.PHYD, method='BioNJ', fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
+{
+	stopifnot(method%in%c('BioNJ','MVR','NJ','UNJ'))	
+	stopifnot(negative.branch.length%in%c(TRUE,FALSE))
+	stopifnot(lower.triangular%in%c(TRUE,FALSE))
+	stopifnot(binary%in%c(TRUE,FALSE))
+	
+	cmd				<- paste("#######################################################
+# start: PhyD*
+#######################################################\n",sep='')
+	cmd	<- paste(cmd, pr, " -d ",method," -p ",fs," -n ",as.character(factor(negative.branch.length, levels=c(TRUE,FALSE),labels=c('Y','N')))," -b ",as.character(factor(binary, levels=c(TRUE,FALSE),labels=c('Y','N'))),sep='')	
+	if(lower.triangular)
+		cmd	<- paste(cmd, ' -l',sep='')
+	cmd	<- paste(cmd, ' -i ', infile.d, sep='')
+	if(!is.na(infile.v))
+		cmd	<- paste(cmd, ' -v ', infile.v, sep='')
+	if(!is.na(outfile))		
+		cmd	<- paste(cmd,'\n','mv ',infile.d,'_',tolower(method),'.t',' ',outfile,'\n',sep='')
+	cmd	<- paste(cmd, "#######################################################
+# end: PhyD*
+#######################################################\n",sep='')	
 	cmd
 }
 

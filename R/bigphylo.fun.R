@@ -1,12 +1,125 @@
 
 #' @export
-#' @title Write a phylip file
+#' @title Write a square phylip file
 seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 {		
 	tmp<- cbind( rownames(seq.DNAbin.mat), apply( as.character( seq.DNAbin.mat ), 1, function(x) paste(x,sep='',collapse='')  ) )
 	tmp<- paste(t(tmp),collapse='\n',sep='')	
 	tmp<- paste( paste(c(nrow(seq.DNAbin.mat),ncol(seq.DNAbin.mat)),sep='',collapse=' '),'\n',tmp,'\n',collapse='',sep='' )
 	cat(tmp, file=file)
+}
+
+#' @export
+#' @title Write a triangular phylip file
+seq.write.dna.phylip.triangular<- function(wd, file=NA)
+{
+	stopifnot(class(wd)=='matrix')
+	stopifnot(!is.na(file))
+	tmp	<- paste(sapply(seq_len(nrow(wd)), function(i)
+					{
+						z	<- sprintf('%.16f',wd[i, 1:i][-i])
+						if(length(z))
+							z	<- as.vector(rbind(z, rep(1, length(z))))						
+						z	<- paste(z, collapse=' ')
+						paste(rownames(wd)[i],' ',z,sep='')		
+					}), collapse='\n')
+	
+	cat('\t', paste(nrow(wd), '\n', tmp, sep=''), file=file)	
+}
+
+#' @import data.table ape recosystem ggplot2
+#' @export
+seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
+{	
+	#reco.opts	<- c(dim=500, costp_l1=0, costp_l2=0.01, costq_l1=0, costq_l2=0.01, nthread=1, lrate=0.003, niter=40)	
+	stopifnot( c('TAXA1','TAXA2','ID1','ID2','GD','GD_V')%in%colnames(tps) )
+	#	tps				<- subset(tp, REP==1 & GENE=='gag+pol+env')
+	tpc		<- subset(tps, select=c('ID1','ID2','GD'))
+	#	add upper triangular
+	tmp		<- copy(tpc)
+	set(tmp, NULL, 'ID1', tpc[, ID2])
+	set(tmp, NULL, 'ID2', tpc[, ID1])
+	tpc		<- rbind(tpc, tmp)
+	#	add zero diagonal
+	tmp		<- tpc[, range(ID1)]
+	tmp		<- data.table(ID1= seq.int(tmp[1], tmp[2]), ID2= seq.int(tmp[1], tmp[2]), GD=0)
+	tpc		<- rbind(tpc, tmp)
+	#	setup matrix completion
+	if(verbose)
+		cat('\nmatrix completion')
+	tmp		<- subset(tpc, !is.na(GD))
+	tmp		<- data_memory(tmp[,ID1], tmp[,ID2], rating=tmp[,GD], index1=TRUE)
+	if(!is.na(seed))
+		set.seed(seed)
+	r		<- Reco()	
+	r$train(tmp, opts=reco.opts)	
+	tpc[, GDp:= r$predict(data_memory(tpc[,ID1], tpc[,ID2], index1=TRUE), out_memory())]
+	# plot
+	if(!is.na(outfile))
+	{
+		ggplot(subset(tpc, !is.na(GD)), aes(x=GD, y=GDp)) + geom_point(colour='grey80', size=0.5, pch=16) + geom_abline(slope=1, intercept=0)
+		ggsave(file=paste(outfile, '_', paste(reco.opts,collapse='_'), '.pdf', sep=''), w=7, h=7)		
+	}
+	if(verbose)
+		cat('\ngenerating distance matrix d')
+	#	fill in distance matrix
+	tpc[, GDf:= GD]
+	tmp			<- tpc[, which(is.na(GDf))]
+	set(tpc, tmp, 'GDf', tpc[tmp, GDp])
+	#	convert to matrix (not necessarily symmetric)
+	#tmp			<- dcast.data.table( subset(tpc, ID1<20 & ID2<20, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )
+	tmp			<- dcast.data.table( subset(tpc, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )		
+	d			<- as.matrix(tmp[, -1, with=FALSE])
+	rownames(d)	<- colnames(d)
+	#	make symmetric
+	d			<- (d+t(d))/2	
+	#	some rows/cols may have NAs only -- remove these as the matrix completion problem is ill-specified for these
+	tmp			<- subset(subset(tpc, is.na(GD))[, list(GDM=length(GD)), by='ID1'], GDM==nrow(d)-1) #subtract one since diagonal is zero
+	tmp			<- setdiff(rownames(d), tmp[, as.character(ID1)] )
+	d			<- d[tmp, tmp]
+	#	clean up
+	tpc			<- r	<- NULL
+	gc()
+	#
+	#	generate variance matrix
+	#
+	if(verbose)
+		cat('\ngenerating variance matrix v')
+	tmp				<- dcast.data.table(tps, ID1~ID2, value.var='GD_V')		
+	v				<- cbind(NA_real_, as.matrix(tmp[, -1, with=FALSE]))
+	v				<- rbind(v, NA_real_)
+	colnames(v)[1]	<- setdiff( as.character(tmp[, ID1]), colnames(v) )
+	rownames(v)		<- colnames(v)
+	diag(v)			<- 0
+	#	complete lower triangular from upper triangular and vice versa
+	tmp				<- lower.tri(v) & is.na(v)	
+	v[tmp]			<- t(v)[tmp]
+	tmp				<- upper.tri(v) & is.na(v)
+	v[tmp]			<- t(v)[tmp]
+	#	set missing variances to large default
+	v[is.na(v)]		<- max(v, na.rm=TRUE)*v.mult
+	v				<- v[rownames(d),colnames(d)]		
+	#
+	#	reset names
+	#
+	if(verbose)
+		cat('\nsetting taxon names')
+	tmp				<- subset( tps, select=c(TAXA1, ID1) )
+	setnames(tmp, c('TAXA1','ID1'), c('TAXA2','ID2') )
+	tmp				<- unique(rbind( tmp, subset( tps, select=c(TAXA2, ID2) ) ))
+	setnames(tmp, c('TAXA2','ID2'), c('TAXA','ID') )		
+	tmp				<- merge(tmp, data.table(ID=as.integer(rownames(d))), by='ID')
+	setkey(tmp, ID)
+	rownames(d)		<- tmp[, TAXA]
+	colnames(d)		<- tmp[, TAXA]		
+	rownames(v)		<- tmp[, TAXA]
+	colnames(v)		<- tmp[, TAXA]	
+	stopifnot( all(d>=0) )
+	stopifnot( all(v>=0) )
+	#				
+	#	return
+	#
+	list(d=as.dist(d), v=as.dist(v))
 }
 
 #' @export

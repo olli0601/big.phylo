@@ -1,0 +1,82 @@
+args <- commandArgs()
+if(!any(args=='--args'))
+	args<- vector("numeric",0)
+if(any(args=='--args'))
+	args<- args[-(1:match("--args", args)) ]
+#
+#	default args
+#
+infile			<- file.path('~/Dropbox (Infectious Disease)/PANGEAHIVsim/201507_TreeReconstruction/tree_mvr','150701_Regional_TRAIN4_SIMULATED_tps.rda')	
+outfile			<- infile
+na.rm.p			<- NA	 
+seed			<- 42		
+v.mult			<- 1.2
+opt.expressions	<- 5e5
+reco.opts		<- c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120)
+verbose			<- 1
+#
+#	read args as specified
+#
+if(exists("args"))
+{
+	#	args input
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,7),
+								infile= return(substr(arg,9,nchar(arg))),NA)	}))
+	if(length(tmp)>0) infile<- tmp[1]		
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,8),
+								outfile= return(substr(arg,10,nchar(arg))),NA)	}))
+	if(length(tmp)>0) outfile<- tmp[1]	
+}
+if(verbose)
+{
+	cat('\ninput args\n',paste(infile, outfile, sep='\n'))
+}
+#
+#	start script
+#
+require(ape)
+require(data.table)
+require(recosystem)
+require(big.phylo)
+#
+#	example
+#
+#indir	<- "/Users/Oliver/duke/tmp"
+#file.d	<- file.path(indir,'d.phylip')
+#file.v	<- file.path(indir,'v.phylip')
+#outfile	<- file.path(indir,'mvr.newick')
+#data(woodmouse)
+#wd 	<- dist.dna(woodmouse, variance = TRUE)	
+#seq.write.dna.phylip.triangular(as.matrix(wd), file=file.d)
+#wd[]<- attr(wd, "variance")
+#seq.write.dna.phylip.triangular(as.matrix(wd), file=file.v)
+#cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method='MVR')
+#
+#	read precomputed distances in long format
+#
+tmp			<- load(infile)
+if(length(tmp)!=1)		
+	stop("Unexpected length of objects in file",infile)
+eval(parse(text=paste("tps<- ",tmp,sep='')))
+#
+#	get distance and variance matrix
+#
+tmp	<- seq.mvr.d.and.v(tps, seed=seed, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
+d	<- tmp$d
+v	<- tmp$v
+tmp	<- NULL
+gc()
+#
+#	write to file
+#
+file.d	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_d.phylip',sep='')
+file.v	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_v.phylip',sep='')
+seq.write.dna.phylip.triangular(as.matrix(d), file=file.d)
+seq.write.dna.phylip.triangular(as.matrix(v), file=file.v)
+#
+#	call PhyD*
+#
+tmp	<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method='MVR', fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
+system(cat(tmp))
