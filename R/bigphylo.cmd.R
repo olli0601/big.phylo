@@ -123,13 +123,13 @@ cmd.phydstar<- function(infile.d, infile.v=NA, outfile=NA, pr=PR.PHYD, method='B
 #' @export
 #' @title Produce a single shell command to run MVR. 
 #' @return	Character string
-cmd.mvr<- function(infile, outfile, prog=PR.MVR)
+cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance.matrix=FALSE)
 {
 	cmd<- "#######################################################
 # start: run big.mvr.Rscript 
 #######################################################"
 	cmd		<- paste(cmd, paste("\necho \'run ",prog,"\'\n",sep=''))
-	cmd		<- paste(cmd, paste(prog,' -infile=', infile,' -outfile=',outfile,' \n', sep=''))
+	cmd		<- paste(cmd, paste(prog,' -infile=', infile,' -outfile=',outfile,' -method=',method,' -complete.distance.matrix=',as.integer(complete.distance.matrix),' \n', sep=''))
 	cmd		<- paste(cmd,paste("echo \'end ",prog,"\'\n",sep=''))
 	cmd		<- paste(cmd,"#######################################################
 # end: run big.mvr.Rscript

@@ -29,50 +29,71 @@ seq.write.dna.phylip.triangular<- function(wd, file=NA)
 
 #' @import data.table ape recosystem ggplot2
 #' @export
-seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
+seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, complete.distance.matrix=TRUE, reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
 {	
 	#reco.opts	<- c(dim=500, costp_l1=0, costp_l2=0.01, costq_l1=0, costq_l2=0.01, nthread=1, lrate=0.003, niter=40)	
 	stopifnot( c('TAXA1','TAXA2','ID1','ID2','GD','GD_V')%in%colnames(tps) )
 	#	tps				<- subset(tp, REP==1 & GENE=='gag+pol+env')
 	tpc		<- subset(tps, select=c('ID1','ID2','GD'))
-	#	add upper triangular
-	tmp		<- copy(tpc)
-	set(tmp, NULL, 'ID1', tpc[, ID2])
-	set(tmp, NULL, 'ID2', tpc[, ID1])
-	tpc		<- rbind(tpc, tmp)
-	#	add zero diagonal
-	tmp		<- tpc[, range(ID1)]
-	tmp		<- data.table(ID1= seq.int(tmp[1], tmp[2]), ID2= seq.int(tmp[1], tmp[2]), GD=0)
-	tpc		<- rbind(tpc, tmp)
-	#	setup matrix completion
-	if(verbose)
-		cat('\nmatrix completion')
-	tmp		<- subset(tpc, !is.na(GD))
-	tmp		<- data_memory(tmp[,ID1], tmp[,ID2], rating=tmp[,GD], index1=TRUE)
-	if(!is.na(seed))
-		set.seed(seed)
-	r		<- Reco()	
-	r$train(tmp, opts=reco.opts)	
-	tpc[, GDp:= r$predict(data_memory(tpc[,ID1], tpc[,ID2], index1=TRUE), out_memory())]
-	# plot
-	if(!is.na(outfile))
+	if(complete.distance.matrix)
 	{
-		ggplot(subset(tpc, !is.na(GD)), aes(x=GD, y=GDp)) + geom_point(colour='grey80', size=0.5, pch=16) + geom_abline(slope=1, intercept=0)
-		ggsave(file=paste(outfile, '_', paste(reco.opts,collapse='_'), '.pdf', sep=''), w=7, h=7)		
+		#	add upper triangular
+		tmp		<- copy(tpc)
+		set(tmp, NULL, 'ID1', tpc[, ID2])
+		set(tmp, NULL, 'ID2', tpc[, ID1])
+		tpc		<- rbind(tpc, tmp)
+		#	add zero diagonal
+		tmp		<- tpc[, range(ID1)]
+		tmp		<- data.table(ID1= seq.int(tmp[1], tmp[2]), ID2= seq.int(tmp[1], tmp[2]), GD=0)
+		tpc		<- rbind(tpc, tmp)
+		#	setup matrix completion
+		if(verbose)
+			cat('\nmatrix completion')
+		tmp		<- subset(tpc, !is.na(GD))
+		tmp		<- data_memory(tmp[,ID1], tmp[,ID2], rating=tmp[,GD], index1=TRUE)
+		if(!is.na(seed))
+			set.seed(seed)
+		r		<- Reco()	
+		r$train(tmp, opts=reco.opts)	
+		tpc[, GDp:= r$predict(data_memory(tpc[,ID1], tpc[,ID2], index1=TRUE), out_memory())]
+		# plot
+		if(!is.na(outfile))
+		{
+			ggplot(subset(tpc, !is.na(GD)), aes(x=GD, y=GDp)) + geom_point(colour='grey80', size=0.5, pch=16) + geom_abline(slope=1, intercept=0)
+			ggsave(file=paste(outfile, '_', paste(reco.opts,collapse='_'), '.pdf', sep=''), w=7, h=7)		
+		}
+		if(verbose)
+			cat('\ngenerating completed distance matrix d')
+		#	fill in distance matrix
+		tpc[, GDf:= GD]
+		tmp			<- tpc[, which(is.na(GDf))]
+		set(tpc, tmp, 'GDf', tpc[tmp, GDp])
+		#	convert to matrix (not necessarily symmetric)
+		#tmp		<- dcast.data.table( subset(tpc, ID1<20 & ID2<20, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )
+		tmp			<- dcast.data.table( subset(tpc, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )		
+		d			<- as.matrix(tmp[, -1, with=FALSE])
+		rownames(d)	<- colnames(d)
+		#	make symmetric
+		d			<- (d+t(d))/2	
+		stopifnot( all(d>=0) )		
 	}
-	if(verbose)
-		cat('\ngenerating distance matrix d')
-	#	fill in distance matrix
-	tpc[, GDf:= GD]
-	tmp			<- tpc[, which(is.na(GDf))]
-	set(tpc, tmp, 'GDf', tpc[tmp, GDp])
-	#	convert to matrix (not necessarily symmetric)
-	#tmp			<- dcast.data.table( subset(tpc, ID1<20 & ID2<20, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )
-	tmp			<- dcast.data.table( subset(tpc, select=c(ID1,ID2,GDf)), ID1~ID2, value.var='GDf' )		
-	d			<- as.matrix(tmp[, -1, with=FALSE])
-	rownames(d)	<- colnames(d)
-	#	make symmetric
-	d			<- (d+t(d))/2	
+	if(!complete.distance.matrix)
+	{
+		if(verbose)
+			cat('\ngenerating incomplete distance matrix d')		
+		tmp				<- dcast.data.table(tpc, ID1~ID2, value.var='GD')		
+		d				<- cbind(NA_real_, as.matrix(tmp[, -1, with=FALSE]))
+		d				<- rbind(d, NA_real_)
+		colnames(d)[1]	<- setdiff( as.character(tmp[, ID1]), colnames(d) )
+		rownames(d)		<- colnames(d)
+		diag(d)			<- 0
+		#	complete lower triangular from upper triangular and vice versa
+		tmp				<- lower.tri(d) & is.na(d)	
+		d[tmp]			<- t(d)[tmp]
+		tmp				<- upper.tri(d) & is.na(d)
+		d[tmp]			<- t(d)[tmp]	
+		d[is.nan(d)]	<- NA_real_
+	}
 	#	some rows/cols may have NAs only -- remove these as the matrix completion problem is ill-specified for these
 	tmp			<- subset(subset(tpc, is.na(GD))[, list(GDM=length(GD)), by='ID1'], GDM==nrow(d)-1) #subtract one since diagonal is zero
 	tmp			<- setdiff(rownames(d), tmp[, as.character(ID1)] )
@@ -98,7 +119,8 @@ seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, reco.opts=c(dim=750, costp_
 	v[tmp]			<- t(v)[tmp]
 	#	set missing variances to large default
 	v[is.na(v)]		<- max(v, na.rm=TRUE)*v.mult
-	v				<- v[rownames(d),colnames(d)]		
+	v				<- v[rownames(d),colnames(d)]	
+	stopifnot( all(v>=0) )
 	#
 	#	reset names
 	#
@@ -113,9 +135,7 @@ seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, reco.opts=c(dim=750, costp_
 	rownames(d)		<- tmp[, TAXA]
 	colnames(d)		<- tmp[, TAXA]		
 	rownames(v)		<- tmp[, TAXA]
-	colnames(v)		<- tmp[, TAXA]	
-	stopifnot( all(d>=0) )
-	stopifnot( all(v>=0) )
+	colnames(v)		<- tmp[, TAXA]
 	#				
 	#	return
 	#

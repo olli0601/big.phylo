@@ -6,14 +6,15 @@ if(any(args=='--args'))
 #
 #	default args
 #
-infile			<- file.path('~/Dropbox (Infectious Disease)/PANGEAHIVsim/201507_TreeReconstruction/tree_mvr','150701_Regional_TRAIN4_SIMULATED_tps.rda')	
-outfile			<- infile
-na.rm.p			<- NA	 
-seed			<- 42		
-v.mult			<- 1.2
-opt.expressions	<- 5e5
-reco.opts		<- c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120)
-verbose			<- 1
+infile						<- file.path('~/Dropbox (Infectious Disease)/PANGEAHIVsim/201507_TreeReconstruction/tree_mvr','150701_Regional_TRAIN4_SIMULATED_tps.rda')	
+outfile						<- infile
+na.rm.p						<- NA	 
+method						<- 'MVR'
+seed						<- 42		
+v.mult						<- 1.2
+complete.distance.matrix	<- 0
+reco.opts					<- c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120)
+verbose						<- 1
 #
 #	read args as specified
 #
@@ -27,11 +28,20 @@ if(exists("args"))
 	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,8),
 								outfile= return(substr(arg,10,nchar(arg))),NA)	}))
-	if(length(tmp)>0) outfile<- tmp[1]	
+	if(length(tmp)>0) outfile<- tmp[1]
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,7),
+								method= return(substr(arg,9,nchar(arg))),NA)	}))
+	if(length(tmp)>0) method<- tmp[1]
+	
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,25),
+								complete.distance.matrix= return(substr(arg,27,nchar(arg))),NA)	}))
+	if(length(tmp)>0) complete.distance.matrix<- tmp[1]	
 }
 if(verbose)
 {
-	cat('\ninput args\n',paste(infile, outfile, sep='\n'))
+	cat('\ninput args\n',paste(infile, outfile, method, complete.distance.matrix, sep='\n'))
 }
 #
 #	start script
@@ -63,7 +73,7 @@ eval(parse(text=paste("tps<- ",tmp,sep='')))
 #
 #	get distance and variance matrix
 #
-tmp	<- seq.mvr.d.and.v(tps, seed=seed, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
+tmp	<- seq.mvr.d.and.v(tps, seed=seed, complete.distance.matrix=complete.distance.matrix, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
 d	<- tmp$d
 v	<- tmp$v
 tmp	<- NULL
@@ -72,12 +82,16 @@ gc()
 #	write to file
 #
 file.d	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_d.phylip',sep='')
-file.v	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_v.phylip',sep='')
 seq.write.dna.phylip.triangular(as.matrix(d), file=file.d)
-seq.write.dna.phylip.triangular(as.matrix(v), file=file.v)
+file.v	<- NA
+if(method=='MVR')
+{
+	file.v	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_v.phylip',sep='')
+	seq.write.dna.phylip.triangular(as.matrix(v), file=file.v)
+}
 #
 #	call PhyD*
 #
-tmp	<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method='MVR', fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
+tmp	<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method=method, fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
 system(tmp)
 
