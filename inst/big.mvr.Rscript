@@ -74,20 +74,28 @@ eval(parse(text=paste("tps<- ",tmp,sep='')))
 #	get distance and variance matrix
 #
 tmp	<- seq.mvr.d.and.v(tps, seed=seed, complete.distance.matrix=complete.distance.matrix, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
-d	<- tmp$d
-v	<- tmp$v
+d	<- as.matrix(tmp$d)
+v	<- as.matrix(tmp$v)
 tmp	<- NULL
 gc()
+#
+#	get missing entries into PhyD* format
+#
+if(!complete.distance.matrix)
+{
+	d[is.na(d)]	<- -1
+	v[is.na(v)]	<- -1
+}
 #
 #	write to file
 #
 file.d	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_d.phylip',sep='')
-seq.write.dna.phylip.triangular(as.matrix(d), file=file.d)
+seq.write.dna.phylip.triangular(d, file=file.d)
 file.v	<- NA
 if(method=='MVR')
 {
 	file.v	<- paste(gsub('\\.rda|\\.newick|\\.tree','',outfile),'_v.phylip',sep='')
-	seq.write.dna.phylip.triangular(as.matrix(v), file=file.v)
+	seq.write.dna.phylip.triangular(v, file=file.v)
 }
 #
 #	call PhyD*
