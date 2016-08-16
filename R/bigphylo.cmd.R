@@ -130,7 +130,7 @@ cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance
 #######################################################"
 	cmd		<- paste(cmd, paste("\necho \'run ",prog,"\'\n",sep=''))
 	cmd		<- paste(cmd, paste(prog,' -infile=', infile,' -outfile=',outfile,' -method=',method,' -complete.distance.matrix=',as.integer(complete.distance.matrix),' \n', sep=''))
-	cmd		<- paste(cmd,paste("echo \'end ",prog,"\'\n",sep=''))
+	cmd		<- paste(cmd, paste("echo \'end ",prog,"\'\n",sep=''))
 	cmd		<- paste(cmd,"#######################################################
 # end: run big.mvr.Rscript
 #######################################################\n",sep='')

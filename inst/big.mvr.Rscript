@@ -36,7 +36,7 @@ if(exists("args"))
 	
 	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,25),
-								complete.distance.matrix= return(substr(arg,27,nchar(arg))),NA)	}))
+								complete.distance.matrix= return(as.numeric(substr(arg,27,nchar(arg)))),NA)	}))
 	if(length(tmp)>0) complete.distance.matrix<- tmp[1]	
 }
 if(verbose)
@@ -92,6 +92,7 @@ if(method=='MVR')
 #
 #	call PhyD*
 #
-tmp	<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method=method, fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
+outfile	<- paste(outfile,'.newick',sep='')
+tmp		<- cmd.phydstar(file.d, outfile=outfile, infile.v=file.v, method=method, fs=15, binary=TRUE, negative.branch.length=FALSE, lower.triangular=TRUE)
 system(tmp)
 
