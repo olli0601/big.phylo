@@ -10,6 +10,7 @@ infile						<- file.path('~/Dropbox (Infectious Disease)/PANGEAHIVsim/201507_Tre
 outfile						<- infile
 na.rm.p						<- NA	 
 method						<- 'MVR'
+name.gd.col					<- 'GD'
 seed						<- 42		
 v.mult						<- 1.2
 complete.distance.matrix	<- 0
@@ -33,7 +34,10 @@ if(exists("args"))
 					{	switch(substr(arg,2,7),
 								method= return(substr(arg,9,nchar(arg))),NA)	}))
 	if(length(tmp)>0) method<- tmp[1]
-	
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,12),
+								name.gd.col= return(substr(arg,14,nchar(arg))),NA)	}))
+	if(length(tmp)>0) name.gd.col<- tmp[1]
 	tmp<- na.omit(sapply(args,function(arg)
 					{	switch(substr(arg,2,25),
 								complete.distance.matrix= return(as.numeric(substr(arg,27,nchar(arg)))),NA)	}))
@@ -41,7 +45,7 @@ if(exists("args"))
 }
 if(verbose)
 {
-	cat('\ninput args\n',paste(infile, outfile, method, complete.distance.matrix, sep='\n'))
+	cat('\ninput args\n',paste(infile, outfile, method, complete.distance.matrix, name.gd.col, sep='\n'))
 }
 #
 #	start script
@@ -73,7 +77,7 @@ eval(parse(text=paste("tps<- ",tmp,sep='')))
 #
 #	get distance and variance matrix
 #
-tmp	<- seq.mvr.d.and.v(tps, seed=seed, complete.distance.matrix=complete.distance.matrix, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
+tmp	<- seq.mvr.d.and.v(tps, seed=seed, complete.distance.matrix=complete.distance.matrix, name.gd.col=name.gd.col, v.mult=v.mult, reco.opts=reco.opts, outfile=outfile, verbose=verbose)
 d	<- as.matrix(tmp$d)
 v	<- as.matrix(tmp$v)
 tmp	<- NULL

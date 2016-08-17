@@ -29,12 +29,13 @@ seq.write.dna.phylip.triangular<- function(wd, file=NA)
 
 #' @import data.table ape recosystem ggplot2
 #' @export
-seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, complete.distance.matrix=TRUE, reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
+seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, complete.distance.matrix=TRUE, name.gd.col='GD', reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
 {	
 	#reco.opts	<- c(dim=500, costp_l1=0, costp_l2=0.01, costq_l1=0, costq_l2=0.01, nthread=1, lrate=0.003, niter=40)	
-	stopifnot( c('TAXA1','TAXA2','ID1','ID2','GD','GD_V')%in%colnames(tps) )
+	stopifnot( c('TAXA1','TAXA2','ID1','ID2',name.gd.col,'GD_V')%in%colnames(tps) )
 	#	tps				<- subset(tp, REP==1 & GENE=='gag+pol+env')
-	tpc		<- subset(tps, select=c('ID1','ID2','GD'))
+	tpc		<- subset(tps, select=c('ID1','ID2',name.gd.col))
+	setnames(tpc, name.gd.col, 'GD')
 	if(complete.distance.matrix)
 	{
 		#	add upper triangular
