@@ -10,6 +10,167 @@ seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 }
 
 #' @export
+#' @title Merge two alignments with common reference
+#' @import plyr data.table ape
+#' @description Merge two alignments by adding gaps to both alignments in such a way that the common reference in both alignments are aligned with each other.
+#' @param in.s 	first sequence alignment in **matrix** DNAbin format (ape package)
+#' @param sq 	second sequence alignment in **matrix** DNAbin format (ape package)
+#' @param return.common.sites 	Flag if the merged alignment should be intersection of the input alignment (TRUE, default) or the union (FALSE).
+#' @param regexpr.reference		Regular expression to identify the reference taxon in the rownames of the input alignments.
+#' @param regexpr.nomatch		Regular expression to identify non-nucleotide characters that should not be matched against each other in the reference. By default, the characters '-' '?' are not mached.
+#' @return Merged sequence alignment in matrix DNAbin format (ape package)	 	
+seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRUE, regexpr.reference='HXB2', regexpr.nomatch='-|\\?')
+{
+	stopifnot( class(in.s)=='DNAbin', class(sq)=='DNAbin', is.matrix(in.s), is.matrix(sq))
+	chars.nomatch		<- gsub('\\','',strsplit(regexpr.nomatch,'|',fixed=1)[[1]],fixed=1)
+	#	find index of references in both alignments
+	ref.in	<- which(grepl(regexpr.reference,rownames(in.s)))
+	ref.p	<- which(grepl(regexpr.reference,rownames(sq)))	
+	stopifnot(length(ref.in)==1, length(ref.p)==1)
+	#	
+	#	build SU alignment key
+	#
+	tmp2	<- gsub('?','',gsub('-','',paste(as.vector(as.character(in.s[ref.in,1:50])), collapse='')),fixed=1)		
+	tmp2	<- paste(strsplit(tmp2, '')[[1]],'-*',sep='',collapse='')
+	#	find start of SU alignment in PANGEA alignment
+	startat	<- regexpr(tmp2, gsub('?','-',paste(as.vector(as.character(sq[ref.p,])), collapse=''),fixed=1))	
+	#	code below assumes that startat is 1
+	stopifnot(startat==1)	
+	#
+	#	determine the final sites in SU alignment / PANGEA alignment that are not gaps-only
+	#
+	in.s2	<- as.character(in.s)	#	need this later too
+	in.d	<- data.table(	TAXA= rownames(in.s), 
+			FIRST= apply( in.s2, 1, function(x) which(x!='-')[1] ),
+			LAST= ncol(in.s)-apply( in.s2, 1, function(x) which(rev(x)!='-')[1] )+1L		)		 
+	in.l	<- in.d[, max(LAST)]
+	sq.s2	<- as.character(sq)		#	need this later too
+	sq.d	<- data.table(	TAXA= rownames(sq), 
+			FIRST= apply( sq.s2, 1, function(x) which(x!='-')[1] ),
+			LAST= ncol(sq)-apply( sq.s2, 1, function(x) which(rev(x)!='-')[1] )+1L		)		 
+	sq.l	<- sq.d[, max(LAST)]	
+	#
+	#	get stop position of the two references in the other alignment
+	#
+	#	for dev:
+	#	x<- matrix(strsplit('tcaa---------aaattt','')[[1]], nrow=1)
+	#	y<- matrix(strsplit('-tcaaaa---a-ttt----','')[[1]], nrow=1)		
+	x		<- as.character(sq[ref.p, seq.int(startat, sq.l)])
+	y		<- as.character(in.s[ref.in, seq.int(startat, in.l)])		#y must be the longer sequence with extra gaps		
+	tmp		<- gsub(regexpr.nomatch,'',paste(as.vector(x), collapse=''))
+	tmp2	<- gsub(regexpr.nomatch,'',paste(as.vector(y), collapse=''))
+	if(nchar(tmp2)<=nchar(tmp))
+	{
+		#	ref in SU alignment is smaller than ref in PANGEA alignment
+		z			<- substr(tmp2, nchar(tmp2)-50, nchar(tmp2))
+		z			<- paste(strsplit(z, '')[[1]],'-*',sep='',collapse='')
+		z			<- regexpr(z, paste(as.vector(x), collapse=''))
+		sq.stopat	<- as.integer( z + attr(z,"match.length") - 1L )
+		in.stopat	<- in.l	
+	}
+	if(nchar(tmp2)>nchar(tmp))
+	{
+		#	ref in PANGEA alignment is smaller than ref in SU alignment
+		z			<- substr(tmp, nchar(tmp)-50, nchar(tmp))
+		z			<- paste(strsplit(z, '')[[1]],'-*',sep='',collapse='')
+		z			<- regexpr(z, paste(as.vector(y), collapse=''))
+		in.stopat	<- as.integer( z + attr(z,"match.length") - 1L )
+		sq.stopat	<- sq.l	
+	}	
+	tmp		<- gsub(regexpr.nomatch,'',paste(as.vector(x[,1:sq.stopat]), collapse=''))
+	tmp2	<- gsub(regexpr.nomatch,'',paste(as.vector(y[,1:in.stopat]), collapse=''))
+	stopifnot( tmp==tmp2 )
+	#
+	# 	calculate offsets (ie number of new gap insertions after site i) in SU and PANGEA alignments
+	#
+	#	dev:
+	#	substring(paste(as.vector(x), collapse=''),280,400)
+	#	k<- 285
+	#	rbind( z[1, ((k-5):(k+20))+offset.in.x[(k-5):(k+20)]], z[2, ((k-5):(k+20))+offset.in.y[(k-5):(k+20)]] )
+	#	z[1, ((k-5):(k+20))]	
+	z							<- rbind.fill.matrix(x[,1:sq.stopat,drop=FALSE],y[,1:in.stopat,drop=FALSE])
+	z[1,which(is.na(z[1,]))]	<- '-'
+	z[2,which(is.na(z[2,]))]	<- '-'
+	zz							<- unname(z)	
+	offset.to.x	<- rep(0, ncol(z))
+	offset.to.y	<- rep(0, ncol(z))			
+	k			<- seq_len(ncol(z))+offset.to.y
+	k			<- k[ k>0 & k<=ncol(z)]
+	k			<- which( z[1, seq_along(k)]!=z[2, k] )[1]
+	while(!is.na(k) & k<20e3)
+	{
+		#print(k)		
+		done	<- 0
+		if( !zz[1,k]%in%chars.nomatch )
+		{
+			kn		<- k-offset.to.x[min(k,length(offset.to.x))]
+			offset.to.x[ seq.int(kn,length(offset.to.x)) ] <- offset.to.x[ seq.int(kn,length(offset.to.x)) ]+1
+			if(k==1)
+				zz	<- rbind( c('-',zz[1,]), c(zz[2,],'-') )
+			if(k>1)
+				zz	<- rbind( c(zz[1, 1:(k-1)],'-',zz[1,k:ncol(zz)]), c(zz[2,],'-')	)
+			done	<- 1
+		}
+		if( !done & zz[1,k]%in%chars.nomatch )
+		{
+			kn		<- k-offset.to.y[min(k,length(offset.to.x))]
+			offset.to.y[ seq.int(kn,length(offset.to.x)) ] <- offset.to.y[ seq.int(kn,length(offset.to.y)) ]+1
+			if(k==1)
+				zz	<- rbind( c(zz[1,],'-'), c('-',zz[2,]) )
+			if(k>1)
+				zz	<- rbind( c(zz[1,],'-'), c(zz[2, 1:(k-1)],'-',zz[2,k:ncol(zz)])	)							
+		}
+		k	<- unname(which(zz[1,]!=zz[2,])[1])		
+	}
+	if(0)
+	{
+		#	DEV
+		# to x add offset.to.x
+		k			<- offset.to.x+seq_along(offset.to.x)
+		xx			<- matrix('-',ncol=max(k),nrow=nrow(x))
+		xx[,k]		<- x[, seq_along(k)]
+		# to y add offset.to.y
+		k			<- offset.to.y+seq_along(offset.to.y)
+		yy			<- matrix('-',ncol=max(k),nrow=nrow(y))
+		yy[,k]		<- y[, seq_along(k)]
+		rbind(xx, yy)
+	}
+	#
+	#	add gaps to PANGEA and SU alignment 
+	#
+	in.newcol		<- offset.to.y[seq.int(in.stopat)]+seq_len(in.stopat)
+	sq.newcol		<- offset.to.x[seq.int(sq.stopat)]+seq_len(sq.stopat)
+	stopifnot( max(in.newcol)==max(sq.newcol) )	
+	tmp				<- matrix('-', ncol=max(in.newcol),nrow=nrow(in.s2), dimnames=dimnames(in.s2))
+	tmp[,in.newcol]	<- in.s2[, seq_along(in.newcol)]
+	in.s2			<- as.DNAbin(tmp)	
+	tmp				<- matrix('-', ncol=max(sq.newcol),nrow=nrow(sq.s2), dimnames=dimnames(sq.s2))
+	tmp[,sq.newcol]	<- sq.s2[, seq_along(sq.newcol)]
+	sq.s2			<- as.DNAbin(tmp)
+	#	if merged alignment should contain all sites in PANGEA and SU alignment
+	#	need to add remainder now
+	if(!return.common.sites & ncol(sq.s2)<ncol(sq))	
+	{
+		sq.s2		<- cbind(sq.s2, sq[, seq.int(length(sq.newcol)+1L,ncol(sq))])		
+		tmp			<- as.DNAbin( matrix('-', nrow=nrow(in.s2), ncol=ncol(sq.s2)-ncol(in.s2), dimnames=dimnames(in.s2)) )
+		in.s2		<- cbind(in.s2, tmp)		
+	}
+	if(!return.common.sites & ncol(in.s2)<ncol(in.s))	
+	{
+		in.s2		<- cbind(in.s2, in.s[, seq.int(length(in.newcol)+1L,ncol(in.s))])		
+		tmp			<- as.DNAbin( matrix('-', nrow=nrow(sq.s2), ncol=ncol(in.s2)-ncol(sq.s2), dimnames=dimnames(sq.s2)) )
+		sq.s2		<- cbind(sq.s2, tmp)		
+	}	
+	# 	now merge!
+	ans				<- rbind(in.s2, sq.s2)
+	#	check for duplicates -- should be HXB2	
+	tmp				<- which(grepl(regexpr.reference,rownames(ans)))
+	stopifnot(length(tmp)==2)
+	ans				<- ans[-tmp[2],]	
+	ans
+}
+
+#' @export
 #' @title Write a triangular phylip file
 seq.write.dna.phylip.triangular<- function(wd, file=NA)
 {

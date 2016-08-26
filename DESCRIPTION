@@ -8,6 +8,7 @@ Depends:
     R (>= 2.15),
     ape,
     data.table,
+    plyr,
     recosystem,
     RColorBrewer
 Description: An R package to construct phylogenies for very large numbers of
