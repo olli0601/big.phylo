@@ -33,9 +33,23 @@ seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRU
 	tmp2	<- gsub('?','',gsub('-','',paste(as.vector(as.character(in.s[ref.in,1:50])), collapse='')),fixed=1)		
 	tmp2	<- paste(strsplit(tmp2, '')[[1]],'-*',sep='',collapse='')
 	#	find start of SU alignment in PANGEA alignment
-	startat	<- regexpr(tmp2, gsub('?','-',paste(as.vector(as.character(sq[ref.p,])), collapse=''),fixed=1))	
-	#	code below assumes that startat is 1
-	stopifnot(startat==1)	
+	startat	<- regexpr(tmp2, gsub('?','-',paste(as.vector(as.character(sq[ref.p,])), collapse=''),fixed=1))
+	if(startat==-1)
+	{
+		#try reverse in.s and sq
+		tmp2	<- gsub('?','',gsub('-','',paste(as.vector(as.character(sq[ref.p,1:50])), collapse='')),fixed=1)		
+		tmp2	<- paste(strsplit(tmp2, '')[[1]],'-*',sep='',collapse='')
+		#	find start of SU alignment in PANGEA alignment
+		startat	<- regexpr(tmp2, gsub('?','-',paste(as.vector(as.character(in.s[ref.in,])), collapse=''),fixed=1))
+		stopifnot(startat>=0)
+		#	now reverse
+		tmp		<- ref.in
+		ref.in	<- ref.p
+		ref.p	<- tmp
+		tmp		<- in.s
+		in.s	<- sq
+		sq		<- tmp
+	}	
 	#
 	#	determine the final sites in SU alignment / PANGEA alignment that are not gaps-only
 	#
@@ -56,7 +70,7 @@ seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRU
 	#	x<- matrix(strsplit('tcaa---------aaattt','')[[1]], nrow=1)
 	#	y<- matrix(strsplit('-tcaaaa---a-ttt----','')[[1]], nrow=1)		
 	x		<- as.character(sq[ref.p, seq.int(startat, sq.l)])
-	y		<- as.character(in.s[ref.in, seq.int(startat, in.l)])		#y must be the longer sequence with extra gaps		
+	y		<- as.character(in.s[ref.in, seq.int(1, in.l)])		#y must be the longer sequence with extra gaps		
 	tmp		<- gsub(regexpr.nomatch,'',paste(as.vector(x), collapse=''))
 	tmp2	<- gsub(regexpr.nomatch,'',paste(as.vector(y), collapse=''))
 	if(nchar(tmp2)<=nchar(tmp))
@@ -75,7 +89,7 @@ seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRU
 		z			<- paste(strsplit(z, '')[[1]],'-*',sep='',collapse='')
 		z			<- regexpr(z, paste(as.vector(y), collapse=''))
 		in.stopat	<- as.integer( z + attr(z,"match.length") - 1L )
-		sq.stopat	<- sq.l	
+		sq.stopat	<- sq.l-startat+1L	
 	}	
 	tmp		<- gsub(regexpr.nomatch,'',paste(as.vector(x[,1:sq.stopat]), collapse=''))
 	tmp2	<- gsub(regexpr.nomatch,'',paste(as.vector(y[,1:in.stopat]), collapse=''))
@@ -140,15 +154,23 @@ seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRU
 	#
 	in.newcol		<- offset.to.y[seq.int(in.stopat)]+seq_len(in.stopat)
 	sq.newcol		<- offset.to.x[seq.int(sq.stopat)]+seq_len(sq.stopat)
-	stopifnot( max(in.newcol)==max(sq.newcol) )	
-	tmp				<- matrix('-', ncol=max(in.newcol),nrow=nrow(in.s2), dimnames=dimnames(in.s2))
+	new.ncol		<- max(max(in.newcol),max(sq.newcol))		
+	tmp				<- matrix('-', ncol=new.ncol,nrow=nrow(in.s2), dimnames=dimnames(in.s2))
 	tmp[,in.newcol]	<- in.s2[, seq_along(in.newcol)]
 	in.s2			<- as.DNAbin(tmp)	
-	tmp				<- matrix('-', ncol=max(sq.newcol),nrow=nrow(sq.s2), dimnames=dimnames(sq.s2))
-	tmp[,sq.newcol]	<- sq.s2[, seq_along(sq.newcol)]
+	tmp				<- matrix('-', ncol=new.ncol,nrow=nrow(sq.s2), dimnames=dimnames(sq.s2))
+	tmp[,sq.newcol]	<- sq.s2[, startat-1L+seq_along(sq.newcol)]
 	sq.s2			<- as.DNAbin(tmp)
 	#	if merged alignment should contain all sites in PANGEA and SU alignment
 	#	need to add remainder now
+	if(!return.common.sites & startat>1)
+	{
+		#	add gap col to in.s2
+		tmp			<- as.DNAbin(matrix('-', ncol=startat-1L,nrow=nrow(in.s2), dimnames=dimnames(in.s2)))
+		in.s2		<- cbind(tmp, in.s2)
+		#	add data to sq.s2
+		sq.s2		<- cbind(sq[,1:(startat-1L)], sq.s2)		
+	}
 	if(!return.common.sites & ncol(sq.s2)<ncol(sq))	
 	{
 		sq.s2		<- cbind(sq.s2, sq[, seq.int(length(sq.newcol)+1L,ncol(sq))])		
@@ -534,7 +556,7 @@ seq.rmgaps<- function(seq.DNAbin.matrix, rm.only.col.gaps=1, verbose=0)
 	}
 	else
 	{		
-		nogap				<- which( !apply(seq.DNAbin.matrix,2,function(x) all(x=="-" || x=="?")) )
+		nogap				<- which( !apply(seq.DNAbin.matrix,2,function(x) all(x=="-" | x=="?")) )
 		if(verbose)	cat(paste("\nremove gaps, n=",ncol(seq.DNAbin.matrix)-length(nogap)))
 		seq.DNAbin.matrix	<- seq.DNAbin.matrix[,nogap]	
 	}
