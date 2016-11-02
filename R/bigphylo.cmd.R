@@ -329,6 +329,7 @@ cmd			<- paste(cmd,"\n#######################################################
 #' @return	Character string
 cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.bscreate=PR.EXAML.BSCREATE, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", args.parser="-m DNA", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
 {
+	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
 	hpcsys			<- cmd.hpcsys()
 	#hpcsys			<- "cx1.hpc.ic.ac.uk"
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
@@ -360,7 +361,7 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 					cmd		<- paste(cmd,"echo $CWD\n",sep='')
 					tmpdir	<- paste("$CWD/",tmpdir.prefix,sep='')
 					cmd		<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
-					tmp		<- paste(indir,'/',infile,".R",sep='')
+					tmp		<- paste(indir,'/',infile,".*",sep='')
 					cmd		<- paste(cmd,"cp ",tmp," ",tmpdir,sep='')
 					tmp		<- gsub('-q ','',regmatches(args.parser,regexpr('-q .*',args.parser)))
 					if(length(tmp))
