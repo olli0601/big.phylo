@@ -1,5 +1,5 @@
 
-#' @export
+#' @export seq.write.dna.phylip
 #' @title Write a square phylip file
 seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 {		
@@ -9,7 +9,7 @@ seq.write.dna.phylip<- function(seq.DNAbin.mat, file)
 	cat(tmp, file=file)
 }
 
-#' @export
+#' @export seq.align.based.on.common.reference
 #' @title Merge two alignments with common reference
 #' @import plyr data.table ape
 #' @description Merge two alignments by adding gaps to both alignments in such a way that the common reference in both alignments are aligned with each other.
@@ -192,7 +192,7 @@ seq.align.based.on.common.reference<- function(in.s, sq, return.common.sites=TRU
 	ans
 }
 
-#' @export
+#' @export seq.write.dna.phylip.triangular
 #' @title Write a triangular phylip file
 seq.write.dna.phylip.triangular<- function(wd, file=NA)
 {
@@ -211,7 +211,7 @@ seq.write.dna.phylip.triangular<- function(wd, file=NA)
 }
 
 #' @import data.table ape ggplot2
-#' @export
+#' @export seq.mvr.d.and.v
 seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, complete.distance.matrix=TRUE, name.gd.col='GD', reco.opts=c(dim=750, costp_l1=0, costp_l2=0.001, costq_l1=0, costq_l2=0.001, nthread=1, lrate=0.003, niter=120), outfile=NA, verbose=FALSE)
 {	
 	require(recosystem)
@@ -327,7 +327,7 @@ seq.mvr.d.and.v<- function(tps, seed=42, v.mult=1.2, complete.distance.matrix=TR
 	list(d=as.dist(d), v=as.dist(v))
 }
 
-#' @export
+#' @export seq.strip.gap
 #' @title Strip gaps
 seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.chars='-')
 {
@@ -352,7 +352,7 @@ seq.strip.gap<- function(seq.DNAbin.mat, strip.max.len=NA, strip.pc=NA, gap.char
 		}
 }
 
-#' @export
+#' @export seq.find
 #' @title Find the row numbers in a sequence matrix with a particular sequence pattern
 seq.find<- function(char.matrix, pos0= NA, from= c(), verbose=1)
 {
@@ -363,7 +363,7 @@ seq.find<- function(char.matrix, pos0= NA, from= c(), verbose=1)
 	query.yes	
 }
 
-#' @export 
+#' @export seq.unique 
 #' @title Compute a subset of unique sequences
 seq.unique<- function(seq.DNAbin.matrix)
 {
@@ -372,7 +372,7 @@ seq.unique<- function(seq.DNAbin.matrix)
 	seq.DNAbin.matrix[!duplicated(x),]			
 }
 
-#' @export 
+#' @export seq.blast
 #' @title Perform online BLAST search
 #' @description see also package 'RFLPtools'
 seq.blast<- function (x, database = "nr", hitListSize = "10", filter = "L", expect = "10", program = "blastn", organism= "HIV-1") 
@@ -406,7 +406,7 @@ seq.blast<- function (x, database = "nr", hitListSize = "10", filter = "L", expe
 	res
 }
 
-#' @export 
+#' @export seq.blast.read
 #' @title Read BLAST output
 #' @description slight modification of read.blast() in pkg RFLPtools; expects blast was run with -outfmt 6
 seq.blast.read<- function (file, sep = "\t") 
@@ -419,7 +419,7 @@ seq.blast.read<- function (file, sep = "\t")
 	data.table(x, key="query.id")
 }
 
-#' @export
+#' @export seq.rm.drugresistance
 #' @title Remove drug resistance mutations
 seq.rm.drugresistance<- function(seq, outfile=NA)
 {
@@ -490,7 +490,7 @@ seq.rm.drugresistance.internal<- function(char.matrix, dr, verbose=1, rtn.DNAbin
 	list(nodr.seq=char.matrix, nodr.info=nodr.info)	
 }	
 
-#' @export
+#' @export seq.dist
 #' @title Compute pairwise distance matrix
 seq.dist<- function(seq.DNAbin.matrix, verbose=1)
 {
@@ -527,7 +527,7 @@ seq.dist<- function(seq.DNAbin.matrix, verbose=1)
 	ans
 }
 
-#' @export
+#' @export seq.replace
 #' @title Replace nucleotide codes in sequence alignment
 seq.replace<- function(seq.DNAbin.matrix, code.from='?', code.to='n', verbose=0)
 {
@@ -536,7 +536,7 @@ seq.replace<- function(seq.DNAbin.matrix, code.from='?', code.to='n', verbose=0)
 	as.DNAbin( seq.DNAbin.matrix )
 }
 
-#' @export
+#' @export seq.rmgaps
 #' @title Remove gaps in sequence alignment
 seq.rmgaps<- function(seq.DNAbin.matrix, rm.only.col.gaps=1, verbose=0)
 {
@@ -564,7 +564,7 @@ seq.rmgaps<- function(seq.DNAbin.matrix, rm.only.col.gaps=1, verbose=0)
 	as.DNAbin( seq.DNAbin.matrix )
 }
 
-#' @export
+#' @export seq.read.GenBank
 #' @title Read sequences from GenBank
 seq.read.GenBank<- function (access.nb, seq.names = access.nb, species.names = TRUE, gene.names = FALSE, as.character = FALSE, attributes= c("origin")) 
 {
@@ -610,7 +610,7 @@ seq.read.GenBank<- function (access.nb, seq.names = access.nb, species.names = T
 	obj
 }
 
-#' @export
+#' @export seq.create.referencepairs
 seq.create.referencepairs<- function(dir.name= DATA)
 {
 	if(0)	#generate ATHENA_2013_hptn052.rda
@@ -648,7 +648,7 @@ seq.create.referencepairs<- function(dir.name= DATA)
 	list( gd.islink= hptn052.sdc.ind.d, gd.unlinked= hptn052.control.d )
 }
 
-#' @export
+#' @export seq.write.dna.nexus
 #' @title Write a NEXUS file
 seq.write.dna.nexus<- function(seq.DNAbin.mat, ph=NULL, file=NULL, nexus.format="DNA",nexus.gap='-', nexus.missing='?', nexus.interleave="NO")
 {		
@@ -667,7 +667,7 @@ seq.write.dna.nexus<- function(seq.DNAbin.mat, ph=NULL, file=NULL, nexus.format=
 	tmp
 }		
 
-#' @export
+#' @export seq.length
 #' @title Compute the length of sequences
 seq.length<- function(seq.DNAbin.mat, exclude=c('-','?'))
 {
@@ -675,7 +675,7 @@ seq.length<- function(seq.DNAbin.mat, exclude=c('-','?'))
 	apply(counts[ !rownames(counts)%in%exclude, ],2,sum)
 }
 
-#' @export
+#' @export seq.proportion.ambiguous
 #' @title Compute the proportion of ambiguous nucleotides
 seq.proportion.ambiguous<- function(seq.DNAbin.mat, exclude=c('-','?'))
 {
@@ -685,7 +685,7 @@ seq.proportion.ambiguous<- function(seq.DNAbin.mat, exclude=c('-','?'))
 	pa/len
 }
 
-#' @export
+#' @export seq.gc.content
 #' @title Compute the GC content
 seq.gc.content<- function(seq.DNAbin.mat)
 {	
