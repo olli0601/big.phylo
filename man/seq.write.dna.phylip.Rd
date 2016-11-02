@@ -4,6 +4,6 @@
 \alias{seq.write.dna.phylip}
 \title{Write a square phylip file}
 \usage{
-seq.write.dna.phylip(seq.DNAbin.mat, file)
+\method{seq}{write.dna.phylip}(seq.DNAbin.mat, file)
 }
 

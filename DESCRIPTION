@@ -9,7 +9,6 @@ Depends:
     ape,
     data.table,
     plyr,
-    recosystem,
     RColorBrewer
 Description: An R package to construct phylogenies for very large numbers of
     sequences. This package currently implements an interface to high
