@@ -49,9 +49,9 @@ cat('\nNumber of taxa without a Date:', phd[, length(which(is.na(DATE)))])
 #
 #	write LSD dates file
 #		
-tmp		<- subset(phd, !is.na(DATE))
-tmp		<- tmp[,  list(STR=paste(TAXA,' ',DATE,sep='')), by='TAXA'][, paste(STR, collapse='\n')]
-tmp		<- paste(Ntip(ph),'\n',tmp,sep='')
+phd		<- subset(phd, !is.na(DATE))
+tmp		<- phd[,  list(STR=paste(TAXA,' ',DATE,sep='')), by='TAXA'][, paste(STR, collapse='\n')]
+tmp		<- paste(nrow(phd),'\n',tmp,sep='')
 cat('\nWriting LSD dates file to ', outfile.lsd.dates)
 cat(tmp, file=outfile.lsd.dates)
 #
