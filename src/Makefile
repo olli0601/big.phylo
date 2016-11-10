@@ -18,6 +18,10 @@ all:
 	@echo "*********************************************** "	
 	make misc	
 	@echo "*********************************************** "
+	@echo "********* BUILDING FastTree ******************* "
+	@echo "*********************************************** "	
+	make fasttree		
+	@echo "*********************************************** "
 	@echo "********* BUILDING LSD ********************** "
 	@echo "*********************************************** "	
 	make lsd	
@@ -37,6 +41,13 @@ all:
 	@echo "********* BUILDING ExaML ********************** "
 	@echo "*********************************************** "	
 	make examl		
+
+fasttree:
+	echo $(CWD)	
+	curl "http://microbesonline.org/fasttree/FastTree.c" -o FastTree.c
+	gcc -Wall -O3 -finline-functions -funroll-loops -o FastTree -lm FastTree.c
+	mv $(CWD)/FastTree $(EXTERNAL_CODE)
+	rm FastTree.c
 
 phyd:
 	echo $(CWD)	

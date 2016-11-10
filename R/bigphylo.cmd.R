@@ -6,6 +6,7 @@ PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser")
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
 PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
+PR.LSDDATES					<- paste('Rscript', system.file(package=PR.PACKAGE, "lsd.dates.Rscript"))
 PR.MVR						<- paste('Rscript',system.file(package=PR.PACKAGE, "big.mvr.Rscript"),sep=' ')
 PR.PHYD						<- paste('java -jar ', system.file(package=PR.PACKAGE, "ext", "PhyDstar.jar"), sep='')
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
@@ -137,6 +138,22 @@ cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance
 	cmd
 }
 
+
+#' @export
+#' @title Generate the LSD Dates file. 
+#' @return	Character string
+cmd.lsd.dates<- function(infile.dates, infile.tree, outfile.lsd.dates, pr=PR.LSDDATES, run.lsd=FALSE, outfile.lsd=NA, ali.len=NA)
+{
+	cmd	<- paste(pr, ' --infile.dates "',infile.dates,'" --infile.tree "',infile.tree,'" --outfile.lsd.dates "', outfile.lsd.dates,'"', sep='')	
+	if(!is.na(outfile.lsd))
+		cmd	<- paste(cmd, ' --outfile.lsd "', outfile.lsd, '"', sep='')
+	if(!is.na(ali.len))
+		cmd	<- paste(cmd, ' --ali.len ', ali.len, sep='')	
+	if(run.lsd)
+		cmd	<- paste(cmd, ' --run.lsd', sep='')				
+	cmd
+}
+
 #' @export
 #' @title Produce a single LSD shell command. 
 #' @return	Character string
@@ -153,10 +170,10 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=
 	tmp.dates		<- file.path(tmpdir, basename(infile.dates))
 	tmp.out			<- file.path(tmpdir, basename(outfile))	
 	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
-	cmd				<- paste(cmd,'cp ',infile.tree,' ',tmpdir,'\n', sep='')
-	cmd				<- paste(cmd,'cp ',infile.dates,' ',tmpdir,'\n', sep='')
+	cmd				<- paste(cmd,'cp "',infile.tree,'" ',tmpdir,'\n', sep='')
+	cmd				<- paste(cmd,'cp "',infile.dates,'" ',tmpdir,'\n', sep='')
 	cmd				<- paste(cmd, pr,' -i ', tmp.tree,' -d ', tmp.dates,' -s ',ali.nrow, ' -o ', tmp.out, ' ', pr.args,'\n', sep='')
-	cmd				<- paste(cmd, "mv ", tmp.out,"* ",dirname(outfile),'\n',sep='')
+	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: LSD
 #######################################################\n",sep='')

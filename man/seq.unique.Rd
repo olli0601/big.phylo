@@ -4,6 +4,6 @@
 \alias{seq.unique}
 \title{Compute a subset of unique sequences}
 \usage{
-\method{seq}{unique}(seq.DNAbin.matrix)
+seq.unique(seq.DNAbin.matrix)
 }
 

@@ -1,0 +1,66 @@
+library(argparse, quietly=TRUE, warn.conflicts=FALSE)
+#	default args
+if(0)
+{	
+	infile.dates	<- "/Users/Oliver/Dropbox (Infectious Disease)/2016_ATHENA_Oct_Update/preprocessed/ATHENA_1610_Sequences_LANL_Dates.csv"
+	infile.tree		<- "/Users/Oliver/Dropbox (Infectious Disease)/2016_ATHENA_Oct_Update/preprocessed/ExaML_result.ATHENA_1610_Sequences_LANL_codonaligned_noDRM_noROGUE_subtype_B.finaltree.000"
+	outdir			<- indir
+	outfile.lsd		<- paste(infile.tree,'.lsd',sep='')
+	run.lsd			<- 0
+	ali.len			<- 1300
+	verbose			<- 1
+}
+#	read args from command line
+arg_parser			<- ArgumentParser(description="Rscript to generate the LSD Dates file.")
+arg_parser$add_argument("-i", "--infile.dates", action="store", help="Input dates file in csv format with two columns TAXA and DATES that contains all or some dates for the taxa in the tree.")
+arg_parser$add_argument("-t", "--infile.tree", action="store", help="Input tree file with branches in subst site.")
+arg_parser$add_argument("-d", "--outfile.lsd.dates", action="store", help="Outfile for LSD Dates csv file.")
+arg_parser$add_argument("-l", "--outfile.lsd", action="store", help="Outfile basename for LSD output.")
+arg_parser$add_argument("-x", "--run.lsd", default=FALSE, action="store_true", help="If set, run LSD as part of this Rscript.")
+arg_parser$add_argument("-a", "--ali.len", default="1300", action="store", help="Number of columns in the alignment.")
+args 				<- arg_parser$parse_args()
+infile.dates 		<- args$infile.dates
+infile.tree 		<- args$infile.tree
+outfile.lsd 		<- args$outfile.lsd
+outfile.lsd.dates 	<- args$outfile.lsd.dates
+run.lsd 			<- args$run.lsd
+ali.len 			<- as.numeric(args$ali.len)
+
+stopifnot(	!is.null(infile.dates), !is.null(infile.tree), 
+			!is.null(outfile.lsd.dates),
+			!is.null(run.lsd), !is.null(ali.len))	
+#
+#	start script
+#
+require(ape)
+require(data.table)
+require(big.phylo)
+#
+#	get dates for taxa in tree
+#
+dfd		<- as.data.table(read.csv(infile.dates))	#dates
+ph		<- read.tree(infile.tree)
+phd		<- data.table(TAXA=ph$tip.label)	#tip labels for which we need to write dates
+tmp		<- setdiff(phd[, TAXA], dfd[, TAXA])
+if(length(tmp))
+	cat('\nWarning: Found taxa in tree that are not in Dates file:', paste(tmp, collapse=', '))
+phd		<- merge(phd, dfd, by='TAXA', all.x=1)
+cat('\nNumber of taxa without a Date:', phd[, length(which(is.na(DATE)))])
+#
+#	write LSD dates file
+#		
+tmp		<- subset(phd, !is.na(DATE))
+tmp		<- tmp[,  list(STR=paste(TAXA,' ',DATE,sep='')), by='TAXA'][, paste(STR, collapse='\n')]
+tmp		<- paste(Ntip(ph),'\n',tmp,sep='')
+cat('\nWriting LSD dates file to ', outfile.lsd.dates)
+cat(tmp, file=outfile.lsd.dates)
+#
+#	run LSD if requested
+#
+if(run.lsd)
+{
+	stopifnot(is.null(outfile.lsd))
+	cmd	<- cmd.lsd(infile.tree, outfile.lsd.dates, ali.len, outfile=outfile.lsd, pr.args='-v 2 -c -b 10 -r as')
+	system(cmd)
+}
+

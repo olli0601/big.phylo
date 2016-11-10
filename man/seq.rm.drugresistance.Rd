@@ -4,6 +4,6 @@
 \alias{seq.rm.drugresistance}
 \title{Remove drug resistance mutations}
 \usage{
-\method{seq}{rm.drugresistance}(seq, outfile = NA)
+seq.rm.drugresistance(seq, outfile = NA)
 }
 

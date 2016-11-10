@@ -4,6 +4,6 @@
 \alias{seq.gc.content}
 \title{Compute the GC content}
 \usage{
-\method{seq}{gc.content}(seq.DNAbin.mat)
+seq.gc.content(seq.DNAbin.mat)
 }
 
