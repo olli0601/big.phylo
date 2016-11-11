@@ -16,29 +16,36 @@ arg_parser$add_argument("-i", "--infile.dates", action="store", help="Input date
 arg_parser$add_argument("-t", "--infile.tree", action="store", help="Input tree file with branches in subst site.")
 arg_parser$add_argument("-d", "--outfile.lsd.dates", action="store", help="Outfile for LSD Dates csv file.")
 arg_parser$add_argument("-l", "--outfile.lsd", action="store", help="Outfile basename for LSD output.")
+arg_parser$add_argument("-r", "--root", action="store", help="Name of root if infile.tree is to be rooted.")
+arg_parser$add_argument("-a", "--ali.len", default='1300', action="store", help="Number of alignment positions.")
+arg_parser$add_argument("-e", "--exclude.missing.dates", default=FALSE, action="store_true", help="If true, all taxa with missing dates are dropped.")
+arg_parser$add_argument("-m", "--outfile.tree", action="store", help="Output tree file if further operations are performed on the tree before LSD is run.")
 arg_parser$add_argument("-x", "--run.lsd", default=FALSE, action="store_true", help="If set, run LSD as part of this Rscript.")
-arg_parser$add_argument("-a", "--ali.len", default="1300", action="store", help="Number of columns in the alignment.")
+
 args 				<- arg_parser$parse_args()
 infile.dates 		<- args$infile.dates
 infile.tree 		<- args$infile.tree
 outfile.lsd 		<- args$outfile.lsd
 outfile.lsd.dates 	<- args$outfile.lsd.dates
 run.lsd 			<- args$run.lsd
+root				<- args$root
 ali.len 			<- as.numeric(args$ali.len)
+no.miss.dates		<- args$exclude.missing.dates
+outfile.tree		<- args$outfile.tree
 
 stopifnot(	!is.null(infile.dates), !is.null(infile.tree), 
-			!is.null(outfile.lsd.dates),
-			!is.null(run.lsd), !is.null(ali.len))	
+			!is.null(outfile.lsd.dates), !is.null(no.miss.dates), !is.null(run.lsd), !is.null(ali.len))	
 #
 #	start script
 #
 require(ape)
+require(phytools)
 require(data.table)
 require(big.phylo)
 #
 #	get dates for taxa in tree
 #
-dfd		<- as.data.table(read.csv(infile.dates))	#dates
+dfd		<- as.data.table(read.csv(infile.dates, stringsAsFactors=FALSE))	#dates
 ph		<- read.tree(infile.tree)
 phd		<- data.table(TAXA=ph$tip.label)	#tip labels for which we need to write dates
 tmp		<- setdiff(phd[, TAXA], dfd[, TAXA])
@@ -46,6 +53,28 @@ if(length(tmp))
 	cat('\nWarning: Found taxa in tree that are not in Dates file:', paste(tmp, collapse=', '))
 phd		<- merge(phd, dfd, by='TAXA', all.x=1)
 cat('\nNumber of taxa without a Date:', phd[, length(which(is.na(DATE)))])
+#
+#	options: 
+#	1- drop taxa with no dates		
+if(no.miss.dates)
+{
+	stopifnot(!is.null(outfile.tree))
+	ph	<- drop.tip(ph, subset(phd, is.na(DATE))[, TAXA])	
+}
+#	2- root input tree
+if(!is.null(root))
+{
+	stopifnot(!is.null(outfile.tree))		
+	tmp			<- which(grepl(root,ph$tip.label))
+	stopifnot(length(tmp)==1)
+	ph			<- reroot(ph, tmp, ph$edge.length[which(ph$edge[,2]==tmp)])	
+	ph			<- ladderize(ph)	
+}
+if(!is.null(outfile.tree))
+{
+	cat('\nWriting tree containing only taxa with dates to ', outfile.tree)
+	write.tree(ph, file=outfile.tree)	
+}
 #
 #	write LSD dates file
 #		
@@ -60,7 +89,8 @@ cat(tmp, file=outfile.lsd.dates)
 if(run.lsd)
 {
 	stopifnot(is.null(outfile.lsd))
-	cmd	<- cmd.lsd(infile.tree, outfile.lsd.dates, ali.len, outfile=outfile.lsd, pr.args='-v 2 -c -b 10 -r as')
+	tmp	<- ifelse(no.miss.dates, outfile.tree, infile.tree)
+	cmd	<- cmd.lsd(tmp, outfile.lsd.dates, ali.len, outfile=outfile.lsd, pr.args='-v 2 -c -b 10 -r as')
 	system(cmd)
 }
 

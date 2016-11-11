@@ -142,15 +142,27 @@ cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance
 #' @export
 #' @title Generate the LSD Dates file. 
 #' @return	Character string
-cmd.lsd.dates<- function(infile.dates, infile.tree, outfile.lsd.dates, pr=PR.LSDDATES, run.lsd=FALSE, outfile.lsd=NA, ali.len=NA)
+cmd.lsd.dates<- function(infile.dates, infile.tree, outfile.lsd.dates, pr=PR.LSDDATES, run.lsd=FALSE, outfile.lsd=NA, root=NA, exclude.missing.dates=FALSE, outfile.tree=NA, ali.len=NA)
 {
 	cmd	<- paste(pr, ' --infile.dates "',infile.dates,'" --infile.tree "',infile.tree,'" --outfile.lsd.dates "', outfile.lsd.dates,'"', sep='')	
 	if(!is.na(outfile.lsd))
 		cmd	<- paste(cmd, ' --outfile.lsd "', outfile.lsd, '"', sep='')
 	if(!is.na(ali.len))
-		cmd	<- paste(cmd, ' --ali.len ', ali.len, sep='')	
+		cmd	<- paste(cmd, ' --ali.len ', ali.len, sep='')
+	if(!is.na(root))
+	{
+		stopifnot(!is.na(outfile.tree))
+		cmd	<- paste(cmd, ' --root "', root, '"', sep='')	
+	}				
 	if(run.lsd)
-		cmd	<- paste(cmd, ' --run.lsd', sep='')				
+		cmd	<- paste(cmd, ' --run.lsd', sep='')
+	if(exclude.missing.dates)
+	{
+		stopifnot(!is.na(outfile.tree))
+		cmd	<- paste(cmd, ' --exclude.missing.dates', sep='')
+	}
+	if(!is.na(outfile.tree))
+		cmd	<- paste(cmd, ' --outfile.tree "', outfile.tree, '" ', sep='')			
 	cmd
 }
 
