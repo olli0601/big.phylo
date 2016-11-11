@@ -58,12 +58,14 @@ cat('\nNumber of taxa without a Date:', phd[, length(which(is.na(DATE)))])
 #	1- drop taxa with no dates		
 if(no.miss.dates)
 {
+	cat('\nDropping taxa without dates')
 	stopifnot(!is.null(outfile.tree))
 	ph	<- drop.tip(ph, subset(phd, is.na(DATE))[, TAXA])	
 }
 #	2- root input tree
 if(!is.null(root))
 {
+	cat('\nRe-rooting tree to ', root)
 	stopifnot(!is.null(outfile.tree))		
 	tmp			<- which(grepl(root,ph$tip.label))
 	stopifnot(length(tmp)==1)
@@ -72,7 +74,7 @@ if(!is.null(root))
 }
 if(!is.null(outfile.tree))
 {
-	cat('\nWriting tree containing only taxa with dates to ', outfile.tree)
+	cat('\nWriting tree to ', outfile.tree)
 	write.tree(ph, file=outfile.tree)	
 }
 #
