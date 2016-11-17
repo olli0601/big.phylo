@@ -16,6 +16,7 @@ HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',in
 HPC.MEM						<- "1750mb"
 HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/3.2.0"
 
+#'	@export 
 cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.type='parsimony', args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=0, verbose=1)
 {
 	if(is.na(args.starttree.bsid))
@@ -200,6 +201,7 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=
 #' @return	Character string
 cmd.examl.single<- function(indir, infile, outdir=indir, prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by="nucleotide",prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.seed=12345, args.starttree.type='parsimony', prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", bs.seed=floor(runif(1, 1e4, 1e5-1)), verbose=1)
 {
+	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
 	tmpdir.prefix	<- paste('exa_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')	
 	cmd				<- paste("#######################################################
 # start: single examl
@@ -267,6 +269,7 @@ cmd.rm.resistance<- function(indir, infile, outfile, outdir=indir, prog= PR.RM.R
 #' @return	Character string
 cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
 {
+	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
 	hpcsys			<- cmd.hpcsys()
 	hpcsys			<- "cx1.hpc.ic.ac.uk"
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
