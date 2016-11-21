@@ -199,7 +199,7 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=
 #' @description Internal code. 
 #' @inheritParams cmd.examl.bootstrap
 #' @return	Character string
-cmd.examl.single<- function(indir, infile, outdir=indir, prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by="nucleotide",prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.seed=12345, args.starttree.type='parsimony', prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", bs.seed=floor(runif(1, 1e4, 1e5-1)), verbose=1)
+cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by="nucleotide",prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.seed=12345, args.starttree.type='parsimony', prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", bs.seed=floor(runif(1, 1e4, 1e5-1)), verbose=1)
 {
 	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
 	tmpdir.prefix	<- paste('exa_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')	
@@ -216,8 +216,8 @@ cmd.examl.single<- function(indir, infile, outdir=indir, prog.bscreate=PR.EXAML.
 		cmd			<- paste(cmd,"\ncp ",indir,'/',tmp," ",tmpdir,sep='')
 	cmd				<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, 0, prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
 	cmd				<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, prog.rndstarttree=prog.rndstarttree, args.starttree.seed=bs.seed, args.starttree.type=args.starttree.type, args.starttree.bsid=0, prog.examl=prog.examl, args.examl=args.examl, resume=0, verbose=verbose),sep='\n')
-	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',infile,'_examl.newick\n',sep='')
-	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',infile,'_examl.txt\n',sep='')
+	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.newick\n',sep='')
+	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.txt\n',sep='')
 	cmd			<- paste(cmd,"#######################################################
 # end: single examl
 #######################################################\n",sep='')
