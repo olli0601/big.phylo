@@ -218,6 +218,7 @@ cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.bs
 	cmd				<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, prog.rndstarttree=prog.rndstarttree, args.starttree.seed=bs.seed, args.starttree.type=args.starttree.type, args.starttree.bsid=0, prog.examl=prog.examl, args.examl=args.examl, resume=0, verbose=verbose),sep='\n')
 	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.newick\n',sep='')
 	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.txt\n',sep='')
+	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_modelFile.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.params\n',sep='')
 	cmd			<- paste(cmd,"#######################################################
 # end: single examl
 #######################################################\n",sep='')
@@ -344,7 +345,7 @@ cmd			<- paste(cmd,"\n#######################################################
 # start: zip and copy ExaML output
 #######################################################",sep='')	
 	#outside if:	zip and copy ExaML output to outdir just in case something went wrong
-	cmd			<- paste(cmd,paste("\nzip ",infile,'_examlout',".zip  ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
+	cmd			<- paste(cmd,paste("\nzip ",infile,'_examlout',".zip  ExaML_result.",infile,".* ExaML_info.",infile,".* ExaML_modelFile.",infile,".* ",  sep=''),sep='')
 	cmd			<- paste(cmd,paste("\ncp -f ",infile,'_examlout',".zip",' "',outdir,'"',sep=''),sep='')
 	cmd			<- paste(cmd,paste("\nrm ExaML_result.",infile,".* ExaML_info.",infile,".*",sep=''),sep='')
 	cmd			<- paste(cmd,"\ncd $CWD",sep='')
@@ -404,6 +405,7 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 					cmd		<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
 					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
 					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
+					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_modelFile.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
 					if(resume)
 					{
 						cmd		<- paste(cmd,"#######################################################
