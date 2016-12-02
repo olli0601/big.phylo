@@ -18,7 +18,7 @@ arg_parser$add_argument("-t", "--infile.tree", action="store", help="Input tree 
 arg_parser$add_argument("-o", "--outfile", action="store", help="Outfile basename for TreeDater output.")
 arg_parser$add_argument("-r", "--root", action="store", help="Name of root if infile.tree is to be rooted.")
 arg_parser$add_argument("-a", "--ali.len", default='1300', action="store", help="Number of alignment positions.")
-arg_parser$add_argument("-r", "--omega0", default='NA', action="store", help="Initial mean substitution rate.")
+arg_parser$add_argument("-m", "--omega0", default='NA', action="store", help="Initial mean substitution rate.")
 args 				<- arg_parser$parse_args()
 infile.dates 		<- args$infile.dates
 infile.tree 		<- args$infile.tree
