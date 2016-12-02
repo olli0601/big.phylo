@@ -2,6 +2,7 @@ PR.PACKAGE					<- "big.phylo"
 PR.EXAML.BSCREATE			<- paste('Rscript', system.file(package=PR.PACKAGE, "create.bootstrapalignment.Rscript"))
 PR.RM.RESISTANCE			<- paste('Rscript', system.file(package=PR.PACKAGE, "rm.drm.Rscript"))
 PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps.Rscript"))
+PR.TREEDATER				<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.Rscript"))
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
@@ -139,6 +140,21 @@ cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance
 	cmd
 }
 
+
+#' @export cmd.treedater
+#' @title Generate commands to date trees with TreeDater. 
+#' @return	Character string
+cmd.treedater<- function(infile.tree, infile.dates, outfile, pr=PR.TREEDATER, root=NA, ali.len=NA, omega0=NA)
+{
+	cmd	<- paste(pr, ' --infile.dates "',infile.dates,'" --infile.tree "',infile.tree,'" --outfile "', outfile,'"', sep='')	
+	if(!is.na(ali.len))
+		cmd	<- paste(cmd, ' --ali.len ', ali.len, sep='')
+	if(!is.na(root))	
+		cmd	<- paste(cmd, ' --root "', root, '"', sep='')	
+	if(!is.na(omega0))
+		cmd	<- paste(cmd, ' --omega0 ', omega0, sep='')
+	cmd
+}
 
 #' @export
 #' @title Generate the LSD Dates file. 

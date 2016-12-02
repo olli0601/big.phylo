@@ -4,7 +4,7 @@
 \alias{cmd.examl.single}
 \title{Produce a single ExaML shell command.}
 \usage{
-cmd.examl.single(indir, infile, outdir = indir,
+cmd.examl.single(indir, infile, outdir = indir, outfile = infile,
   prog.bscreate = PR.EXAML.BSCREATE, opt.bootstrap.by = "nucleotide",
   prog.parser = PR.EXAML.PARSER, args.parser = "-m DNA",
   prog.starttree = PR.EXAML.STARTTREE, prog.rndstarttree = PR.EXAML.BS,
