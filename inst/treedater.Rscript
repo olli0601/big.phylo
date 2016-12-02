@@ -26,6 +26,7 @@ outfile		 		<- args$outfile
 root				<- args$root
 ali.len 			<- as.numeric(args$ali.len)
 omega0				<- as.numeric(args$omega0)
+minblen				<- NA
 
 stopifnot(	!is.null(infile.dates), !is.null(infile.tree), !is.null(outfile), !is.null(ali.len))	
 #
