@@ -45,7 +45,7 @@ all:
 fasttree:
 	echo $(CWD)	
 	curl "http://microbesonline.org/fasttree/FastTree.c" -o FastTree.c
-	gcc -Wall -O3 -finline-functions -funroll-loops -o FastTree -lm FastTree.c
+	gcc -Wall -O3 -finline-functions -funroll-loops -o FastTree FastTree.c -lm
 	mv $(CWD)/FastTree $(EXTERNAL_CODE)
 	rm FastTree.c
 
