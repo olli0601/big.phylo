@@ -5,12 +5,13 @@
 \title{Produce a single ExaML shell command.}
 \usage{
 cmd.examl.single(indir, infile, outdir = indir, outfile = infile,
-  prog.bscreate = PR.EXAML.BSCREATE, opt.bootstrap.by = "nucleotide",
-  prog.parser = PR.EXAML.PARSER, args.parser = "-m DNA",
-  prog.starttree = PR.EXAML.STARTTREE, prog.rndstarttree = PR.EXAML.BS,
-  args.starttree.seed = 12345, args.starttree.type = "parsimony",
-  prog.examl = PR.EXAML.EXAML, args.examl = "-m GAMMA -D",
-  bs.seed = floor(runif(1, 10000, 1e+05 - 1)), verbose = 1)
+  prog.mpi = "mpiexec", prog.bscreate = PR.EXAML.BSCREATE,
+  opt.bootstrap.by = "nucleotide", prog.parser = PR.EXAML.PARSER,
+  args.parser = "-m DNA", prog.starttree = PR.EXAML.STARTTREE,
+  prog.rndstarttree = PR.EXAML.BS, args.starttree.seed = 12345,
+  args.starttree.type = "parsimony", prog.examl = PR.EXAML.EXAML,
+  args.examl = "-m GAMMA -D", bs.seed = floor(runif(1, 10000, 1e+05 - 1)),
+  verbose = 1)
 }
 \value{
 Character string

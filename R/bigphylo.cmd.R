@@ -6,20 +6,20 @@ PR.TREEDATER				<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.R
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
+PR.FASTTREE					<- system.file(package=PR.PACKAGE, "ext", "FastTree")
 PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
 PR.LSDDATES					<- paste('Rscript', system.file(package=PR.PACKAGE, "lsd.dates.Rscript"))
 PR.MVR						<- paste('Rscript',system.file(package=PR.PACKAGE, "big.mvr.Rscript"),sep=' ')
 PR.PHYD						<- paste('java -jar ', system.file(package=PR.PACKAGE, "ext", "PhyDstar.jar"), sep='')
+PR.JMODELTEST				<- paste('java -jar ', system.file(package=PR.PACKAGE, "ext", "jmodeltest-2.1.10", "jModelTest.jar"), sep='')
 PR.EXAML.BS					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
-HPC.NPROC					<- {tmp<- c(1,4); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
-HPC.MPIRUN					<- {tmp<- c("mpirun","mpiexec"); names(tmp)<- c("debug","cx1.hpc.ic.ac.uk"); tmp}
-HPC.CX1.IMPERIAL			<- "cx1.hpc.ic.ac.uk"		#this is set to system('domainname',intern=T) for the hpc cluster of choice
 HPC.MEM						<- "1750mb"
 HPC.CX1.IMPERIAL.LOAD		<- "module load intel-suite mpi R/3.2.0"
 
 #'	@export 
-cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.type='parsimony', args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=0, verbose=1)
+cmd.examl<- function(indir, infile, outdir=indir, prog.mpi='mpiexec', prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.type='parsimony', args.starttree.seed=12345, args.starttree.bsid= NA, prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", resume=0, verbose=1)
 {
+	#"mpirun -np 4"
 	if(is.na(args.starttree.bsid))
 		args.starttree.bsid	<- "000"
 	else
@@ -64,13 +64,7 @@ cmd.examl<- function(indir, infile, outdir=indir, prog.parser= PR.EXAML.PARSER, 
 	cmd			<- paste(cmd,paste("\necho \'end ",prog.starttree,"\'",sep=''))	
 	cmd			<- paste(cmd,paste("\necho \'run ",prog.examl,"\'\n",sep=''))
 	#default commands for final tree
-	tmp			<- cmd.hpcsys()
-	if(tmp=="debug")
-		cmd		<- paste(cmd,HPC.MPIRUN[tmp]," -np ",HPC.NPROC[tmp],' ',prog.examl,' ',args.examl,sep='')
-	else if(tmp==HPC.CX1.IMPERIAL)
-		cmd		<- paste(cmd,HPC.MPIRUN[tmp],' ',prog.examl,' ',args.examl,sep='')
-	else	
-		stop("unknown hpc sys")
+	cmd			<- paste(cmd, prog.mpi,' ',prog.examl,' ',args.examl,sep='')
 	tmp			<- paste(infile,".phylip.examl.",args.starttree.bsid,".binary",sep='')
 	cmd			<- paste(cmd," -s ",tmp,sep='')
 	if(args.starttree.type!='random')
@@ -183,6 +177,31 @@ cmd.lsd.dates<- function(infile.dates, infile.tree, outfile.lsd.dates, pr=PR.LSD
 	cmd
 }
 
+
+#' @export
+#' @title Produce a single LSD shell command. 
+#' @return	Character string
+cmd.jmodeltest<- function(infile.fasta, outfile=paste0(infile.fasta,'.jmodeltest'), pr=PR.JMODELTEST, pr.args='-f -i -g 4 -s 3 -DT -S NNI -t ML', nproc=1)
+{		
+	cmd				<- paste("#######################################################
+# start: jModelTest
+#######################################################\n",sep='')												
+	cmd				<- paste(cmd,"CWD=$(pwd)\n",sep='')
+	cmd				<- paste(cmd,"echo $CWD\n",sep='')	
+	tmpdir.prefix	<- paste('jm_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')
+	tmpdir			<- paste("$CWD/",tmpdir.prefix,sep='')
+	tmp.fasta		<- file.path(tmpdir, basename(infile.fasta))
+	tmp.out			<- file.path(tmpdir, 'out')
+	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmpdir,'\n', sep='')	
+	cmd				<- paste(cmd, pr,' -d "', tmp.fasta,'" -o "', tmp.out,'" -tr ',nproc, ' ', pr.args,'\n', sep='')
+	cmd				<- paste(cmd, "mv ", tmp.out,' "',outfile,'"\n',sep='')
+	cmd				<- paste(cmd, "#######################################################
+# end: jModelTest
+#######################################################\n",sep='')
+	cmd
+}
+
 #' @export
 #' @title Produce a single LSD shell command. 
 #' @return	Character string
@@ -209,13 +228,37 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=
 	cmd
 }
 
+#' @export
+#' @title Produce a single FastTree shell command. 
+#' @return	Character string
+cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep=''), pr=PR.FASTTREE, pr.args='-nt -gtr -gamma')
+{		
+	cmd				<- paste("#######################################################
+# start: FASTTREE
+#######################################################\n",sep='')												
+	cmd				<- paste(cmd,"CWD=$(pwd)\n",sep='')
+	cmd				<- paste(cmd,"echo $CWD\n",sep='')	
+	tmpdir.prefix	<- paste('ft_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')
+	tmpdir			<- paste("$CWD/",tmpdir.prefix,sep='')
+	tmp.in			<- file.path(tmpdir, basename(infile.fasta))
+	tmp.out			<- file.path(tmpdir, basename(outfile))
+	tmp.log			<- file.path(tmpdir, paste(basename(outfile),'.log',sep=''))
+	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')	
+	cmd				<- paste(cmd, pr,' ',pr.args,' -log ',tmp.log,' < ', tmp.in,' > ', tmp.out,'\n', sep='')
+	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "#######################################################
+# end: FASTTREE
+#######################################################\n",sep='')
+	cmd
+}
 
 #' @export
 #' @title Produce a single ExaML shell command.
 #' @description Internal code. 
 #' @inheritParams cmd.examl.bootstrap
 #' @return	Character string
-cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by="nucleotide",prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.seed=12345, args.starttree.type='parsimony', prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", bs.seed=floor(runif(1, 1e4, 1e5-1)), verbose=1)
+cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.mpi='mpiexec', prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by="nucleotide",prog.parser= PR.EXAML.PARSER, args.parser="-m DNA",prog.starttree= PR.EXAML.STARTTREE, prog.rndstarttree=PR.EXAML.BS, args.starttree.seed=12345, args.starttree.type='parsimony', prog.examl= PR.EXAML.EXAML, args.examl="-m GAMMA -D", bs.seed=floor(runif(1, 1e4, 1e5-1)), verbose=1)
 {
 	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
 	tmpdir.prefix	<- paste('exa_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')	
@@ -231,7 +274,7 @@ cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.bs
 	if(length(tmp))
 		cmd			<- paste(cmd,"\ncp ",indir,'/',tmp," ",tmpdir,sep='')
 	cmd				<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, 0, prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
-	cmd				<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, prog.rndstarttree=prog.rndstarttree, args.starttree.seed=bs.seed, args.starttree.type=args.starttree.type, args.starttree.bsid=0, prog.examl=prog.examl, args.examl=args.examl, resume=0, verbose=verbose),sep='\n')
+	cmd				<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.mpi=prog.mpi, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, prog.rndstarttree=prog.rndstarttree, args.starttree.seed=bs.seed, args.starttree.type=args.starttree.type, args.starttree.bsid=0, prog.examl=prog.examl, args.examl=args.examl, resume=0, verbose=verbose),sep='\n')
 	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.newick\n',sep='')
 	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.txt\n',sep='')
 	cmd				<- paste(cmd,"mv ",tmpdir,"/ExaML_modelFile.",infile,".finaltree.",sprintf("%03d",0),' ', outdir,'/',outfile,'_examl.params\n',sep='')
@@ -284,11 +327,9 @@ cmd.rm.resistance<- function(indir, infile, outfile, outdir=indir, prog= PR.RM.R
 #' @description Internal code.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @return	Character string
-cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
+cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.mpi='mpiexec', prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
 {
 	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
-	hpcsys			<- cmd.hpcsys()
-	hpcsys			<- "cx1.hpc.ic.ac.uk"
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
 	bs.id			<- seq.int(bs.from,bs.to)
 	bs.seeds		<- floor( runif(length(bs.id), 1e4, 1e5-1) )
@@ -296,24 +337,16 @@ cmd.examl.bootstrap.on.one.machine<- function(indir, infile, bs.from=0, bs.to=99
 	cmd				<- sapply(seq_along(bs.seeds), function(i)
 			{
 				cmd			<- ''
-				if(hpcsys=="debug")						#my MAC - don t use scratch
+				if(i==1)
 				{
-					cmd		<- paste(cmd,cmd.examl.bsalignment(indir, infile, bs.id[i], opt.bootstrap.by=opt.bootstrap.by, outdir=indir, verbose=verbose),sep='\n')
-					cmd		<- paste(cmd,cmd.examl(indir, infile, outdir=outdir, prog.parser= prog.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
+					cmd	<- paste(cmd,"\nCWD=$(pwd)",sep='')
+					cmd	<- paste(cmd,"\necho $CWD",sep='')
+					cmd	<- paste(cmd,"\nmkdir -p ",tmpdir,sep='')
+					tmp	<- paste(indir,'/',infile,sep='')
+					cmd	<- paste(cmd,'\ncp "',tmp,'"* ',tmpdir,sep='')
 				}
-				else if(hpcsys=="cx1.hpc.ic.ac.uk")		#imperial - use scratch directory
-				{										
-					if(i==1)
-					{
-						cmd	<- paste(cmd,"\nCWD=$(pwd)",sep='')
-						cmd	<- paste(cmd,"\necho $CWD",sep='')
-						cmd	<- paste(cmd,"\nmkdir -p ",tmpdir,sep='')
-						tmp	<- paste(indir,'/',infile,sep='')
-						cmd	<- paste(cmd,'\ncp "',tmp,'"* ',tmpdir,sep='')
-					}
-					cmd		<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, bs.id[i], opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
-					cmd		<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
-				}
+				cmd		<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, bs.id[i], opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
+				cmd		<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.mpi=prog.mpi, prog.parser= prog.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')				
 				cmd
 			})
 	cmd				<- paste(cmd, collapse='')
@@ -376,11 +409,9 @@ cmd			<- paste(cmd,"\n#######################################################
 #' @description Internal code.
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @return	Character string
-cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.bscreate=PR.EXAML.BSCREATE, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", args.parser="-m DNA", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
+cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0), outdir=indir, prog.mpi='mpiexec', prog.bscreate=PR.EXAML.BSCREATE, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, opt.bootstrap.by="codon", args.examl="-m GAMMA -D", args.parser="-m DNA", prog.supportadder=PR.EXAML.BS, tmpdir.prefix="examl", resume=1, verbose=1)
 {
 	infile			<- gsub('\\.rda|\\.R|\\.fasta|\\.fa','',infile)
-	hpcsys			<- cmd.hpcsys()
-	#hpcsys			<- "cx1.hpc.ic.ac.uk"
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
 	bs.id			<- seq.int(bs.from,bs.to)
 	bs.seeds		<- floor( runif(length(bs.id), 1e4, 1e5-1) )
@@ -388,47 +419,40 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 	lapply(seq_along(bs.seeds), function(i)
 			{
 				cmd			<- ''				
-				if(hpcsys=="debug")						#my MAC - don t use scratch
+				if(resume)
 				{
-					cmd		<- paste(cmd,cmd.examl.bsalignment(indir, infile, bs.id[i], prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, outdir=indir, verbose=verbose),sep='\n')
-					cmd		<- paste(cmd,cmd.examl(indir, infile, outdir=outdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
-				}
-				else if(hpcsys=="cx1.hpc.ic.ac.uk")		#imperial - use scratch directory
-				{										
-					if(resume)
-					{
-						cmd	<- paste(cmd,"\nif ", sep='')
-						cmd	<- paste(cmd,"[ ! -s ",outdir,'/ExaML_result.',infile,".finaltree.",sprintf("%03d",bs.id[i])," ]", sep='')
-						cmd	<- paste(cmd," || ", sep='')
-						cmd	<- paste(cmd,"[ ! -s ",outdir,'/ExaML_info.',infile,".finaltree.",sprintf("%03d",bs.id[i])," ];", sep='')
-						cmd	<- paste(cmd," then\n",sep='')
-						cmd	<- paste(cmd,"#######################################################
+					cmd	<- paste(cmd,"\nif ", sep='')
+					cmd	<- paste(cmd,"[ ! -s ",outdir,'/ExaML_result.',infile,".finaltree.",sprintf("%03d",bs.id[i])," ]", sep='')
+					cmd	<- paste(cmd," || ", sep='')
+					cmd	<- paste(cmd,"[ ! -s ",outdir,'/ExaML_info.',infile,".finaltree.",sprintf("%03d",bs.id[i])," ];", sep='')
+					cmd	<- paste(cmd," then\n",sep='')
+					cmd	<- paste(cmd,"#######################################################	
 # start: not indented if statement -- don t do anything if ExaML output exists already
 #######################################################",sep='')
-					}					
-					cmd		<- paste(cmd,"CWD=$(pwd)\n",sep='\n')
-					cmd		<- paste(cmd,"echo $CWD\n",sep='')
-					tmpdir	<- paste("$CWD/",tmpdir.prefix,sep='')
-					cmd		<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
-					tmp		<- paste(indir,'/',infile,".*",sep='')
-					cmd		<- paste(cmd,"cp ",tmp," ",tmpdir,sep='')
-					tmp		<- gsub('-q ','',regmatches(args.parser,regexpr('-q .*',args.parser)))
-					if(length(tmp))
-					{
-						cmd	<- paste(cmd,"\ncp ",indir,'/',tmp," ",tmpdir,sep='')
-					}
-					cmd		<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, bs.id[i], prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
-					cmd		<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
-					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
-					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
-					cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_modelFile.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
-					if(resume)
-					{
+				}					
+				cmd		<- paste(cmd,"CWD=$(pwd)\n",sep='\n')
+				cmd		<- paste(cmd,"echo $CWD\n",sep='')
+				tmpdir	<- paste("$CWD/",tmpdir.prefix,sep='')
+				cmd		<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+				tmp		<- paste(indir,'/',infile,".*",sep='')
+				cmd		<- paste(cmd,"cp ",tmp," ",tmpdir,sep='')
+				tmp		<- gsub('-q ','',regmatches(args.parser,regexpr('-q .*',args.parser)))
+				if(length(tmp))
+				{
+					cmd	<- paste(cmd,"\ncp ",indir,'/',tmp," ",tmpdir,sep='')
+				}
+				cmd		<- paste(cmd,cmd.examl.bsalignment(tmpdir, infile, bs.id[i], prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, outdir=tmpdir, verbose=verbose),sep='\n')
+				cmd		<- paste(cmd,cmd.examl(tmpdir, infile, outdir=tmpdir, prog.mpi=prog.mpi, prog.parser= prog.parser, args.parser=args.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='\n')
+				cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_result.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
+				cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_info.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')
+				cmd		<- paste(cmd,"cp -f ",tmpdir,"/ExaML_modelFile.",infile,".finaltree.",sprintf("%03d",bs.id[i]),' ', outdir,'\n',sep='')	
+				if(resume)
+				{
 						cmd		<- paste(cmd,"#######################################################
 # end: not indented if statement -- don t do anything if ExaML output exists already
 #######################################################\nelse\n\techo 'resumed bootstrap number ",bs.id[i],"'\nfi\n",sep='')					
-					}
-				}				
+				}
+								
 				cmd			<- paste(cmd,"#######################################################
 # start: check if all ExaML boostrap trees have been computed and if yes create ExaML bootstrap tree
 #######################################################",sep='')	
@@ -472,7 +496,7 @@ cmd.examl.bootstrap<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs
 #' @title Produce a shell command to compute the final boostrap tree.
 #' @description Internal code.
 #' @return Character string.
-cmd.examl.bsstarttree<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0),outdir=indir, prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, resume=1, verbose=1)
+cmd.examl.bsstarttree<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-bs.from+ifelse(bs.from==0,1,0),outdir=indir, prog.mpi='mpiexec', prog.parser= PR.EXAML.PARSER, prog.starttree= PR.EXAML.STARTTREE, prog.examl=PR.EXAML.EXAML, args.examl="-m GAMMA -D", prog.supportadder=PR.EXAML.BS, resume=1, verbose=1)
 {
 	#create number of seeds for the number of runs being processed, which could be less than bs.n
 	bs.id	<- seq.int(bs.from,bs.to)
@@ -481,7 +505,7 @@ cmd.examl.bsstarttree<- function(indir, infile, bs.from=0, bs.to=99, bs.n=bs.to-
 			{
 				cmd			<- paste("cp ",paste(indir,paste(infile,".phylip",sep=''),sep='/'),sep='')
 				cmd			<- paste(cmd,' ',paste(indir,paste(infile,".phylip.",sprintf("%03d",bs.id[i]),sep=''),sep='/'),"\n",sep='')
-				cmd			<- paste(cmd, cmd.examl(indir, infile, outdir=outdir, prog.parser= prog.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='')
+				cmd			<- paste(cmd, cmd.examl(indir, infile, outdir=outdir, prog.mpi=prog.mpi, prog.parser= prog.parser, prog.starttree= prog.starttree, args.starttree.seed=bs.seeds[i], args.starttree.bsid= bs.id[i], prog.examl=prog.examl, args.examl=args.examl, resume=resume, verbose=verbose),sep='')
 				curr.dir	<- getwd()
 				cmd			<- paste(cmd,"#######################################################
 # start: check if all ExaML boostrap trees have been computed and if yes create ExaML bootstrap tree
@@ -562,14 +586,6 @@ cmd.examl.cleanup<- function(outdir, prog= PR.EXAML.EXAML)
 	cmd
 }
 
-######################################################################################
-cmd.hpcsys<- function()
-{
-	tmp<- system('domainname',intern=T)
-	if(!nchar(tmp))	tmp<- "debug"
-	tmp
-}
-
 #' @export
 cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
 {
@@ -583,31 +599,6 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.npr
 		wrap<- paste(wrap, paste("#PBS -q",hpc.q), sep='\n\n')
 	wrap<- paste(wrap, hpc.load, sep='\n')
 	wrap
-}
-
-#add additional high performance computing information 
-#' @export
-#' @title Add HPC header to shell commands
-#' @description To submit shell commands to an HPC system, further directives need to be added to the shell file.
-#' 	These are specified in a header. This function detects a particular HPC server and generates the appropriate
-#' 	header file. Currently, only the HPC.CX1.IMPERIAL server is supported. Type 'cmd.hpcwrapper' in R to inspect this
-#'  function. It is quite straightforward to add support for a different HPC server.
-#' @inheritParams pipeline.ExaML.bootstrap.per.proc
-#' @return Character string
-cmd.hpcwrapper<- function(cmd, hpc.sys= cmd.hpcsys(), hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
-{	
-	#hpc.sys<- HPC.CX1.IMPERIAL
-	if(hpc.sys==HPC.CX1.IMPERIAL)
-		wrap<- cmd.hpcwrapper.cx1.ic.ac.uk(hpc.walltime=hpc.walltime, hpc.mem=hpc.mem, hpc.nproc=hpc.nproc, hpc.q=hpc.q, hpc.load=hpc.load)
-	else
-	{
-		wrap<- "#!/bin/sh"
-		cat(paste("\ndetected no HPC system and no hpcwrapper generated, domain name is",hpc.sys))
-	}
-	cmd<- lapply(seq_along(cmd),function(i){	paste(wrap,cmd[[i]],sep='\n')	})
-	if(length(cmd)==1)
-		cmd<- unlist(cmd)
-	cmd	
 }
 
 #create high performance computing qsub file and submit
