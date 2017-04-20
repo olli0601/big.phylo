@@ -671,15 +671,17 @@ seq.write.dna.nexus<- function(seq.DNAbin.mat, ph=NULL, file=NULL, nexus.format=
 #' @title Compute the length of sequences
 seq.length<- function(seq.DNAbin.mat, exclude=c('-','?'))
 {
-	counts	<- apply(seq.DNAbin.mat,1,function(x) base.freq(x, freq=1, all=1))
-	apply(counts[ !rownames(counts)%in%exclude, ],2,sum)
+	counts	<- sapply(seq_len(nrow(seq.DNAbin.mat)), function(i) base.freq(seq.DNAbin.mat[i,], freq=1, all=1))
+	len		<- apply(counts[ !rownames(counts)%in%exclude, ],2,sum)
+	names(len)	<- rownames(seq.DNAbin.mat)
+	len
 }
 
 #' @export seq.proportion.ambiguous
 #' @title Compute the proportion of ambiguous nucleotides
 seq.proportion.ambiguous<- function(seq.DNAbin.mat, exclude=c('-','?'))
-{
-	counts	<- apply(seq.DNAbin.mat,1,function(x) base.freq(x, freq=1, all=1))
+{	
+	counts	<- sapply(seq_len(nrow(seq.DNAbin.mat)), function(i) base.freq(seq.DNAbin.mat[i,], freq=1, all=1))	
 	len		<- apply(counts[ !rownames(counts)%in%exclude, ],2,sum)
 	pa		<- apply(counts[c("r", "m", "w", "s", "k", "y", "v", "h", "d", "b"),],2,sum)
 	pa/len

@@ -247,6 +247,7 @@ cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep='
 	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')	
 	cmd				<- paste(cmd, pr,' ',pr.args,' -log ',tmp.log,' < ', tmp.in,' > ', tmp.out,'\n', sep='')
 	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: FASTTREE
 #######################################################\n",sep='')
