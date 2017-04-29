@@ -588,12 +588,12 @@ cmd.examl.cleanup<- function(outdir, prog= PR.EXAML.EXAML)
 }
 
 #' @export
-cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
+cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.select=1, hpc.walltime=24, hpc.mem=HPC.MEM, hpc.nproc=1, hpc.q=NA, hpc.load=HPC.CX1.IMPERIAL.LOAD)
 {
 	wrap<- "#!/bin/sh"
 	tmp	<- paste("#PBS -l walltime=",hpc.walltime,":59:59,pcput=",hpc.walltime,":45:00",sep='')
 	wrap<- paste(wrap, tmp, sep='\n')		
-	tmp	<- paste("#PBS -l select=1:ncpus=",hpc.nproc,":mem=",hpc.mem,sep='')
+	tmp	<- paste("#PBS -l select=",hpc.select,":ncpus=",hpc.nproc,":mem=",hpc.mem,sep='')
 	wrap<- paste(wrap, tmp, sep='\n')
 	wrap<- paste(wrap, "#PBS -j oe", sep='\n')
 	if(!is.na(hpc.q))
