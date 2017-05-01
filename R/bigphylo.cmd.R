@@ -6,6 +6,7 @@ PR.TREEDATER				<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.R
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
+PR.RAXML					<- system.file(package=PR.PACKAGE, "ext", "ExaML-raxml")
 PR.FASTTREE					<- system.file(package=PR.PACKAGE, "ext", "FastTree")
 PR.LSD						<- system.file(package=PR.PACKAGE, "ext", "lsd")
 PR.LSDDATES					<- paste('Rscript', system.file(package=PR.PACKAGE, "lsd.dates.Rscript"))
@@ -250,6 +251,33 @@ cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep='
 	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: FASTTREE
+#######################################################\n",sep='')
+	cmd
+}
+
+#' @export
+#' @title Produce a single RAxML shell command. 
+#' @return	Character string
+cmd.raxml<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep=''), pr=PR.RAXML, pr.args='-m GTRCAT --HKY85 -p 42')
+{		
+	cmd				<- paste("#######################################################
+# start: RAXML
+#######################################################\n",sep='')												
+	cmd				<- paste(cmd,"CWD=$(pwd)\n",sep='')
+	cmd				<- paste(cmd,"echo $CWD\n",sep='')	
+	tmpdir.prefix	<- paste('rx_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')
+	tmpdir			<- paste("$CWD/",tmpdir.prefix,sep='')
+	tmp.in			<- file.path(tmpdir, basename(infile.fasta))
+	tmp.out			<- file.path(tmpdir, basename(outfile))
+	tmp.log			<- file.path(tmpdir, paste(basename(outfile),'.log',sep=''))
+	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')	
+	cmd				<- paste(cmd, pr,' ',pr.args,' -s ', tmp.in,' -n ', tmp.out,'\n', sep='')
+	cmd				<- paste(cmd, "rm ", tmp.in,'\n',sep='')	
+	cmd				<- paste(cmd, 'mv * "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')
+	cmd				<- paste(cmd, "#######################################################
+# end: RAXML
 #######################################################\n",sep='')
 	cmd
 }
