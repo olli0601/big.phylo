@@ -274,7 +274,9 @@ cmd.raxml<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep=''),
 	cmd				<- paste(cmd,'cd "',tmpdir,'"\n', sep='')	
 	cmd				<- paste(cmd, pr,' ',pr.args,' -s ', tmp.in,' -n ', tmp.out,'\n', sep='')
 	cmd				<- paste(cmd, "rm ", tmp.in,'\n',sep='')	
-	cmd				<- paste(cmd, 'mv * "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, 'mv RAxML_bestTree.',basename(outfile),' "',outfile,'"\n',sep='')
+	cmd				<- paste(cmd, 'for file in *; do\n\tzip -ur9XTjq ',basename(outfile),'.zip "$file"\ndone\n',sep='')	
+	cmd				<- paste(cmd, 'mv ',basename(outfile),'.zip "',dirname(outfile),'"\n',sep='')
 	cmd				<- paste(cmd,'cd $CWD\n', sep='')
 	cmd				<- paste(cmd, "rm -r ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
