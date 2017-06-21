@@ -11,6 +11,7 @@ if(any(args=='--args'))
 indir					<- outdir		<- infile	<- NA	
 verbose					<- resume		<- 1
 opt.bootstrap.by		<- "codon"
+output.format			<- "phylip"
 bs						<- 0
 check.any.bs.identical	<- 0
 
@@ -44,6 +45,10 @@ if(exists("args"))
 					{	switch(substr(arg,2,3),
 								by= return(substr(arg,5,nchar(arg))),NA)	}))
 	if(length(tmp)>0) opt.bootstrap.by<- tmp[1]
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,14),
+								output.format= return(substr(arg,16,nchar(arg))),NA)	}))
+	if(length(tmp)>0) output.format<- tmp[1]
 }
 if( is.na(indir) || is.na(infile) || is.na(outdir) || !opt.bootstrap.by%in%c("nucleotide","codon"))
 {
@@ -60,7 +65,7 @@ BY\tBootstrap resampling options. Either "nucleotide" or "codon".
 }
 if(verbose)
 {
-	cat('\ninput args\n',paste(indir, infile, outdir, bs, opt.bootstrap.by, sep='\n'))		
+	cat('\ninput args\n',paste(indir, infile, outdir, bs, opt.bootstrap.by, output.format, sep='\n'))		
 }
 ###############################################################################
 #	run script
@@ -68,7 +73,10 @@ library(ape)
 library(data.table)
 library(big.phylo)
 
-pattern 	<- paste(infile,".phylip.",sprintf("%03d",bs),sep='')
+if(output.format=="phylip")
+	pattern <- paste(infile,".phylip.",sprintf("%03d",bs),sep='')
+if(output.format=="fasta")
+	pattern <- paste(infile,".fasta.",sprintf("%03d",bs),sep='')
 file		<- list.files(path=outdir, pattern=pattern, full.names=1)
 if(!resume || !length(file))	
 {					
@@ -155,8 +163,17 @@ if(!resume || !length(file))
 		cat(paste("\nkeep boostrap seq alignment no",bs,"as original"))
 		seq.BS	<- seq.PROT.RT
 	}
-	file		<- paste(outdir,"/",infile,".phylip.",sprintf("%03d",bs),sep='')
-	cat(paste("\nsave boostrap seq alignment to",file))
-	seq.write.dna.phylip(seq.BS, file=file)
+	if(output.format=="phylip")
+	{
+		file		<- paste(outdir,"/",infile,".phylip.",sprintf("%03d",bs),sep='')
+		cat(paste("\nsave boostrap seq alignment to",file))
+		seq.write.dna.phylip(seq.BS, file=file)	
+	}
+	if(output.format=="fasta")
+	{
+		file		<- paste(outdir,"/",infile,".fasta.",sprintf("%03d",bs),sep='')
+		cat(paste("\nsave boostrap seq alignment to",file))
+		write.dna(seq.BS, file=file, format='fa')	
+	}
 }
 	

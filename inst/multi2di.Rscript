@@ -1,0 +1,45 @@
+args <- commandArgs()
+if(!any(args=='--args'))
+	args<- vector("numeric",0)
+if(any(args=='--args'))
+	args<- args[-(1:match("--args", args)) ]
+#	default args
+infile		<- NA
+outfile		<- NA
+seed		<- 42
+verbose		<- 1
+###############################################################################
+#	read args
+if(exists("args"))
+{	
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,7),
+								infile= return(substr(arg,9,nchar(arg))),NA)	}))
+	if(length(tmp)>0) infile<- tmp[1]	
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,8),
+								outfile= return(substr(arg,10,nchar(arg))),NA)	}))
+	if(length(tmp)>0) outfile<- tmp[1]	
+	
+	tmp<- na.omit(sapply(args,function(arg)
+					{	switch(substr(arg,2,5),
+								seed= return(as.numeric(substr(arg,7,nchar(arg)))),NA)	}))
+	if(length(tmp)>0) seed<- tmp[1]	
+}
+if( is.na(infile) || is.na(outfile))
+{
+	stop('\nUsage:
+Rscript multi2di.Rscript -infile=INFILE -outfile=OUTFILE -seed=SEED
+')
+}
+if(verbose)
+{
+	cat('\ninput args\n',paste(infile, outfile, seed, sep='\n'))		
+}
+###############################################################################
+#	run script
+library(ape)
+ph	<- ladderize(read.tree(infile))
+set.seed(seed)
+ph	<- multi2di(ph, random=FALSE)
+write.tree(ph, file=outfile)

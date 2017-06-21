@@ -3,6 +3,7 @@ PR.EXAML.BSCREATE			<- paste('Rscript', system.file(package=PR.PACKAGE, "create.
 PR.RM.RESISTANCE			<- paste('Rscript', system.file(package=PR.PACKAGE, "rm.drm.Rscript"))
 PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps.Rscript"))
 PR.TREEDATER				<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.Rscript"))
+PR.MULTI2DI					<- paste('Rscript', system.file(package=PR.PACKAGE, "multi2di.Rscript"))
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
 PR.EXAML.EXAML				<- system.file(package=PR.PACKAGE, "ext", "examl")
@@ -232,7 +233,7 @@ cmd.lsd<- function(infile.tree, infile.dates, ali.nrow, outfile=infile.tree, pr=
 #' @export
 #' @title Produce a single FastTree shell command. 
 #' @return	Character string
-cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep=''), pr=PR.FASTTREE, pr.args='-nt -gtr -gamma')
+cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep=''), pr=PR.FASTTREE, pr.args='-nt -gtr -gamma', check.binary=FALSE)
 {		
 	cmd				<- paste("#######################################################
 # start: FASTTREE
@@ -246,7 +247,9 @@ cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep='
 	tmp.log			<- file.path(tmpdir, paste(basename(outfile),'.log',sep=''))
 	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
 	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')	
-	cmd				<- paste(cmd, pr,' ',pr.args,' -log ',tmp.log,' < ', tmp.in,' > ', tmp.out,'\n', sep='')
+	cmd				<- paste(cmd, pr,' ',pr.args,' -log ',tmp.log,' ', tmp.in,' > ', tmp.out,'\n', sep='')
+	if(!is.na(check.binary) & check.binary)
+		cmd			<- paste(cmd, cmd.multi2di(tmp.out, tmp.out, seed=42), '\n', sep='')	
 	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
 	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
@@ -254,6 +257,100 @@ cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep='
 #######################################################\n",sep='')
 	cmd
 }
+
+#' @export
+#' @title Produce a shell command to convert multi-furcating trees to binary trees 
+#' @return	Character string
+cmd.multi2di<- function(infile, outfile, seed=42, pr=PR.MULTI2DI)
+{
+	paste0(pr,' -infile="',infile,'" -outfile="',outfile,'"', ' -seed=',seed)
+}
+
+#' @export
+#' @title Produce a single FastTree shell command on a bootstrap alignment. 
+#' @return	Character string
+cmd.fasttree.one.bootstrap<- function(infile.fasta, bs.id, outfile=gsub('\\.fa|\\.fasta|\\.FA|\\.FASTA', paste0('_',sprintf("%03d",bs.id),'.newick'),infile.fasta), pr=PR.FASTTREE, pr.args='-nt -gtr -gamma', prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by='nucleotide', check.binary=TRUE)
+{															
+	cmd				<- paste("CWD=$(pwd)\n",sep='')
+	cmd				<- paste(cmd,"echo $CWD\n",sep='')	
+	tmpdir.prefix	<- paste('ft_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"),sep='')
+	tmpdir			<- paste("$CWD/",tmpdir.prefix,sep='')
+	tmp.in			<- file.path(tmpdir, basename(infile.fasta))
+	tmp.out			<- file.path(tmpdir, basename(outfile))
+	tmp.log			<- file.path(tmpdir, paste(basename(outfile),'.log',sep=''))
+	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
+	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'', sep='')	
+	cmd				<- paste(cmd, cmd.examl.bsalignment(tmpdir, gsub('\\.fasta|\\.fa|\\.FASTA|\\.FA','',basename(infile.fasta)), bs.id, outdir=tmpdir, prog.bscreate=prog.bscreate, opt.bootstrap.by=opt.bootstrap.by, output.format='fasta',verbose=verbose),sep='\n')
+	cmd				<- paste(cmd, "\n#######################################################
+# start: BOOTSTRAP-FASTTREE
+#######################################################\n",sep='')
+	cmd				<- paste(cmd, pr,' ',pr.args,' -nosupport -log ',tmp.log,' ', paste0(tmp.in,'.',sprintf("%03d",bs.id)),' > ', tmp.out,'\n', sep='')
+	if(!is.na(check.binary) & check.binary)
+		cmd			<- paste(cmd, cmd.multi2di(tmp.out, tmp.out, seed=42), sep='\n')
+	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "rm -r ", tmpdir,'\n',sep='')
+	cmd				<- paste(cmd, "#######################################################
+# end: BOOTSTRAP-FASTTREE
+#######################################################\n",sep='')
+	cmd
+}
+
+#' @export
+#' @title Produce a single FastTree shell command on a bootstrap alignment. 
+#' @return	Character string
+cmd.fasttree.many.bootstraps<- function(infile.fasta, bs.dir, bs.n, outfile, pr=PR.FASTTREE, pr.args='-nt -gtr -gamma', prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by='nucleotide', pr.supportadder=PR.RAXML)
+{			
+	cmd	<- sapply(seq_len(bs.n)-1, function(bs.id)
+			{
+				cmd.fasttree.one.bootstrap(	infile.fasta, 
+											bs.id, 
+											outfile=file.path(bs.dir, gsub('\\.fa|\\.fasta|\\.FA|\\.FASTA', paste0('_ft.',sprintf("%03d",bs.id),'.newick'),basename(infile.fasta))), 
+											pr=PR.FASTTREE, 
+											pr.args='-nt -gtr -gamma', 
+											prog.bscreate=PR.EXAML.BSCREATE, 
+											opt.bootstrap.by='nucleotide', 
+											check.binary=TRUE)
+			})
+	cmd	<- paste(cmd, collapse='\n')
+	tmp	<- file.path(bs.dir, gsub('\\.fa|\\.fasta|\\.FA|\\.FASTA', paste0('_',sprintf("%03d",0),'.newick'),basename(infile.fasta)))
+	tmp	<- cmd.fasttree.add.bootstrap.nodelabels.to.base.tree(bs.dir, bs.n, tmp, outfile, bs.pattern='*_ft.[0-9][0-9][0-9].newick', pr=pr.supportadder)
+	cmd	<- paste(cmd, tmp, sep='\n')
+	cmd
+}
+
+#' @export
+#' @title Produce a single FastTree shell command on a bootstrap alignment. 
+#' @return	Character string
+cmd.fasttree.add.bootstrap.nodelabels.to.base.tree<- function(bs.dir, bs.n, infile.tree.to.add.labels, outfile, bs.pattern='*_ft.[0-9][0-9][0-9].newick', pr=PR.RAXML)
+{																
+	cmd			<- paste("\n#######################################################
+# start: check if all boostrap trees have been computed and if yes add bootstrap node labels to primary tree
+#######################################################",sep='')
+	cmd			<- paste(cmd,"\nCWD=$(pwd)\n",sep='')	
+	cmd			<- paste(cmd,'cd "',bs.dir,'"',sep='') 
+	cmd			<- paste(cmd,paste("\necho \'check if all bootstrap samples have been computed\'",sep=''))
+	tmp			<- paste("\nif [ $(find . -name '",bs.pattern,"' | wc -l) -eq ",bs.n," ]; then",sep='')
+	cmd			<- paste(cmd,tmp,sep='')
+	cmd			<- paste(cmd,paste("\n\techo \'all bootstrap trees computed -- find best tree and add bootstrap support values\'",sep=''))				
+	tmp			<- paste0(basename(outfile),".bstrees")
+	#add all bootstrap final trees into bs tree file
+	cmd			<- paste(cmd,"\n\tfor i in $(find . -name '",bs.pattern,"'); do cat $i >> ",paste0(basename(outfile),".bstrees"),"; done",sep='')
+	#create final tree with bootstrap support values		
+	cmd			<- paste(cmd,'\n\t',pr,' -m GTRCAT -p12345 -f b -t "',infile.tree.to.add.labels,'" -z ',paste0(basename(outfile),".bstrees"),' -n "',basename(outfile),'"',sep='' )				
+	cmd			<- paste(cmd,paste("\n\techo \'all bootstrap samples computed -- found best tree and added bootstrap support values\'",sep=''))										
+	cmd			<- paste(cmd,paste("\n\techo \'start cleanup\'",sep=''))									
+	cmd			<- paste(cmd,"\n\trm ",paste0(basename(outfile),".bstrees"),sep='')
+	cmd			<- paste(cmd,"\n\tmv ",basename(outfile),' "',outfile,'"',sep='')
+	cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))				
+	cmd			<- paste(cmd,"\nfi",sep='')
+	cmd			<- paste(cmd,"\ncd $CWD",sep='')
+	cmd			<- paste(cmd,"\n#######################################################
+# end: check if all ExaML boostrap trees have been computed and if yes create ExaML bootstrap tree
+#######################################################\n",sep='')
+	cmd
+}
+
+
 
 #' @export
 #' @title Produce a single RAxML shell command. 
@@ -322,12 +419,12 @@ cmd.examl.single<- function(indir, infile, outdir=indir, outfile=infile, prog.mp
 #' @inheritParams pipeline.ExaML.bootstrap.per.proc
 #' @param opt.bootstrap.by	Character string that specifies specifies the way the boostrap alignment is created. Valid options are \code{codon} and \code{nucleotide}.
 #' @return	Character string
-cmd.examl.bsalignment<- function(indir, infile, bs.id, outdir=indir, prog.bscreate= PR.EXAML.BSCREATE, opt.bootstrap.by="codon",resume=0, verbose=1)
+cmd.examl.bsalignment<- function(indir, infile, bs.id, outdir=indir, prog.bscreate= PR.EXAML.BSCREATE, opt.bootstrap.by="codon",output.format='phylip',resume=0, verbose=1)
 {
 	cmd			<- paste("#######################################################
 # start: create and check bootstrap alignment
 #######################################################\n",sep='')
-	cmd			<- paste(cmd,prog.bscreate," -resume=",resume," -bootstrap=",bs.id," -by=",opt.bootstrap.by,sep='')
+	cmd			<- paste(cmd,prog.bscreate," -resume=",resume," -bootstrap=",bs.id," -by=",opt.bootstrap.by," -output.format=",output.format,sep='')
 	cmd			<- paste(cmd," -indir=",indir," -infile=",infile," -outdir=",outdir,sep='')	
 	cmd			<- paste(cmd,"\n#######################################################
 # end: create and check bootstrap alignment

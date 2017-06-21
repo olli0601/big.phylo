@@ -6,7 +6,7 @@
 \usage{
 cmd.examl.bsalignment(indir, infile, bs.id, outdir = indir,
   prog.bscreate = PR.EXAML.BSCREATE, opt.bootstrap.by = "codon",
-  resume = 0, verbose = 1)
+  output.format = "phylip", resume = 0, verbose = 1)
 }
 \arguments{
 \item{indir}{Directory of the sequences in file \code{infile}}
