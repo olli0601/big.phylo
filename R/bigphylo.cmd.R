@@ -286,9 +286,9 @@ cmd.fasttree.one.bootstrap<- function(infile.fasta, bs.id, outfile=gsub('\\.fa|\
 #######################################################\n",sep='')
 	cmd				<- paste(cmd, pr,' ',pr.args,' -nosupport -log ',tmp.log,' ', paste0(tmp.in,'.',sprintf("%03d",bs.id)),' > ', tmp.out,'\n', sep='')
 	if(!is.na(check.binary) & check.binary)
-		cmd			<- paste(cmd, cmd.multi2di(tmp.out, tmp.out, seed=42), sep='\n')
-	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
-	cmd				<- paste(cmd, "rm -r ", tmpdir,'\n',sep='')
+		cmd			<- paste(cmd, cmd.multi2di(tmp.out, tmp.out, seed=42), sep='')
+	cmd				<- paste(cmd, "\nmv ", tmp.out,'* "',dirname(outfile),'"',sep='')
+	cmd				<- paste(cmd, "\nrm -r ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: BOOTSTRAP-FASTTREE
 #######################################################\n",sep='')
