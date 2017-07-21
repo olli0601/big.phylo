@@ -312,7 +312,7 @@ cmd.fasttree.many.bootstraps<- function(infile.fasta, bs.dir, bs.n, outfile, pr=
 											check.binary=TRUE)
 			})
 	cmd	<- paste(cmd, collapse='\n')
-	tmp	<- file.path(bs.dir, gsub('\\.fa|\\.fasta|\\.FA|\\.FASTA', paste0('_',sprintf("%03d",0),'.newick'),basename(infile.fasta)))
+	tmp	<- file.path(bs.dir, gsub('\\.fa|\\.fasta|\\.FA|\\.FASTA', paste0('_ft.',sprintf("%03d",0),'.newick'),basename(infile.fasta)))
 	tmp	<- cmd.fasttree.add.bootstrap.nodelabels.to.base.tree(bs.dir, bs.n, tmp, outfile, bs.pattern='*_ft.[0-9][0-9][0-9].newick', pr=pr.supportadder)
 	cmd	<- paste(cmd, tmp, sep='\n')
 	cmd
@@ -340,7 +340,7 @@ cmd.fasttree.add.bootstrap.nodelabels.to.base.tree<- function(bs.dir, bs.n, infi
 	cmd			<- paste(cmd,paste("\n\techo \'all bootstrap samples computed -- found best tree and added bootstrap support values\'",sep=''))										
 	cmd			<- paste(cmd,paste("\n\techo \'start cleanup\'",sep=''))									
 	cmd			<- paste(cmd,"\n\trm ",paste0(basename(outfile),".bstrees"),sep='')
-	cmd			<- paste(cmd,"\n\tmv ",basename(outfile),' "',outfile,'"',sep='')
+	cmd			<- paste(cmd,"\n\tmv  RAxML_bipartitions.",basename(outfile),' "',outfile,'"',sep='')
 	cmd			<- paste(cmd,paste("\n\techo \'end cleanup\'",sep=''))				
 	cmd			<- paste(cmd,"\nfi",sep='')
 	cmd			<- paste(cmd,"\ncd $CWD",sep='')
