@@ -303,7 +303,7 @@ cmd.fasttree.many.bootstraps<- function(infile.fasta, bs.dir, bs.n, outfile, pr=
 	if(is.na(bs.from))
 		bs.from	<- 0 
 	if(is.na(bs.to))
-		bs.to	<- seq_len(bs.n)-1
+		bs.to	<- bs.n-1
 	cmd	<- sapply(seq.int(bs.from, bs.to), function(bs.id)
 			{
 				cmd.fasttree.one.bootstrap(	infile.fasta, 
