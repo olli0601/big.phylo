@@ -298,9 +298,13 @@ cmd.fasttree.one.bootstrap<- function(infile.fasta, bs.id, outfile=gsub('\\.fa|\
 #' @export
 #' @title Produce a single FastTree shell command on a bootstrap alignment. 
 #' @return	Character string
-cmd.fasttree.many.bootstraps<- function(infile.fasta, bs.dir, bs.n, outfile, pr=PR.FASTTREE, pr.args='-nt -gtr -gamma', prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by='nucleotide', pr.supportadder=PR.RAXML)
-{			
-	cmd	<- sapply(seq_len(bs.n)-1, function(bs.id)
+cmd.fasttree.many.bootstraps<- function(infile.fasta, bs.dir, bs.n, outfile, pr=PR.FASTTREE, pr.args='-nt -gtr -gamma', prog.bscreate=PR.EXAML.BSCREATE, opt.bootstrap.by='nucleotide', pr.supportadder=PR.RAXML, bs.from= NA, bs.to=NA)
+{	
+	if(is.na(bs.from))
+		bs.from	<- 0 
+	if(is.na(bs.to))
+		bs.to	<- seq_len(bs.n)-1
+	cmd	<- sapply(seq.int(bs.from, bs.to), function(bs.id)
 			{
 				cmd.fasttree.one.bootstrap(	infile.fasta, 
 											bs.id, 
