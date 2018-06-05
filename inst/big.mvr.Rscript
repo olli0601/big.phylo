@@ -6,7 +6,7 @@ if(any(args=='--args'))
 #
 #	default args
 #
-infile						<- file.path('~/Dropbox (Infectious Disease)/PANGEAHIVsim/201507_TreeReconstruction/tree_mvr','150701_Regional_TRAIN4_SIMULATED_tps.rda')	
+infile						<- file.path('~/Dropbox (SPH Imperial College)/PANGEAHIVsim/201507_TreeReconstruction/tree_mvr','150701_Regional_TRAIN4_SIMULATED_tps.rda')	
 outfile						<- infile
 na.rm.p						<- NA	 
 method						<- 'MVR'

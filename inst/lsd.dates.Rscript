@@ -2,8 +2,8 @@ library(argparse, quietly=TRUE, warn.conflicts=FALSE)
 #	default args
 if(0)
 {	
-	infile.dates	<- "/Users/Oliver/Dropbox (Infectious Disease)/2016_ATHENA_Oct_Update/preprocessed/ATHENA_1610_Sequences_LANL_Dates.csv"
-	infile.tree		<- "/Users/Oliver/Dropbox (Infectious Disease)/2016_ATHENA_Oct_Update/preprocessed/ExaML_result.ATHENA_1610_Sequences_LANL_codonaligned_noDRM_noROGUE_subtype_B.finaltree.000"
+	infile.dates	<- "/Users/Oliver/Dropbox (SPH Imperial College)/2016_ATHENA_Oct_Update/preprocessed/ATHENA_1610_Sequences_LANL_Dates.csv"
+	infile.tree		<- "/Users/Oliver/Dropbox (SPH Imperial College)/2016_ATHENA_Oct_Update/preprocessed/ExaML_result.ATHENA_1610_Sequences_LANL_codonaligned_noDRM_noROGUE_subtype_B.finaltree.000"
 	outdir			<- indir
 	outfile.lsd		<- paste(infile.tree,'.lsd',sep='')
 	run.lsd			<- 0
