@@ -729,7 +729,7 @@ cmd.hpcwrapper.cx1.ic.ac.uk<- function(hpc.select=1, hpc.walltime=24, hpc.mem=HP
 	wrap<- paste(wrap, tmp, sep='\n')
 	wrap<- paste(wrap, "#PBS -j oe", sep='\n')
 	if(!is.na(hpc.array))
-		wrap<- paste(wrap, "\n#PBS -J 1:", hpc.array, sep='')
+		wrap<- paste(wrap, "\n#PBS -J 1-", hpc.array, sep='')
 	if(!is.na(hpc.q))
 		wrap<- paste(wrap, "\n#PBS -q",hpc.q, sep='')
 	wrap<- paste(wrap, hpc.load, sep='\n')
