@@ -582,7 +582,7 @@ seq.read.GenBank<- function (access.nb, seq.names = access.nb, species.names = T
 				sep = "")
 		X <- c(X, scan(file = URL, what = "", sep = "\n", quiet = TRUE))
 	}
-	
+	cat(X)
 	FI <- grep("^ {0,}ORIGIN", X) + 1
 	LA <- which(X == "//") - 1
 	obj <- vector("list", N)

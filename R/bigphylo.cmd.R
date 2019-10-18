@@ -246,11 +246,13 @@ cmd.fasttree<- function(infile.fasta, outfile=paste(infile.fasta,'.newick',sep='
 	tmp.out			<- file.path(tmpdir, basename(outfile))
 	tmp.log			<- file.path(tmpdir, paste(basename(outfile),'.log',sep=''))
 	cmd				<- paste(cmd,"mkdir -p ",tmpdir,'\n',sep='')
-	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')	
+	cmd				<- paste(cmd,'cp "',infile.fasta,'" ',tmp.in,'\n', sep='')
+	cmd				<- paste(cmd,'cd ', tmpdir,'\n', sep='')
 	cmd				<- paste(cmd, pr,' ',pr.args,' -log ',tmp.log,' ', tmp.in,' > ', tmp.out,'\n', sep='')
 	if(!is.na(check.binary) & check.binary)
 		cmd			<- paste(cmd, cmd.multi2di(tmp.out, tmp.out, seed=42), '\n', sep='')	
-	cmd				<- paste(cmd, "mv ", tmp.out,'* "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "mv ", basename(outfile),'* "',dirname(outfile),'"\n',sep='')
+	cmd				<- paste(cmd, "cd $CWD\n",sep='')
 	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')
 	cmd				<- paste(cmd, "#######################################################
 # end: FASTTREE
