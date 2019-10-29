@@ -8,4 +8,6 @@
   nexus.format = "DNA", nexus.gap = "-", nexus.missing = "?",
   nexus.interleave = "NO")
 }
-
+\description{
+Write a NEXUS file
+}

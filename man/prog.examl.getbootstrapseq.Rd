@@ -35,4 +35,3 @@ prog.examl.getbootstrapseq()
 \seealso{
 \code{\link{pipeline.ExaML.bootstrap.per.proc}}
 }
-

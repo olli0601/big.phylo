@@ -2,7 +2,8 @@ PR.PACKAGE					<- "big.phylo"
 PR.EXAML.BSCREATE			<- paste('Rscript', system.file(package=PR.PACKAGE, "create.bootstrapalignment.Rscript"))
 PR.RM.RESISTANCE			<- paste('Rscript', system.file(package=PR.PACKAGE, "rm.drm.Rscript"))
 PR.STRIP.GAPS				<- paste('Rscript', system.file(package=PR.PACKAGE, "strip.gaps.Rscript"))
-PR.TREEDATER				<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.Rscript"))
+PR.TREEDATER.SCRIPT			<- paste('Rscript', system.file(package=PR.PACKAGE, "treedater.Rscript"))
+PR.TREEDATER				<- system.file(package='treedater', "tdcl")
 PR.MULTI2DI					<- paste('Rscript', system.file(package=PR.PACKAGE, "multi2di.Rscript"))
 PR.EXAML.PARSER				<- system.file(package=PR.PACKAGE, "ext", "ExaML-parser") 
 PR.EXAML.STARTTREE			<- system.file(package=PR.PACKAGE, "ext", "ExaML-parsimonator")
@@ -137,18 +138,60 @@ cmd.mvr<- function(infile, outfile, prog=PR.MVR, method='MVR', complete.distance
 }
 
 
+#' @export cmd.treedater.script
+#' @import treedater
+#' @title Generate commands to date trees with TreeDater using a general dates file 
+#' @return	Character string
+cmd.treedater.script<- function(infile.tree, infile.dates, control= list(outfile=gsub('.newick$','_dated.newick',infile.tree), ali.len=1e3, root=NA, omega0=NA, temporalConstraints=TRUE, strictClock=FALSE, estimateSampleTimes=NA, abstol=1e-4, maxit=100, numStartConditions=1), pr=PR.TREEDATER.SCRIPT)
+{
+	stopifnot('ali.len'%in%names(control))
+	stopifnot('outfile'%in%names(control))
+	cmd	<- paste(pr, ' --infile.dates "',infile.dates,'" --infile.tree "',infile.tree,'" --outfile "', control$outfile,'"', sep='')	
+	if('ali.len'%in%names(control) && !is.na(control$ali.len))
+		cmd	<- paste(cmd, ' --ali.len ', control$ali.len, sep='')
+	if('root'%in%names(control) && !is.na(control$root))	
+		cmd	<- paste(cmd, ' --root "', control$root, '"', sep='')	
+	if('omega0'%in%names(control) && !is.na(control$omega0))
+		cmd	<- paste(cmd, ' --omega0 ', control$omega0, sep='')
+	if('temporalConstraints'%in%names(control) && !is.na(control$temporalConstraints))
+		cmd	<- paste(cmd, ' --temporalConstraints ', control$temporalConstraints, sep='')
+	if('strictClock'%in%names(control) && !is.na(control$strictClock))
+		cmd	<- paste(cmd, ' --strictClock ', control$strictClock, sep='')
+	if('estimateSampleTimes'%in%names(control) && !is.na(control$estimateSampleTimes))
+		cmd	<- paste(cmd, ' --estimateSampleTimes "', control$estimateSampleTimes, '"', sep='')
+	if('abstol'%in%names(control) && !is.na(control$abstol))
+		cmd	<- paste(cmd, ' --abstol ', control$abstol, sep='')
+	if('maxit'%in%names(control) && !is.na(control$maxit))
+		cmd	<- paste(cmd, ' --maxit ', control$maxit, sep='')
+	if('numStartConditions'%in%names(control) && !is.na(control$numStartConditions))
+		cmd	<- paste(cmd, ' --numStartConditions ', control$numStartConditions, sep='')	
+	cmd
+}
+
 #' @export cmd.treedater
+#' @import treedater
 #' @title Generate commands to date trees with TreeDater. 
 #' @return	Character string
-cmd.treedater<- function(infile.tree, infile.dates, outfile, pr=PR.TREEDATER, root=NA, ali.len=NA, omega0=NA)
-{
-	cmd	<- paste(pr, ' --infile.dates "',infile.dates,'" --infile.tree "',infile.tree,'" --outfile "', outfile,'"', sep='')	
-	if(!is.na(ali.len))
-		cmd	<- paste(cmd, ' --ali.len ', ali.len, sep='')
-	if(!is.na(root))	
-		cmd	<- paste(cmd, ' --root "', root, '"', sep='')	
-	if(!is.na(omega0))
-		cmd	<- paste(cmd, ' --omega0 ', omega0, sep='')
+cmd.treedater<- function(infile.tree, infile.dates, control=list(outfile=gsub('.newick$','_dated.newick',infile.tree), ali.length=1e3), pr=PR.TREEDATER)
+{		
+	stopifnot('ali.length'%in%names(control))
+	stopifnot('outfile'%in%names(control))
+	cmd				<- ''												
+	cmd				<- paste0(cmd,"CWD=$(pwd)\n")
+	cmd				<- paste0(cmd,"echo $CWD\n")	
+	tmpdir.prefix	<- paste0('td_',format(Sys.time(),"%y-%m-%d-%H-%M-%S"))
+	tmpdir			<- paste0("$CWD/",tmpdir.prefix)
+	tmp.in.tree		<- file.path(tmpdir, basename(infile.tree))
+	tmp.in.dates	<- file.path(tmpdir, basename(infile.dates))
+	tmp.out			<- basename(control$outfile)	
+	cmd				<- paste0(cmd,"mkdir -p ",tmpdir,'\n')
+	cmd				<- paste0(cmd,'cp "',infile.tree,'" ',tmp.in.tree,'\n')
+	cmd				<- paste0(cmd,'cp "',infile.dates,'" ',tmp.in.dates,'\n')
+	cmd				<- paste0(cmd,'cd ', tmpdir,'\n')
+	cmd				<- paste0(cmd, pr,' -t ', basename(tmp.in.tree),' -s ', basename(tmp.in.dates), ' -l ', control$ali.length, ' -o ', tmp.out,'\n')	
+	cmd				<- paste0(cmd, "mv ", tmp.out,' "',dirname(control$outfile),'"\n')
+	cmd				<- paste(cmd, "cd $CWD\n",sep='')
+	cmd				<- paste(cmd, "rm ", tmpdir,'\n',sep='')	
 	cmd
 }
 

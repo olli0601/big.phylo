@@ -9,4 +9,3 @@
 \description{
 slight modification of read.blast() in pkg RFLPtools; expects blast was run with -outfmt 6
 }
-

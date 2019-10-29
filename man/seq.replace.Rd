@@ -4,7 +4,9 @@
 \alias{seq.replace}
 \title{Replace nucleotide codes in sequence alignment}
 \usage{
-\method{seq}{replace}(seq.DNAbin.matrix, code.from = "?", code.to = "n",
-  verbose = 0)
+\method{seq}{replace}(seq.DNAbin.matrix, code.from = "?",
+  code.to = "n", verbose = 0)
 }
-
+\description{
+Replace nucleotide codes in sequence alignment
+}

@@ -6,4 +6,6 @@
 \usage{
 \method{seq}{unique}(seq.DNAbin.matrix)
 }
-
+\description{
+Compute a subset of unique sequences
+}

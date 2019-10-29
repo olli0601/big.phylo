@@ -6,4 +6,6 @@
 \usage{
 \method{seq}{gc.content}(seq.DNAbin.mat)
 }
-
+\description{
+Compute the GC content
+}

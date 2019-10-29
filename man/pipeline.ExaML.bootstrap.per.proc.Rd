@@ -5,8 +5,9 @@
 \title{Compute phylogeny with bootstrap values}
 \usage{
 pipeline.ExaML.bootstrap.per.proc(indir, infile, outdir = indir,
-  bs.from = 0, bs.n = 500, bs.to = bs.n, hpc.walltime = 1, hpc.q = NA,
-  hpc.sys = cmd.hpcsys(), hpc.mem = "500mb", hpc.nproc = 1, verbose = 1)
+  bs.from = 0, bs.n = 500, bs.to = bs.n, hpc.walltime = 1,
+  hpc.q = NA, hpc.sys = cmd.hpcsys(), hpc.mem = "500mb",
+  hpc.nproc = 1, verbose = 1)
 }
 \arguments{
 \item{indir}{Directory of the sequences in file \code{infile}}
@@ -69,4 +70,3 @@ pipeline.ExaML.bootstrap.per.proc(indir, infile, bs.from=1, bs.to=2, hpc.walltim
 #	It is not difficult to enable support for a different server.
 #	See ?cmd.hpcwrapper
 }
-

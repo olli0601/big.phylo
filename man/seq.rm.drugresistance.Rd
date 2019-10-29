@@ -6,4 +6,6 @@
 \usage{
 \method{seq}{rm.drugresistance}(seq, outfile = NA)
 }
-
+\description{
+Remove drug resistance mutations
+}

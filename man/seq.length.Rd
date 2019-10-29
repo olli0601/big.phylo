@@ -6,4 +6,6 @@
 \usage{
 \method{seq}{length}(seq.DNAbin.mat, exclude = c("-", "?"))
 }
-
+\description{
+Compute the length of sequences
+}

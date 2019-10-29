@@ -6,4 +6,6 @@
 \usage{
 \method{seq}{write.dna.phylip}(seq.DNAbin.mat, file)
 }
-
+\description{
+Write a square phylip file
+}

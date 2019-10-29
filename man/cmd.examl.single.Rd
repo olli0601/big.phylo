@@ -10,8 +10,17 @@ cmd.examl.single(indir, infile, outdir = indir, outfile = infile,
   args.parser = "-m DNA", prog.starttree = PR.EXAML.STARTTREE,
   prog.rndstarttree = PR.EXAML.BS, args.starttree.seed = 12345,
   args.starttree.type = "parsimony", prog.examl = PR.EXAML.EXAML,
-  args.examl = "-m GAMMA -D", bs.seed = floor(runif(1, 10000, 1e+05 - 1)),
-  verbose = 1)
+  args.examl = "-m GAMMA -D", bs.seed = floor(runif(1, 10000, 1e+05 -
+  1)), verbose = 1)
+}
+\arguments{
+\item{indir}{Directory of the sequences in file \code{infile}}
+
+\item{infile}{File name to an DNAbin matrix. The file name must end in \code{.R}}
+
+\item{outdir}{Output directory for the bootstrap calculations}
+
+\item{verbose}{Flag to run function in verbose mode.}
 }
 \value{
 Character string
@@ -19,4 +28,3 @@ Character string
 \description{
 Internal code.
 }
-

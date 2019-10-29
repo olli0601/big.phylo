@@ -8,4 +8,6 @@
   species.names = TRUE, gene.names = FALSE, as.character = FALSE,
   attributes = c("origin"))
 }
-
+\description{
+Read sequences from GenBank
+}

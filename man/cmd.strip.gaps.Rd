@@ -13,4 +13,3 @@ Character string
 \description{
 Internal code.
 }
-

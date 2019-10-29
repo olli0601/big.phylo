@@ -1,0 +1,494 @@
+require(PANGEA.HIV.sim)
+outdir			<- '/Users/Oliver/duke/2015_various'#
+#	input arguments for the pipeline#
+pipeline.args	<- simulate.regional.args( yr.start=1985, yr.end=2020, seed=42, s.MODEL='Fixed2Prop', report.prop.recent=1.0,#
+			s.PREV.max.n=1600, s.INTERVENTION.prop=0.5, s.INTERVENTION.start=2015, s.INTERVENTION.mul=NA, s.ARCHIVAL.n=50,#
+			epi.model='HPTN071', epi.acute='high', epi.intervention='fast', epi.dt=1/48, epi.import=0.05, root.edge.fixed=0,#
+			v.N0tau=1, v.r=2.851904, v.T50=-2,#
+			wher.mu=log(0.00447743)-0.5^2/2, wher.sigma=0.5, bwerm.mu=log(0.002239075)-0.3^2/2, bwerm.sigma=0.3, er.gamma=4,#
+			dbg.GTRparam=0, dbg.rER=0, index.starttime.mode='fix1970', startseq.mode='one', seqtime.mode='AtDiag')									#
+#	#
+#	call simulation pipeline#
+#	this generates a UNIX batch file if no HPC system is detected, or#
+#	this generates and runs a qsub file if an HPC system is detected #
+##
+file			<- simulate.regional(outdir, pipeline.args=pipeline.args)
+library(help=PANGEA.HIV.sim)
+?simulate.regional
+?simulate.regional.args
+simulate.regional.args( yr.start=1985, yr.end=2020, seed=42, s.MODEL='Fixed2Prop', report.prop.recent=1.0,#
+			s.PREV.max.n=1600, s.INTERVENTION.prop=0.5, s.INTERVENTION.start=2015, s.INTERVENTION.mul=NA, s.ARCHIVAL.n=50,#
+			epi.model='HPTN071', epi.acute='high', epi.intervention='fast', epi.dt=1/48, epi.import=0.05, root.edge.fixed=0,#
+			v.N0tau=1, v.r=2.851904, v.T50=-2,#
+			wher.mu=log(0.00447743)-0.5^2/2, wher.sigma=0.5, bwerm.mu=log(0.002239075)-0.3^2/2, bwerm.sigma=0.3, er.gamma=4,#
+			dbg.GTRparam=0, dbg.rER=0, index.starttime.mode='fix1970', startseq.mode='one', seqtime.mode='AtDiag')
+simulate.regional.args()
+PANGEA.HIV.sim:::simulate.regional.args
+?PANGEA.HIV.sim:::simulate.regional.args
+?PANGEA.HIV.sim:::simulate.regional
+library(PANGEA.HIV.sim)
+CODE.HOME	<<- "/Users/Oliver/git/PANGEA.HIV.sim"
+require(roxygen2)
+roxygenize(CODE.HOME)
+require((PANGEA.HIV.sim))
+require(PANGEA.HIV.sim)
+outdir			<- '/Users/Oliver/duke/2015_various'#
+#	input arguments for the pipeline#
+pipeline.args	<- sim.regional.args( yr.start=1985, yr.end=2020, seed=42, s.MODEL='Fixed2Prop', report.prop.recent=1.0,#
+			s.PREV.max.n=1600, s.INTERVENTION.prop=0.5, s.INTERVENTION.start=2015, s.INTERVENTION.mul=NA, s.ARCHIVAL.n=50,#
+			epi.model='HPTN071', epi.acute='high', epi.intervention='fast', epi.dt=1/48, epi.import=0.05, root.edge.fixed=0,#
+			v.N0tau=1, v.r=2.851904, v.T50=-2,#
+			wher.mu=log(0.00447743)-0.5^2/2, wher.sigma=0.5, bwerm.mu=log(0.002239075)-0.3^2/2, bwerm.sigma=0.3, er.gamma=4,#
+			dbg.GTRparam=0, dbg.rER=0, index.starttime.mode='fix1970', startseq.mode='one', seqtime.mode='AtDiag')
+pipeline.args
+file			<- sim.regional(outdir, pipeline.args=pipeline.args)
+require(data.table)
+file			<- sim.regional(outdir, pipeline.args=pipeline.args)
+sim.regional
+pipeline.args
+str(pipeline.args)
+sim.regional(outdir, pipeline.args=pipeline.args)
+traceback()
+pipeline.args["epi.acute", ]
+pipeline.args["epi.acute", ][, v]
+roxygenize(CODE.HOME)
+require(roxygen2)
+roxygenize(CODE.HOME)
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+library(PANGEA.HIV.sim)
+pipeline.args	<- sim.regional.args( yr.start=1985, yr.end=2020, seed=42, s.MODEL='Fixed2Prop', report.prop.recent=1.0,#
+			s.PREV.max.n=1600, s.INTERVENTION.prop=0.5, s.INTERVENTION.start=2015, s.INTERVENTION.mul=NA, s.ARCHIVAL.n=50,#
+			epi.model='HPTN071', epi.acute='high', epi.intervention='fast', epi.dt=1/48, epi.import=0.05, root.edge.fixed=0,#
+			v.N0tau=1, v.r=2.851904, v.T50=-2,#
+			wher.mu=log(0.00447743)-0.5^2/2, wher.sigma=0.5, bwerm.mu=log(0.002239075)-0.3^2/2, bwerm.sigma=0.3, er.gamma=4,#
+			dbg.GTRparam=0, dbg.rER=0, index.starttime.mode='fix1970', startseq.mode='one', seqtime.mode='AtDiag')									#
+#	#
+#	call simulation pipeline#
+#	this generates a UNIX batch file if no HPC system is detected, or#
+#	this generates and runs a qsub file if an HPC system is detected #
+##
+file			<- sim.regional(outdir, pipeline.args=pipeline.args)
+outdir			<- '/Users/Oliver/duke/2015_various'#
+#	input arguments for the pipeline#
+pipeline.args	<- sim.regional.args( yr.start=1985, yr.end=2020, seed=42, s.MODEL='Fixed2Prop', report.prop.recent=1.0,#
+			s.PREV.max.n=1600, s.INTERVENTION.prop=0.5, s.INTERVENTION.start=2015, s.INTERVENTION.mul=NA, s.ARCHIVAL.n=50,#
+			epi.model='HPTN071', epi.acute='high', epi.intervention='fast', epi.dt=1/48, epi.import=0.05, root.edge.fixed=0,#
+			v.N0tau=1, v.r=2.851904, v.T50=-2,#
+			wher.mu=log(0.00447743)-0.5^2/2, wher.sigma=0.5, bwerm.mu=log(0.002239075)-0.3^2/2, bwerm.sigma=0.3, er.gamma=4,#
+			dbg.GTRparam=0, dbg.rER=0, index.starttime.mode='fix1970', startseq.mode='one', seqtime.mode='AtDiag')									#
+#	#
+#	call simulation pipeline#
+#	this generates a UNIX batch file if no HPC system is detected, or#
+#	this generates and runs a qsub file if an HPC system is detected #
+##
+file			<- sim.regional(outdir, pipeline.args=pipeline.args)
+?sim.regional
+library(PANGEA.HIV.sim)
+?sim.regional.args
+require(roxygen)
+require(roxygen2)
+roxygenize("/Users/Oxliver/git/PANGEA.HIV.sim")
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+require(roxygen2)
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+library((PANGEA.HIV.sim))
+library(PANGEA.HIV.sim)
+?sim.regional.args
+library(PANGEA.HIV.sim)
+?sim.regional.args
+library(PANGEA.HIV.sim)
+?sim.regional
+library(PANGEA.HIV.sim)
+?sim.regional
+?simulate.regional.args
+?simulate.regional
+library(help=PANGEA.HIV.sim)
+?sim.regional.args
+z<- load('~/duke/2015_various/150129_HPTN071_scHF_INTERNAL/150129_HPTN071_scHF_SIMULATED_INTERNAL.R')
+z
+df.trms
+df.epi
+r		<- seq(1,16,0.1)#
+		plot(r, ( 1+exp(r) ) / ( 1+exp(-3*r) ), type='l')#
+		#estimate growth rates for desired sizes	T50=-1#
+		f		<- function(r, b){	abs(( 1+exp(r) ) / ( 1+exp(-3*r) )-b)	}		#
+		optimize(f=f, interval=c(2, 15), b=3e5 )	#12.61152#
+		optimize(f=f, interval=c(2, 15), b=3e4 )	#10.30891#
+		optimize(f=f, interval=c(2, 15), b=3e3 )	#8.006034#
+		optimize(f=f, interval=c(2, 15), b=3e2 )	#5.70044#
+		#estimate growth rates for desired sizes	T50=-2#
+		f		<- function(r, b){	abs(( 1+exp(2*r) ) / ( 1+exp(-2*r) )-b)	}		#
+		optimize(f=f, interval=c(2, 15), b=3e5 )	#6.305779#
+		optimize(f=f, interval=c(2, 15), b=3e4 )	#5.154461#
+		optimize(f=f, interval=c(2, 15), b=3e3 )	#4.003191#
+		optimize(f=f, interval=c(2, 15), b=3e2 )	#2.851904		#
+		f		<- function(r, b){	abs(( 1+exp(2*r) ) / ( 1+exp(-r*(-2+10)) )-b)	}#
+		optimize(f=f, interval=c(2, 15), b=3e2 )	#2.850242#
+		optimize(f=f, interval=c(2, 15), b=5e4 )	#5.409859#
+		optimize(f=f, interval=c(2, 15), b=2e5 )	#6.103021#
+		optimize(f=f, interval=c(2, 15), b=150 )	#2.501955#
+		optimize(f=f, interval=c(0.1, 15), b=10 )	#1.098685#
+		Net			<- function(t, N0tau, r, T50){  N0tau*(1+exp(-r*T50))/(1+exp(-r*(T50-t)))	}		#
+		x			<- seq(-10,0,0.001)#
+		#tmp			<- data.table(x=x, y5=Net(x, 1, 12.61152, -1), y4=Net(x, 1, 10.30891, -1), y3=Net(x, 1, 8.006034, -1), y2=Net(x, 1, 5.70044, -1))#
+		tmp			<- data.table(x=x, y5=Net(x, 1, 6.305779, -2), y4=Net(x, 1, 5.154461, -2), y3=Net(x, 1, 4.003191, -2), y2=Net(x, 1, 2.850242, -2), y1=Net(x, 1, 1.098685, -2))#
+		tmp			<- melt(tmp, id.var='x')#
+		ggplot(tmp, aes(x=x, y=value, group=variable, colour=variable)) + geom_line() + scale_y_log10(breaks=c(3e2,3e3,3e4,3e5)) + scale_x_continuous(breaks=seq(-20,10,1))
+tmp
+ggplot(subset(tmp, variable=='y2'), aes(x=x, y=value, group=variable)) + geom_line() + scale_y_log10(breaks=c(3e2,3e3,3e4,3e5)) + scale_x_continuous(breaks=seq(-20,10,1))
+ggplot(subset(tmp, variable=='y2'), aes(x=-x, y=value, group=variable)) + geom_line() + scale_y_log10(breaks=c(1e2, 2e2, 3e2, 4e2), limits=c(0,4e2)) + scale_x_continuous(breaks=seq(-20,20,1))
+ggplot(subset(tmp, variable=='y2'), aes(x=-x, y=value, group=variable)) + geom_line() + scale_y_log10(breaks=c(1e2, 2e2, 3e2, 4e2)) + scale_x_continuous(breaks=seq(-20,20,1))
+ggplot(subset(tmp, variable=='y2'), aes(x=-x, y=value, group=variable)) + geom_line() + scale_y_continuous(breaks=c(1e2, 2e2, 3e2, 4e2), limits=c(0,4e2)) + scale_x_continuous(breaks=seq(-20,20,1))
+ggplot(subset(tmp, variable=='y2'), aes(x=-x, y=value, group=variable)) + geom_line() + scale_y_continuous(breaks=c(1e2, 2e2, 3e2, 4e2), limits=c(0,4e2)) + scale_x_continuous(breaks=seq(-20,20,1)) + labs(x='\ntime since infection\n(years)',y='effective population size\n')
+ggsave(file='~/git/PANGEA.HIV.sim/man/fig_EffPopSize.png', width=6)
+ggsave(file='~/git/PANGEA.HIV.sim/man/fig_EffPopSize.png', width=5, height=8)
+ggsave(file='~/git/PANGEA.HIV.sim/man/fig_EffPopSize.png', width=5, height=3)
+ggsave(file='~/git/PANGEA.HIV.sim/man/fig_EffPopSize.png', width=8, height=4)
+z
+?dLOGNO
+?sim.regional.args
+x		<- seq(0.0005, 0.01, 0.00001)#
+		tmp		<- data.table(	x=x, #
+								#TransmissionLineage2=dLOGNO(x, mu=log(0.002239075)-0.13^2/2, sigma=0.13),#
+								TransmissionLineage=dLOGNO(x, mu=log(0.002239075)-0.3^2/2, sigma=0.3),#
+								#TransmissionLineage3=dLOGNO(x, mu=log(0.002239075)-0.2^2/2, sigma=0.2),#
+								TipBranch=dLOGNO(x, mu=log(0.00447743)-0.5^2/2, sigma=0.5)#
+								)#
+		#	times 1.5				#
+		#tmp		<- data.table(	x=x, #
+		#						TransmissionLineage=dLOGNO(x, mu=log(0.002239075)-0.13^2/2, sigma=0.13), #
+		#						TipBranch=dLOGNO(x, mu=log(0.003358613)-0.3^2/2, sigma=0.3))						#
+		#tmp		<- data.table(	x=x, #
+		#						TransmissionLineage=dLOGNO(x, mu=log(0.002239075)-0.01^2/2, sigma=0.01), #
+		#						TipBranch=dLOGNO(x, mu=log(0.003)-0.2^2/2, sigma=0.2))#
+		tmp		<- melt(tmp, id.var='x')
+ggplot(tmp, aes(x=x, y=value, group=variable, colour=variable)) + geom_line() + scale_x_continuous(breaks=seq(0,0.02,0.001))
+set(tmp, NULL, 'variable',tmp[,factor(variable,levels=c('TransmissionLineage','TipBranch'),labels=c('Transmission lineage','Non-transmission lineage'))])
+ggplot(tmp, aes(x=x, y=value, group=variable, colour=variable)) + geom_line() + #
+				scale_x_continuous(breaks=seq(0,0.02,0.001)) +#
+				theme(legend.position='bottom') +#
+				labs(x='\nevolutionary rate',y='',colour='')
+ggsave(file='~/git/PANGEA.HIV.sim/man/fig_ERmodel.png', width=8, height=5)
+?sim.regional
+CODE.HOME
+require(roxygen2)
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+warnings()
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+df.epi
+df.seq
+df.sample
+df.sample[, sum(s.nTOTAL)]
+tmp2				<- subset( df.inds, DOD>pipeline.args['yr.end',][, as.numeric(v)] & floor(TIME_TR)<pipeline.args['yr.end',][, as.numeric(v)])
+pipeline.args
+pipeline.args	<- sim.regional.args( 	seed=42,                    #random number seed for reproducibility#
+					yr.end=2020,				#end of simulation#
+					s.PREV.max.n=1600,          #number of sequences#
+					s.INTERVENTION.prop=0.5,    #proportion of sampled sequences after intervention start in 2015#
+					epi.acute='high',           #frequency of early infections (high or low)#
+					epi.intervention='fast',    #intervention scale-up (none, slow or high)#
+					epi.import=0.05 )			#proportion of transmissions from outside the regional population
+tmp2				<- subset( df.inds, DOD>pipeline.args['yr.end',][, as.numeric(v)] & floor(TIME_TR)<pipeline.args['yr.end',][, as.numeric(v)])
+tmp2
+df.epi
+df.epi[, {#
+				tmp2	<- df.inds[ which( df.inds$DOD>YR & floor(df.inds$TIME_TR)<YR ),]#
+				list(YR=YR, SCOV= tmp2[, length(which(!is.na(TIME_SEQ)))/length(TIME_SEQ) ])				#
+			} , by='YR']
+df.epi[, {#
+				tmp2	<- df.inds[ which( df.inds$DOD>YR & floor(df.inds$TIME_TR)<YR ),]#
+				list(SCOV= ifelse(nrow(tmp2)==0, 0, tmp2[, length(which(!is.na(TIME_SEQ)))/length(TIME_SEQ) ]))				#
+			} , by='YR']
+df.epi
+tmp2				<- df.epi[, {#
+										tmp2	<- df.inds[ which( df.inds$DOD>YR & floor(df.inds$TIME_TR)<YR ),]#
+										list(SCOV= ifelse(nrow(tmp2)==0, 0, tmp2[, length(which(!is.na(TIME_SEQ)))/length(TIME_SEQ) ]))				#
+									} , by='YR']#
+	sc.alive20.infl20	<- subset(tmp2, YR==pipeline.args['yr.end',][, as.numeric(v)])[, SCOV]
+sc.alive20.infl20
+tmp2
+tmp2				<- df.epi[, {#
+										tmp2	<- df.inds[ which( df.inds$DOD>YR & floor(df.inds$TIME_TR)<YR ),]#
+										list(SCOV= ifelse(nrow(tmp2)==0, 0, tmp2[, length(which(!is.na(TIME_SEQ)))/length(TIME_SEQ) ]))				#
+									} , by='YR']#
+	sc.alive20.infl20	<- subset(tmp2, YR==pipeline.args['yr.end',][, as.numeric(v)]-1)[, SCOV]
+sc.alive20.infl20
+df.sample
+merge(df.sample, tmp2, by='YR')
+df.sample<- merge(df.sample, tmp2, by='YR')
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+require(PANGEA.HIV.sim)
+?sim.regional
+outdir			<- '/Users/Oliver/duke/2015_various'
+pipeline.args	<- sim.regional.args( 	seed=42,                    #random number seed for reproducibility#
+					yr.end=2020,				#end of simulation#
+					s.PREV.max.n=1600,          #number of sequences#
+					s.INTERVENTION.prop=0.5,    #proportion of sampled sequences after intervention start in 2015#
+					epi.acute='high',           #frequency of early infections (high or low)#
+					epi.intervention='fast',    #intervention scale-up (none, slow or high)#
+					epi.import=0.05 )
+pipeline.args
+cat(sim.regional(outdir, pipeline.args=pipeline.args))
+require(PANGEA.HIV.sim)
+outdir			<- '/Users/Oliver/duke/2015_various'#
+\dontrun{#
+##--------------------------------------------------------------------------------------------------------#
+##	first example  #
+##--------------------------------------------------------------------------------------------------------#
+#	input arguments for the simulation that are varied across the PANGEA data sets#
+pipeline.args	<- sim.regional.args( 	seed=42,                    #random number seed for reproducibility#
+					yr.end=2020,				#end of simulation#
+					s.PREV.max.n=1600,          #number of sequences#
+					s.INTERVENTION.prop=0.5,    #proportion of sampled sequences after intervention start in 2015#
+					epi.acute='high',           #frequency of early infections (high or low)#
+					epi.intervention='fast',    #intervention scale-up (none, slow or high)#
+					epi.import=0.05 )			#proportion of transmissions from outside the regional population#
+cat(sim.regional(outdir, pipeline.args=pipeline.args))
+require(roxygen2)
+roxygenize("/Users/Oliver/git/PANGEA.HIV.sim")
+2009+7
+z<- load("~/Dropbox (SPH Imperial College)/Rakai Fish Analysis/Susannah/PANGEA_Region1_Final2_151201_rm99gps.rda")
+z
+sqni
+sqni[, table(SRC)]
+subset(sqni, SRC=='PNG')
+sqn
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))
+3149+738
+png.f	<- '~/Dropbox (SPH Imperial College)/Rakai Fish Analysis/PANGEA_orig/PANGEA_HIV_n4562_Imperial_v151113_GlobalAlignment.rda'#
+	load(png.f)	#sq, sqi, si
+sqi
+si
+subset(sqi, COV==0)
+subset(si, COV==0)
+subset(si, grepl('UG',PANGEA_ID))
+subset(si, grepl('UG',PANGEA_ID) & COV==0)
+3887-259
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))[, min(COV)]
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))[, COV>200]
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))[, mean(COV>200)]
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))[, length(which(COV>200))]
+sq
+file			<- '~/Dropbox (SPH Imperial College)/PANGEA_data/PANGEAconsensuses_2015-09_Imperial/PANGEA_HIV_n4562_Imperial_v151113_GlobalAlignment.fasta'#
+	sq				<- read.dna(file, format='fasta')
+sq
+si
+subset(si, !is.na(PANGEA_ID))
+sqi
+setdiff( sqi[, PANGEA_ID], si[, PANGEA_ID])
+si
+sqi
+setdiff( si[, PANGEA_ID], sqi[, PANGEA_ID])
+subset(si, PANGEA_ID=="PG14-UG900024-S01029")
+sqn
+sqni
+subset(sqni, SRC=='PNG' & grepl('UG',TAXA))
+sqn
+sqn[grepl('UG',rownames(sqn)),]
+sqn[grepl('UG',rownames(sqn)) & repl('PG',rownames(sqn)) ,]
+sqn[grepl('UG',rownames(sqn)) & grepl('PG',rownames(sqn)) ,]
+z<- load('~/Dropbox (SPH Imperial College)/PANGEA_alignments/Rega Subtype Analysis/Gag REGA results/AnalyzeGagRegaResults.r')
+load("~/Dropbox (SPH Imperial College)/PANGEA_alignments/Rega Subtype Analysis/Gag REGA results/regaGag.rda")
+z<- load("~/Dropbox (SPH Imperial College)/PANGEA_alignments/Rega Subtype Analysis/Gag REGA results/regaGag.rda")
+z
+regaGag
+as.data.table(regaGag)
+regaGag<- as.data.table(regaGag)
+regaGag[, table(assignment)]
+regaGag
+regaGag[, max(COV_REGION)]
+subset(regaGag, SRC=='LNL')[, max(LAST)]
+subset(regaGag, SRC=='LNL')
+subset(regaGag, SRC=='LANL')[, max(LAST)]
+subset(regaGag, SRC=='LANL')[, which.max(LAST)]
+subset(regaGag, SRC=='LANL')
+subset(regaGag, SRC=='LANL' & COV_REGION!=gagRegion)
+subset(regaGag, SRC=='LANL' & COV_REGION!=gagBases)
+regaGag
+tapply(regaGag$gagBases, regaGag$assignment, median)
+tapply(regaGag$gagBases, regaGag$assignment, quantile, list(p=0.9))
+tapply(regaGag$gagBases, regaGag$assignment, quantile, "p=0.9")
+tapply(regaGag$gagBases, regaGag$assignment, quantile, 0.9)
+regaGag[107,]
+z<- load('~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/data/PANGEAconsensuses_2015-09_Imperial_UG_examlbs100_151023.R')
+z
+indir		<- "~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/data/PANGEAconsensuses_2015-09_Imperial_UG_examlout_151023"#
+	infile		<- "ExaML_result.PANGEAconsensuses_2015-09_Imperial_UG_151023.finaltree.000"#
+	ph			<- read.tree( paste(indir,'/',infile,sep='') )
+ph
+#	reroot at SIV		#
+	tmp			<- which(ph$tip.label=='CPZ.TZ.06.SIVcpzTAN13.JQ768416')#
+	ph			<- reroot(ph, tmp, ph$edge.length[which(ph$edge[,2]==tmp)])	#
+	ph 			<- ladderize( ph )
+indir		<- "~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/data/PANGEAconsensuses_2015-09_Imperial_UG_examlout_151023"#
+	infile		<- "ExaML_result.PANGEAconsensuses_2015-09_Imperial_UG_151023.finaltree.000"#
+	ph			<- read.tree( paste(indir,'/',infile,sep='') )
+ph
+indir		<- "~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/data/PANGEAconsensuses_2015-09_Imperial_UG_examlout_151023"#
+	infile		<- "ExaML_result.PANGEAconsensuses_2015-09_Imperial_UG_151023.finaltree.040"#
+	ph			<- read.tree( paste(indir,'/',infile,sep='') )
+ph
+outdir	<- '~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/alignments_151113'#
+	#	read info#
+	file	<- "~/Dropbox (SPH Imperial College)/pangea_data/PANGEAconsensuses_2015-09_Imperial/PANGEA_HIV_n4562_Imperial_v150908_Summary.csv"#
+	si		<- as.data.table(read.csv(file, stringsAsFactors=FALSE))#
+	setnames(si, colnames(si), toupper(gsub('.','_',colnames(si),fixed=1))) #
+	set(si, NULL, 'PANGEA_ID', si[, gsub(' ','',PANGEA_ID)])#
+	setnames(si, 'CLINICAL_GENOME_COVERAGE', 'COV')
+si
+file			<- "~/Dropbox (SPH Imperial College)/pangea_data/PANGEAconsensuses_2015-09_Imperial/PANGEA_HIV_n4562_Imperial_v150908_GlobalAlignment.fasta"#
+	file			<- '~/Dropbox (SPH Imperial College)/PANGEA_data/PANGEAconsensuses_2015-09_Imperial/PANGEA_HIV_n4562_Imperial_v151113_GlobalAlignment.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])#
+	setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]	#
+	tmp				<- sapply(seq_len(nrow(sq)), function(i) base.freq(sq[i,], all=TRUE, freq=TRUE))#
+	sqi[, COV:=ncol(sq)-apply( tmp[c('-','?'),], 2, sum	)]	#
+	sqi[, PNG:= sqi[, factor(grepl('PG',TAXA),levels=c(TRUE,FALSE),labels=c('Y','N'))]]		#
+	sqi[, SITE:= NA_character_]#
+	tmp				<- sqi[, which(PNG=='Y')]#
+	set(sqi, tmp, 'SITE', sqi[tmp, substring(sapply(strsplit(TAXA,'-'),'[[',2),1,2)])#
+	sqi[, PANGEA_ID:= gsub('-R[0-9]+','',TAXA)]
+paste(outdir, '/', gsub('fasta','rda',basename(file)),sep='')
+save(sqi, sq, si, file=paste(outdir, '/', gsub('fasta','rda',basename(file)),sep=''))
+sqi
+outdir
+sqi				<- subset(sqi, COV>0)#
+	sqi				<- merge(sqi, si, by=c('PANGEA_ID','COV'), all.x=1)#
+	seq				<- sq[ subset(sqi, SITE=='UG' | PNG=='N')[, TAXA], ]	#
+	write.dna( seq, file=paste(outdir,'/PANGEAconsensuses_2015-09_Imperial_UG_151113.fasta',sep=''), format='fasta', colsep='', nbcol=-1)	#
+	save( seq, file=paste(outdir,'/PANGEAconsensuses_2015-09_Imperial_UG_151113.R',sep=''))#
+	seq		<- sq[ subset(sqi, SITE=='BW' | PNG=='N')[, TAXA], ]#
+	write.dna( seq, file=paste(outdir,'/PANGEAconsensuses_2015-09_Imperial_BW_151113.fasta',sep=''), format='fasta', colsep='', nbcol=-1)	#
+	save( seq, file=paste(outdir,'/PANGEAconsensuses_2015-09_Imperial_BW_151113.R',sep=''))
+file			<- '~/Dropbox (SPH Imperial College)/PANGEA_data/PANGEAconsensuses_2015-09_Imperial/SouthAfrica/PANGEA_HIV_n4562_Imperial_v151113_SouthAfrica_GlobalAlignment.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])#
+	setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]
+sqi
+outdir	<- '~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/alignments_151113'#
+	#	read info#
+	#file	<- "~/Dropbox (SPH Imperial College)/pangea_data/PANGEAconsensuses_2015-09_Imperial/PANGEA_HIV_n4562_Imperial_v150908_Summary.csv"#
+	#si		<- as.data.table(read.csv(file, stringsAsFactors=FALSE))#
+	#setnames(si, colnames(si), toupper(gsub('.','_',colnames(si),fixed=1))) #
+	#set(si, NULL, 'PANGEA_ID', si[, gsub(' ','',PANGEA_ID)])#
+	#setnames(si, 'CLINICAL_GENOME_COVERAGE', 'COV')#
+	#	read global PANGEA alignment w SA seqs and split by site	#
+	file			<- '~/Dropbox (SPH Imperial College)/PANGEA_data/PANGEAconsensuses_2015-09_Imperial/SouthAfrica/PANGEA_HIV_n4562_Imperial_v151113_SouthAfrica_GlobalAlignment.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])#
+	setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]
+sqi
+file			<- '~/Dropbox (SPH Imperial College)/PANGEA_data/PANGEAconsensuses_2015-09_Imperial/SouthAfrica/PANGEA_HIV_n4562_Imperial_v151113_SouthAfrica_GlobalAlignment.fasta'#
+	sq				<- read.dna(file, format='fasta')
+sq
+file			<- '~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/alignments_151113/AfricaCentreSeqs/GlobalAln_PlusAllPANGEA.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])#
+	setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]
+sq
+tmp				<- sapply(seq_len(nrow(sq)), function(i) base.freq(sq[i,], all=TRUE, freq=TRUE))#
+	sqi[, COV:=ncol(sq)-apply( tmp[c('-','?'),], 2, sum	)]	#
+	sqi[, PNG:= sqi[, factor(grepl('^PG|^R[0-9]',TAXA),levels=c(TRUE,FALSE),labels=c('Y','N'))]]
+sqi
+sqi[, SITE:= NA_character_]#
+	tmp				<- sqi[, which(PNG=='Y')]
+tmp				<- sqi[, which(PNG=='Y' & grepl('^PG',TAXA))]#
+	set(sqi, tmp, 'SITE', sqi[tmp, substring(sapply(strsplit(TAXA,'-'),'[[',2),1,2)])
+sqi
+sqi[, table(SITE)]
+tmp				<- sqi[, which(PNG=='Y' & grepl('^R[0-9]',TAXA))]#
+	set(sqi, tmp, 'SITE','ZA')
+sqi
+sqi[, table(SITE, useNA='if')]
+sqi[, SEQLOC:= 'LANL']
+sqi[, SEQLOC:= 'LosAlamos']#
+	set(sqi, sqi[, which(grepl('^PG',TAXA))], 'SITE','Sanger')#
+	set(sqi, sqi[, which(grepl('^R[0-9]',TAXA))], 'SITE','AfricaCentre')
+sqi
+file			<- '~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/alignments_151113/AfricaCentreSeqs/GlobalAln_PlusAllPANGEA.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])#
+	setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]	#
+	tmp				<- sapply(seq_len(nrow(sq)), function(i) base.freq(sq[i,], all=TRUE, freq=TRUE))#
+	sqi[, COV:=ncol(sq)-apply( tmp[c('-','?'),], 2, sum	)]	#
+	sqi[, PNG:= sqi[, factor(grepl('^PG|^R[0-9]',TAXA),levels=c(TRUE,FALSE),labels=c('Y','N'))]]		#
+	sqi[, SITE:= NA_character_]#
+	tmp				<- sqi[, which(PNG=='Y' & grepl('^PG',TAXA))]#
+	set(sqi, tmp, 'SITE', sqi[tmp, substring(sapply(strsplit(TAXA,'-'),'[[',2),1,2)])#
+	tmp				<- sqi[, which(PNG=='Y' & grepl('^R[0-9]',TAXA))]#
+	set(sqi, tmp, 'SITE','ZA')#
+	sqi[, SEQLOC:= 'LosAlamos']#
+	set(sqi, sqi[, which(grepl('^PG',TAXA))], 'SEQLOC','Sanger')#
+	set(sqi, sqi[, which(grepl('^R[0-9]',TAXA))], 'SEQLOC','AfricaCentre')
+sqi[, PANGEA_ID:= gsub('-R[0-9]+','',TAXA)]
+sqi
+file			<- '~/Dropbox (SPH Imperial College)/2015_PANGEA_DualPairsFromFastQIVA/alignments_151113/AfricaCentreSeqs/GlobalAln_PlusAllPANGEA.fasta'#
+	sq				<- read.dna(file, format='fasta')#
+	sqi				<- data.table(TAXA=rownames(sq), DUMMY=seq_len(nrow(sq)))#
+	tmp				<- sqi[, which(duplicated(TAXA))]#
+	set(sqi, tmp, 'TAXA', sqi[tmp, paste(TAXA,'-R2',sep='')])
+sqi
+set(sqi, NULL, 'TAXA', sqi[, gsub('_BaseFreqs','',TAXA)])
+sqi
+setkey(sqi, DUMMY)#
+	rownames(sq)	<- sqi[,TAXA]	#
+	tmp				<- sapply(seq_len(nrow(sq)), function(i) base.freq(sq[i,], all=TRUE, freq=TRUE))#
+	sqi[, COV:=ncol(sq)-apply( tmp[c('-','?'),], 2, sum	)]	#
+	sqi[, PNG:= sqi[, factor(grepl('^PG|^R[0-9]',TAXA),levels=c(TRUE,FALSE),labels=c('Y','N'))]]		#
+	sqi[, SITE:= NA_character_]#
+	tmp				<- sqi[, which(PNG=='Y' & grepl('^PG',TAXA))]#
+	set(sqi, tmp, 'SITE', sqi[tmp, substring(sapply(strsplit(TAXA,'-'),'[[',2),1,2)])#
+	tmp				<- sqi[, which(PNG=='Y' & grepl('^R[0-9]',TAXA))]#
+	set(sqi, tmp, 'SITE','ZA')#
+	sqi[, SEQLOC:= 'LosAlamos']#
+	set(sqi, sqi[, which(grepl('^PG',TAXA))], 'SEQLOC','Sanger')#
+	set(sqi, sqi[, which(grepl('^R[0-9]',TAXA))], 'SEQLOC','AfricaCentre')	#
+	sqi[, PANGEA_ID:= gsub('-R[0-9]+','',TAXA)]
+sqi
+paste(outdir, '/', gsub('fasta','rda',basename(file)),sep='')
+5003-200
+save(sqi, sq, file=paste(outdir, '/PANGEA_HIV_n5003_Imperial_v160110_GlobalAlignment.rda',sep=''))
+sq
+sqi
+sqi				<- subset(sqi, COV>0)
+sqi
+sq[ subset(sqi, SITE=='UG' | PNG=='N')[, TAXA], ]
+seq				<- sq[ subset(sqi, SITE=='UG' | PNG=='N')[, TAXA], ]	#
+	write.dna( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_UG.fasta',sep=''), format='fasta', colsep='', nbcol=-1)	#
+	save( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_UG.R',sep=''))#
+	seq		<- sq[ subset(sqi, SITE=='BW' | PNG=='N')[, TAXA], ]#
+	write.dna( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_BW.fasta',sep=''), format='fasta', colsep='', nbcol=-1)	#
+	save( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_BW.R',sep=''))
+seq		<- sq[ subset(sqi, SITE=='ZA' | PNG=='N')[, TAXA], ]
+seq
+write.dna( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_ZA.fasta',sep=''), format='fasta', colsep='', nbcol=-1)	#
+	save( seq, file=paste(outdir,'/PANGEA_HIV_n5003_Imperial_v160110_ZA.R',sep=''))
+z<- load('~/Dropbox (SPH Imperial College)/OR_Work/2015/2015_SA/ACpolext150913/ExaML_result.ZA.SubC.12294.alnnoDRM_150913.finaltree.000.R')
+z
+nchar("GTTGTGTGACTCTGGTAACTAGAGATCCCTCAGACCAATTTGGTAGTGTGGAAAATCTCTAGCAGTGGCGCCCGAACAGGGA")
+8885-8818
+require(roxygen2)
+setwd("/Users/Oliver/git/big.phylo"); source("misc/startme.R")
+CODE.HOME
+roxygenize(CODE.HOME)
+library(devtools)#
+install_github("olli0601/big.phylo")
+library(devtools)#
+install_github("olli0601/big.phylo")
+cmd.strip.gaps('xxx',strip.max.len=350)

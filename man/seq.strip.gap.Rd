@@ -4,7 +4,9 @@
 \alias{seq.strip.gap}
 \title{Strip gaps}
 \usage{
-\method{seq}{strip.gap}(seq.DNAbin.mat, strip.max.len = NA, strip.pc = NA,
-  gap.chars = "-")
+\method{seq}{strip.gap}(seq.DNAbin.mat, strip.max.len = NA,
+  strip.pc = NA, gap.chars = "-")
 }
-
+\description{
+Strip gaps
+}
